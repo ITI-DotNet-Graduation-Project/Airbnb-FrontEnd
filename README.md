@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 # Airbnb-FrontEnd
-=======
-=======
->>>>>>> 98e687ce8ccc39bd5abb975d479de248d799c7f9
+
 # Airbnb
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.12.

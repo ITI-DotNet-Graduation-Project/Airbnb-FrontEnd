@@ -16,6 +16,16 @@
             "outputPath": "dist/airbnb",
             "index": "src/index.html",
             "browser": "src/main.ts",
+<<<<<<< HEAD
+            "polyfills": ["zone.js"],
+            "tsConfig": "tsconfig.app.json",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
+            ],
+            "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.min.js"]
+=======
             "polyfills": [
               "zone.js"
             ],
@@ -28,6 +38,7 @@
               "src/styles.css"
             ],
             "scripts": []
+>>>>>>> 98e687ce8ccc39bd5abb975d479de248d799c7f9
           },
           "configurations": {
             "production": {
@@ -74,6 +85,12 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+<<<<<<< HEAD
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "tsConfig": "tsconfig.spec.json",
+            "assets": ["src/favicon.ico", "src/assets"],
+            "styles": ["src/styles.css"],
+=======
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -86,6 +103,7 @@
             "styles": [
               "src/styles.css"
             ],
+>>>>>>> 98e687ce8ccc39bd5abb975d479de248d799c7f9
             "scripts": []
           }
         }

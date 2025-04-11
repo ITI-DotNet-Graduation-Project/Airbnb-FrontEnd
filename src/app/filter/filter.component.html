@@ -1,0 +1,145 @@
+
+<!-- Trigger Button -->
+<div dir="ltr" class="ms-auto">
+  <button class="btn btn-light d-flex align-items-center gap-2 filter-button" data-bs-toggle="modal" data-bs-target="#filterModal">
+    Filters
+  </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content rounded-4 shadow text-start">
+      <div class="modal-header text-start">
+        <h5 class="modal-title" id="filterModalLabel">Filters</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body text-start">
+        <!-- Type of place -->
+        <div class="mb-4 text-start">
+          <h6>Type of place</h6>
+          <div class="btn-group w-100" role="group">
+            <button type="button" class="btn btn-outline-secondary">Any type</button>
+            <button type="button" class="btn btn-outline-secondary">Room</button>
+            <button type="button" class="btn btn-outline-secondary">Entire home</button>
+          </div>
+        </div>
+
+        <!-- Price Range -->
+        <div class="mb-4 text-start">
+          <h6>Price range</h6>
+          <p class="text-muted">Nightly prices before fees and taxes</p>
+          <div class="bg-light p-3 rounded text-center mb-2">[Histogram Placeholder]</div>
+          <div class="d-flex justify-content-between">
+            <span>Minimum: <strong>510</strong></span>
+            <span>Maximum: <strong>18000+</strong></span>
+          </div>
+        </div>
+
+        <!-- Rooms and Beds -->
+        
+        <div class="mb-4 text-start">
+          <h6>Rooms and beds</h6>
+        
+          <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+            <span>Bedrooms</span>
+            <div class="btn-group">
+              <button class="btn btn-outline-secondary btn-sm" (click)="decrement('bedrooms')">−</button>
+              <span class="mx-2">{{ displayValue(bedrooms) }}</span>
+              <button class="btn btn-outline-secondary btn-sm" (click)="increment('bedrooms')">+</button>
+            </div>
+          </div>
+        
+          <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+            <span>Beds</span>
+            <div class="btn-group">
+              <button class="btn btn-outline-secondary btn-sm" (click)="decrement('beds')">−</button>
+              <span class="mx-2">{{ displayValue(beds) }}</span>
+              <button class="btn btn-outline-secondary btn-sm" (click)="increment('beds')">+</button>
+            </div>
+          </div>
+        
+          <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+            <span>Bathrooms</span>
+            <div class="btn-group">
+              <button class="btn btn-outline-secondary btn-sm" (click)="decrement('bathrooms')">−</button>
+              <span class="mx-2">{{ displayValue(bathrooms) }}</span>
+              <button class="btn btn-outline-secondary btn-sm" (click)="increment('bathrooms')">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Amenities -->
+        <div class="mb-4 text-start">
+          <h6>Amenities</h6>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-secondary btn-sm">Wifi</button>
+            <button class="btn btn-outline-secondary btn-sm">Kitchen</button>
+            <button class="btn btn-outline-secondary btn-sm">Washer</button>
+            <button class="btn btn-outline-secondary btn-sm">Dryer</button>
+          </div>
+        </div>
+
+        <!-- Property type -->
+        <div class="mb-4 text-start">
+          <h6>Property type</h6>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-secondary btn-sm">Apartment</button>
+            <button class="btn btn-outline-secondary btn-sm">House</button>
+            <button class="btn btn-outline-secondary btn-sm">Guesthouse</button>
+            <button class="btn btn-outline-secondary btn-sm">Hotel</button>
+          </div>
+        </div>
+
+        <!-- Booking options -->
+        <div class="mb-4 text-start">
+          <h6>Booking options</h6>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="instantBook">
+            <label class="form-check-label" for="instantBook">
+              Instant Book
+            </label>
+          </div>
+        </div>
+
+        <!-- Accessibility features -->
+        <div class="mb-4 text-start">
+          <h6>Accessibility features</h6>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-secondary btn-sm">Step-free entrance</button>
+            <button class="btn btn-outline-secondary btn-sm">Accessible bathroom</button>
+            <button class="btn btn-outline-secondary btn-sm">Wide hallways</button>
+          </div>
+        </div>
+
+        <!-- Host language -->
+        <div class="mb-4 text-start">
+          <h6>Host language</h6>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="arabicLang">
+            <label class="form-check-label" for="arabicLang">Arabic</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="englishLang">
+            <label class="form-check-label" for="englishLang">English</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="frenchLang">
+            <label class="form-check-label" for="frenchLang">French</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="ItalianLang">
+            <label class="form-check-label" for="ItalianLang">Italian</label>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-between">
+        <button class="btn btn-link text-danger">Clear all</button>
+        <button class="btn btn-primary">Show 1000+ places</button>
+      </div>
+    </div>
+  </div>
+</div>

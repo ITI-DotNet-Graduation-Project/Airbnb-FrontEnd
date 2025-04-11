@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './shared/header/header.component';
-import { SharedModule } from './shared/shared.module';
+// import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from "./navbar/navbar.component";
+import { CommonModule } from '@angular/common';
+import { FilterComponent } from "./filter/filter.component";
+import { FormsModule } from '@angular/forms';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { BrowserModule } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SharedModule],
+  imports: [NavbarComponent, CommonModule, FilterComponent,FormsModule,NgxSliderModule,BrowserModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Airbnb';
+  title = 'application';
 }

@@ -1,0 +1,107 @@
+/* CSS for the search component */
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 40px;
+  position: relative;
+}
+
+/* Collapsed search styling */
+.search-collapsed {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 40px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search-collapsed:hover {
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+}
+
+.search-collapsed input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.search-icon-button {
+  background-color: #ff385c;
+  border: none;
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Expanded search styling */
+.search-expanded {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: white;
+}
+
+.search-field {
+  margin-bottom: 20px;
+}
+
+.search-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.search-field input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.search-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.cancel-button {
+  background: none;
+  border: none;
+  color: #484848;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+.search-button {
+  background-color: #ff385c;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-button:hover {
+  background-color: #e31c5f;
+}

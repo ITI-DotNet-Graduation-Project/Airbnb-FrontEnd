@@ -1,16 +1,27 @@
-
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
+import { ProfileMenuComponent } from '../../components/profile-menu/profile-menu.component';
+import { ComponentsModule } from '../../components/components.module';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ProfileMenuComponent, FormsModule, ComponentsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
+  isMobile: boolean = false;
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMobile = window.innerWidth < 992;
+  }
+
+  ngOnInit() {
+    this.onResize();
+  }
   isScrolled = false;
 
   location = 'Cairo';
@@ -21,10 +32,6 @@ export class HeaderComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 50;
-
-    if (this.isScrolled) {
-      this.isScrolled = true;
-    }
   }
 
   toggleSearch() {
@@ -41,5 +48,4 @@ export class HeaderComponent {
 
     this.isScrolled = !this.isScrolled;
   }
-
 }

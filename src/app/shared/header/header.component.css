@@ -177,7 +177,6 @@
 .search-bar-compact .search-item span {
   font-size: 14px;
   font-weight: 600;
-  /* color: #222222; */
 }
 
 .search-bar-compact .search-item strong {
@@ -258,11 +257,6 @@
 
 @media (max-width: 950px) {
   .host-link {
-    display: none;
-  }
-}
-@media (max-width: 742px) {
-  .header-container {
     display: none;
   }
 }

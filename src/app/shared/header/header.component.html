@@ -1,4 +1,4 @@
-<header class="header" [ngClass]="{ scrolled: isScrolled }">
+<header class="header" [ngClass]="{ scrolled: isScrolled }" *ngIf="!isMobile">
   <div class="header-container">
     <div class="logo">
       <a href="/">
@@ -142,37 +142,12 @@
         </svg>
       </button>
       <div class="profile-menu">
-        <button class="profile-button">
-          <svg
-            viewBox="0 0 32 32"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            role="presentation"
-            focusable="false"
-            style="
-              display: block;
-              fill: none;
-              height: 16px;
-              width: 16px;
-              stroke: currentcolor;
-              stroke-width: 3;
-              overflow: visible;
-            "
-          >
-            <g fill="none" fill-rule="nonzero">
-              <path d="m2 16h28"></path>
-              <path d="m2 24h28"></path>
-              <path d="m2 8h28"></path>
-            </g>
-          </svg>
-          <img
-            src="https://a0.muscache.com/defaults/user_pic-50x50.png?v=3"
-            alt="User profile"
-            class="profile-image"
-          />
-        </button>
+        <app-profile-menu></app-profile-menu>
       </div>
     </div>
   </div>
+  <pre style="height: 200vh"></pre>
 </header>
-<pre style="height: 200vh"></pre>
+<div class="container mt-2">
+  <app-search-bar *ngIf="isMobile"></app-search-bar>
+</div>

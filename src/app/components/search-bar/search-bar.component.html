@@ -1,6 +1,4 @@
-<!-- HTML template -->
 <div class="search-container">
-  <!-- Collapsed search bar (initial state) -->
   <div class="search-collapsed" *ngIf="!isExpanded" (click)="expandSearch()">
     <input type="text" placeholder="Where are you going?" readonly />
     <button class="search-icon-button">
@@ -28,7 +26,6 @@
     </button>
   </div>
 
-  <!-- Expanded search form -->
   <div class="search-expanded" *ngIf="isExpanded">
     <div class="search-field">
       <label>Location</label>

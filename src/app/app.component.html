@@ -1,10 +1,9 @@
-<!-- <app-header></app-header>
-<router-outlet></router-outlet>
-<app-mobile-footer></app-mobile-footer> -->
-<!-- -->
-<!-- <app-login></app-login> -->
-<!-- <app-search-bar></app-search-bar> -->
-<!-- </router-outlet> -->
-<!-- <app-payment></app-payment> -->
-<!-- <app-header></app-header> -->
-<app-payment></app-payment>
+<div class="container">
+  <app-header></app-header><app-navbar></app-navbar>
+  <pre style="height: 100vh"></pre>
+
+  <router-outlet></router-outlet>
+
+  <app-footer *ngIf="!isMobile"></app-footer>
+  <app-mobile-footer *ngIf="isMobile"></app-mobile-footer>
+</div>

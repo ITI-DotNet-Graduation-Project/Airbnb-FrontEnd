@@ -3,6 +3,7 @@ import { Component, HostListener } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { ProfileMenuComponent } from '../../components/profile-menu/profile-menu.component';
 import { ComponentsModule } from '../../components/components.module';
+import { GlobalService } from '../../global.service';
 
 @Component({
   selector: 'app-header',
@@ -14,15 +15,17 @@ import { ComponentsModule } from '../../components/components.module';
 export class HeaderComponent {
   isMobile: boolean = false;
 
+  constructor(private GlobalService: GlobalService) {}
   @HostListener('window:resize', [])
   onResize() {
     this.isMobile = window.innerWidth < 992;
   }
 
+  isScrolled: boolean = false;
   ngOnInit() {
     this.onResize();
+    this.GlobalService.checkScroll(this.isScrolled);
   }
-  isScrolled = false;
 
   location = 'Cairo';
   checkInDate = '';
@@ -32,10 +35,13 @@ export class HeaderComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.scrollY > 50;
+    this.GlobalService.checkScroll(this.isScrolled);
+    console.log(this.GlobalService.checkScroll(this.isScrolled));
   }
 
   toggleSearch() {
     this.isScrolled = !this.isScrolled;
+    this.GlobalService.checkScroll(this.isScrolled);
   }
 
   submitSearch() {
@@ -47,5 +53,6 @@ export class HeaderComponent {
     });
 
     this.isScrolled = !this.isScrolled;
+    this.GlobalService.checkScroll(this.isScrolled);
   }
 }

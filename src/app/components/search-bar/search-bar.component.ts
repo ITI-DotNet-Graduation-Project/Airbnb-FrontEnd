@@ -24,7 +24,6 @@ export class SearchBarComponent {
   }
 
   submitSearch(): void {
-    // Handle search submission
     console.log({
       location: this.location,
       checkIn: this.checkInDate,
@@ -32,7 +31,6 @@ export class SearchBarComponent {
       guests: this.guestCount,
     });
 
-    // Collapse the search after submission
     this.collapseSearch();
   }
 }

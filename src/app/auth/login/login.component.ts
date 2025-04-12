@@ -24,7 +24,6 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       console.log('Login form submitted:', this.loginForm.value);
-      // Implement authentication logic here
     } else {
       this.markFormGroupTouched(this.loginForm);
     }
@@ -40,17 +39,14 @@ export class LoginComponent {
 
   continueWithGoogle() {
     console.log('Continue with Google clicked');
-    // Implement Google authentication
   }
 
   continueWithFacebook() {
     console.log('Continue with Facebook clicked');
-    // Implement Facebook authentication
   }
 
   continueWithApple() {
     console.log('Continue with Apple clicked');
-    // Implement Apple authentication
   }
 
   continueWithEmail() {

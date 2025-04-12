@@ -92,7 +92,6 @@ export class PaymentComponent {
 
   submitPayment(): void {
     if (this.paymentForm.invalid) {
-      // Mark all fields as touched to trigger validation errors
       Object.keys(this.paymentForm.controls).forEach((key) => {
         const control = this.paymentForm.get(key);
         control?.markAsTouched();
@@ -102,7 +101,6 @@ export class PaymentComponent {
 
     this.isProcessing = true;
 
-    // Simulate API call with a delay
     setTimeout(() => {
       this.isProcessing = false;
       this.isPaymentSuccessful = true;

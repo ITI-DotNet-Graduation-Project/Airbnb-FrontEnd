@@ -5,6 +5,15 @@
 }
 
 app-navbar {
-  display: block; /* مهم في حال كنتي مستخدمة inline components */
+  display: block;
   margin-top: 100px;
+}
+.router-container {
+  overflow-y: auto;
+  position: relative;
+}
+
+.router-container {
+  overflow-y: auto;
+  max-height: 500px;
 }

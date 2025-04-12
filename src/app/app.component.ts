@@ -9,6 +9,9 @@ import { CommonModule } from '@angular/common';
 import { PaymentModule } from './payment/payment.module';
 import { CardsComponent } from './components/cards/cards.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { CardComponent } from './components/cards/card/card/card.component';
+import { CardModule } from './components/cards/card/card.module';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +23,10 @@ import { FooterComponent } from './shared/footer/footer.component';
     AuthModule,
     ComponentsModule,
     SearchBarComponent,
-    CommonModule,
     PaymentModule,
-    CardsComponent,
     FooterComponent,
+    CardModule,
+    CommonModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

@@ -1,1 +1,136 @@
-<p>footer works!</p>
+
+<footer class="footer">
+  <p class="F_title">Inspiration for future getaways</p>
+
+  <div class="footer-tabs">
+    <span class="tab" [class.active]="activeTab === 'popular'" (click)="showTab('popular')">
+      Popular
+    </span>
+    
+    <span class="tab" [class.active]="activeTab === 'artsCulture'" (click)="showTab('artsCulture')">
+      Arts & culture
+    </span>
+    
+    <span class="tab" [class.active]="activeTab === 'outdoors'" (click)="showTab('outdoors')">
+      Outdoors
+    </span>
+
+    <span class="tab" [class.active]="activeTab === 'mountains'" (click)="showTab('mountains')">
+      Mountains
+    </span>
+
+    <span class="tab" [class.active]="activeTab === 'beach'" (click)="showTab('beach')">
+      Beach
+    </span>
+
+    <span class="tab" [class.active]="activeTab === 'uniqueStays'" (click)="showTab('uniqueStays')">
+      Unique stays
+    </span>
+
+    <span class="tab" [class.active]="activeTab === 'categories'" (click)="showTab('categories')">
+      Categories
+    </span>
+
+    <span class="tab" [class.active]="activeTab === 'thingsToDo'" (click)="showTab('thingsToDo')">
+      Things to do
+    </span>
+
+    <span class="tab" [class.active]="activeTab === 'travelTips'" (click)="showTab('travelTips')">
+      Travel tips & inspiration
+    </span>
+
+    <span class="tab" [class.active]="activeTab === 'airbnbApartments'" (click)="showTab('airbnbApartments')">
+      Airbnb-friendly apartments
+    </span>
+  </div>
+
+  <!-- <div *ngIf="activeTab">
+    <div class="row">
+      <div class="column" *ngFor="let item of data[activeTab]">
+        <strong>{{ item.name }}</strong>
+        <p>{{ item.description }}</p>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="foot-links">
+    <div class="column" *ngFor="let item of data[activeTab]">
+      <strong><a href="#"> {{ item.name }} </a></strong>
+      <p><a href="#">{{ item.description }}</a>  <i *ngIf="item.icon" class="{{ item.icon }}"></i></p>
+      
+    </div>
+  </div>
+<!--*******************************************************************************-->
+<div class="footer-sections">
+  <div class="footer-section" *ngFor="let section of footerSections">
+    <h4>{{ section.title }}</h4>
+    <ul>
+      <li *ngFor="let link of section.links">
+        <a href="#">{{ link }}</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!--*******************************************************************************-->
+  <hr class="footer_line">
+    <div class="footer_containe">
+      <span>
+        © 2025 Airbnb, Inc. 
+      </span>
+  
+      <div class="footer_links">
+        <div class="F_left">
+            <span> . </span>
+            <a href="#" class="f_link">Terms</a>
+            <span> . </span>
+            <a href="#" class="f_link">Sitemap</a>
+            <span> . </span>
+            <a href="#" class="f_link">Privacy</a>
+            <span> . </span>
+            <a href="#" class="f_link">Your Privacy Choice
+              <span class="mark">
+                <svg width="26" height="12" fill="none">
+                  <rect x="0.5" y="0.5" width="25" height="11" rx="5.5" fill="#fff"> 
+                  </rect>
+          
+                  <path d="M14 1h7a5 5 0 010 10H11l3-10z" fill="#06F">
+                  </path>
+            
+                  <path d="M4.5 6.5l1.774 1.774a.25.25 0 00.39-.049L9.5 3.5" stroke="#06F" stroke-linecap="round">
+                  </path>
+            
+                  <path d="M16.5 3.5L19 6m0 0l2.5 2.5M19 6l2.5-2.5M19 6l-2.5 2.5" stroke="#fff" stroke-linecap="round">
+                  </path>
+            
+                  <rect x="0.5" y="0.5" width="25" height="11" rx="5.5" stroke="#06F">
+                  </rect>
+                </svg>
+              </span>
+            </a>
+        </div>
+       
+        <div class="F_right">
+           
+  
+        <a href="https://www.facebook.com/airbnbuk/?brand_redir=324826532457#" class="f_link">
+          <i class="bi bi-facebook">
+          </i>
+        </a>
+  
+        <a href="https://x.com/airbnb" class="f_link">
+          <i class="bi bi-twitter-x">
+          </i>
+        </a>
+        
+        <a href="https://www.instagram.com/airbnb/" class="f_link">
+          <i class="bi bi-instagram">
+          </i>
+        </a>
+        </div>
+  
+        
+      </div>
+  
+      
+    </div>
+  </footer>

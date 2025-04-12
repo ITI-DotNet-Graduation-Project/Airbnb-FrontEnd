@@ -13,6 +13,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   isPasswordVisible = false;
   showLoginOptions = false;
+  isModalVisible = true;
 
   constructor(private fb: FormBuilder) {
     this.loginForm = this.fb.group({

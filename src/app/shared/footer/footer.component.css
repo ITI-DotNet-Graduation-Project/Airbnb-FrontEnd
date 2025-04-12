@@ -1,0 +1,200 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+body 
+{
+    font-family: 'Poppins', sans-serif;
+}
+.footer
+{
+    background-color: #f7f7f7;
+    font-size: 15px;
+    color: #333;
+    padding: 40px 40px 10px 40px ;
+   
+}
+
+.footer_containe
+{
+    margin: 0 auto;
+    padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    
+}
+
+.footer_links
+{
+    display: flex;
+    gap: 600px;
+   
+}
+
+.f_link
+{
+    text-decoration: none;
+    color: #666;
+}
+
+.f_link:hover
+{
+    text-decoration: underline;
+}
+
+.f_link:active, .f_link:focus
+{
+    color: #888;
+}
+
+.F_left
+{
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    
+}
+
+.F_right
+{
+    display: flex;
+    gap: 30px;
+    font-size: 18px;
+}
+
+.footer_line
+{
+   width: 93%;
+   height: 2px;
+    background-color: #eee ;
+    border: none;
+}
+
+.F_title
+{
+    
+    font-size: 22px;
+    
+}
+
+.footer-tabs 
+{
+    
+    font-size: 13px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 0;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.tab 
+{
+    color: #717171;
+    cursor: pointer;
+    font-weight: 500;
+    padding: 8px 0;
+    position: relative;
+    
+}
+  
+.tab.active
+{
+    color: #333;
+}
+.tab.active::after 
+{
+    
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+  
+.foot-links 
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+
+    
+}
+  
+  .column strong a{
+    display: block;
+    font-size: 13px;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .column p a {
+   
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #555;
+  }
+  .column a{
+    text-decoration: none;
+  }
+
+
+
+
+  .footer-sections 
+  {
+    margin-top: 50px ;
+    margin-bottom: 20px;
+    display: flex;          
+    justify-content: space-between; 
+    flex-wrap: wrap;        
+    gap: 20px;              
+  }
+  
+  .footer-section 
+  {
+    width: 30%;              
+  }
+  
+  .footer-section h4 
+  {
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .footer-section ul 
+  {
+    padding-left: 0;
+    list-style: none;
+  }
+  
+  .footer-section li 
+  {
+    margin-bottom: 5px;
+
+  }
+  
+  .footer-section a 
+  {
+    text-decoration: none;
+    color: #333;
+    line-height: 30px;
+    font-size: 14px;
+   
+  }
+  
+  .footer-section a:hover 
+  {
+    text-decoration: underline;
+   
+  }
+

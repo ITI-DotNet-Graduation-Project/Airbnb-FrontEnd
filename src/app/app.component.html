@@ -1,9 +1,13 @@
 <div class="container">
-  <app-header></app-header><app-navbar></app-navbar>
-  <pre style="height: 100vh"></pre>
+  <app-header></app-header>
+  <app-navbar></app-navbar>
+  <pre style="height: 10px" *ngIf="!isMobile"></pre>
+  <pre style="height: 70px" *ngIf="isMobile"></pre>
 
-  <router-outlet></router-outlet>
-
-  <app-footer *ngIf="!isMobile"></app-footer>
-  <app-mobile-footer *ngIf="isMobile"></app-mobile-footer>
+  <div class="router-container">
+    <router-outlet></router-outlet>
+  </div>
 </div>
+<app-footer *ngIf="!isMobile"></app-footer>
+<app-mobile-footer *ngIf="isMobile"></app-mobile-footer>
+<!-- <app-register></app-register> -->

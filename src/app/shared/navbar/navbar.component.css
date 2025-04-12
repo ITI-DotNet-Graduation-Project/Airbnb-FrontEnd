@@ -8,11 +8,13 @@
   border-bottom: 1px solid #ddd;
   position: relative;
   top: 60px;
+  left: 0;
+  right: 0;
   background-color: white;
-  margin-left: 10px;
+  z-index: 1000;
   width: 100%;
-  left: 0px;
-  right: 0px;
+  padding: 10px 0;
+  overflow: hidden;
 }
 @media (max-width: 768px) {
   .navbar-container {

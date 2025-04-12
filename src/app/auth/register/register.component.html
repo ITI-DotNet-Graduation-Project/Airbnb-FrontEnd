@@ -1,0 +1,227 @@
+<div class="modal-backdrop show" *ngIf="isModalVisible"></div>
+<div class="modal d-block" *ngIf="isModalVisible" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom">
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="isModalVisible = false"
+        ></button>
+        <h5 class="modal-title w-100 text-center">Create your account</h5>
+      </div>
+
+      <div class="modal-body p-4">
+        <h4 class="mb-4">Welcome to Airbnb</h4>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstNameInput"
+                  placeholder="First name"
+                  formControlName="firstName"
+                  [ngClass]="{
+                    'is-invalid':
+                      registerForm.get('firstName')?.touched &&
+                      registerForm.get('firstName')?.invalid
+                  }"
+                />
+                <label for="firstNameInput">First name</label>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.errors?.['required']"
+                >
+                  First name is required
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastNameInput"
+                  placeholder="Last name"
+                  formControlName="lastName"
+                  [ngClass]="{
+                    'is-invalid':
+                      registerForm.get('lastName')?.touched &&
+                      registerForm.get('lastName')?.invalid
+                  }"
+                />
+                <label for="lastNameInput">Last name</label>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.errors?.['required']"
+                >
+                  Last name is required
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating">
+              <input
+                type="email"
+                class="form-control"
+                id="emailInput"
+                placeholder="Email"
+                formControlName="email"
+                [ngClass]="{
+                  'is-invalid':
+                    registerForm.get('email')?.touched &&
+                    registerForm.get('email')?.invalid
+                }"
+              />
+              <label for="emailInput">Email</label>
+              <div
+                class="invalid-feedback"
+                *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']"
+              >
+                Email is required
+              </div>
+              <div
+                class="invalid-feedback"
+                *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['email']"
+              >
+                Please enter a valid email
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="form-floating">
+              <input
+                [type]="isPasswordVisible ? 'text' : 'password'"
+                class="form-control"
+                id="passwordInput"
+                placeholder="Password"
+                formControlName="password"
+                [ngClass]="{
+                  'is-invalid':
+                    registerForm.get('password')?.touched &&
+                    registerForm.get('password')?.invalid
+                }"
+              />
+              <label for="passwordInput">Password</label>
+              <button
+                type="button"
+                class="btn btn-sm position-absolute end-0 top-50 translate-middle-y me-3 text-secondary"
+                (click)="togglePasswordVisibility()"
+              >
+                <i
+                  class="bi"
+                  [ngClass]="isPasswordVisible ? 'bi-eye-slash' : 'bi-eye'"
+                ></i>
+              </button>
+              <div
+                class="invalid-feedback"
+                *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']"
+              >
+                Password is required
+              </div>
+              <div
+                class="invalid-feedback"
+                *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['minlength']"
+              >
+                Password must be at least 8 characters
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label">I want to:</label>
+            <div class="d-flex gap-3">
+              <div class="form-check flex-grow-1">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="role"
+                  id="hostRole"
+                  value="host"
+                  formControlName="role"
+                />
+                <label class="form-check-label w-100" for="hostRole">
+                  <div class="border p-3 rounded text-center">
+                    <i class="bi bi-house-door fs-4 d-block mb-2"></i>
+                    Host properties
+                  </div>
+                </label>
+              </div>
+              <div class="form-check flex-grow-1">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="role"
+                  id="guestRole"
+                  value="guest"
+                  formControlName="role"
+                />
+                <label class="form-check-label w-100" for="guestRole">
+                  <div class="border p-3 rounded text-center">
+                    <i class="bi bi-search fs-4 d-block mb-2"></i>
+                    Find places to stay
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.errors?.['required']"
+            >
+              Please select a role
+            </div>
+          </div>
+
+          <div class="form-text mb-4">
+            By signing up, you agree to our
+            <a href="#" class="text-decoration-underline">Terms of Service</a>
+            and
+            <a href="#" class="text-decoration-underline">Privacy Policy</a>.
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-danger w-100 py-3 mb-3"
+            [disabled]="registerForm.invalid"
+          >
+            Sign up
+          </button>
+        </form>
+
+        <div class="d-flex align-items-center my-4">
+          <hr class="flex-grow-1" />
+          <span class="px-2 text-secondary small text-uppercase">or</span>
+          <hr class="flex-grow-1" />
+        </div>
+
+        <button
+          class="btn btn-outline-secondary w-100 mb-2 d-flex align-items-center justify-content-center"
+          (click)="continueWithGoogle()"
+        >
+          <img
+            src="assets/google-icon.png"
+            alt="Google"
+            width="20"
+            height="20"
+            class="me-2"
+          />
+          <span>Continue with Google</span>
+        </button>
+      </div>
+
+      <div class="modal-footer justify-content-center border-top">
+        <p class="mb-0">
+          Already have an account?
+          <a href="#" class="text-decoration-underline fw-bold">Log in</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

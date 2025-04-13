@@ -1,3 +1,9 @@
+<app-loading
+  [isLoading]="isLoading"
+  message="Loading data..."
+  [fullscreen]="true"
+></app-loading>
+
 <div class="modal-backdrop show" *ngIf="isModalVisible"></div>
 <div class="modal d-block" *ngIf="isModalVisible" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -96,7 +102,7 @@
           </div>
 
           <div class="mb-3">
-            <div class="form-floating">
+            <div class="form-floating position-relative">
               <input
                 [type]="isPasswordVisible ? 'text' : 'password'"
                 class="form-control"
@@ -112,29 +118,36 @@
               <label for="passwordInput">Password</label>
               <button
                 type="button"
-                class="btn btn-sm position-absolute end-0 top-50 translate-middle-y me-3 text-secondary"
+                class="btn btn-sm position-absolute end-0 p-3 top-50 translate-middle-y me-3 text-secondary"
                 (click)="togglePasswordVisibility()"
+                style="z-index: 5"
               >
                 <i
                   class="bi"
                   [ngClass]="isPasswordVisible ? 'bi-eye-slash' : 'bi-eye'"
                 ></i>
               </button>
-              <div
-                class="invalid-feedback"
-                *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']"
-              >
-                Password is required
-              </div>
-              <div
-                class="invalid-feedback"
-                *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['minlength']"
-              >
-                Password must be at least 8 characters
-              </div>
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']"
+            >
+              Password is required
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['minlength']"
+            >
+              Password must be at least 8 characters
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['pattern']"
+            >
+              Must include: uppercase, lowercase, number, and special character
+              ($!%*?&)
             </div>
           </div>
-
           <div class="mb-4">
             <label class="form-label">I want to:</label>
             <div class="d-flex gap-3">
@@ -144,7 +157,7 @@
                   type="radio"
                   name="role"
                   id="hostRole"
-                  value="host"
+                  value="Host"
                   formControlName="role"
                 />
                 <label class="form-check-label w-100" for="hostRole">
@@ -160,7 +173,7 @@
                   type="radio"
                   name="role"
                   id="guestRole"
-                  value="guest"
+                  value="Guest"
                   formControlName="role"
                 />
                 <label class="form-check-label w-100" for="guestRole">
@@ -194,33 +207,6 @@
             Sign up
           </button>
         </form>
-
-        <div class="d-flex align-items-center my-4">
-          <hr class="flex-grow-1" />
-          <span class="px-2 text-secondary small text-uppercase">or</span>
-          <hr class="flex-grow-1" />
-        </div>
-
-        <button
-          class="btn btn-outline-secondary w-100 mb-2 d-flex align-items-center justify-content-center"
-          (click)="continueWithGoogle()"
-        >
-          <img
-            src="assets/google-icon.png"
-            alt="Google"
-            width="20"
-            height="20"
-            class="me-2"
-          />
-          <span>Continue with Google</span>
-        </button>
-      </div>
-
-      <div class="modal-footer justify-content-center border-top">
-        <p class="mb-0">
-          Already have an account?
-          <a href="#" class="text-decoration-underline fw-bold">Log in</a>
-        </p>
       </div>
     </div>
   </div>

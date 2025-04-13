@@ -13,7 +13,14 @@ app-navbar {
   position: relative;
 }
 
-.router-container {
+/* .router-container {
   overflow-y: auto;
   max-height: 500px;
+} */
+.full-screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

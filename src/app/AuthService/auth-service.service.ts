@@ -1,82 +1,89 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/User.models';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private _isLoggedIn = false;
-  private _currentUser: User | null = null;
+  private apiUrl = 'https://localhost:7042/api/Auth';
+  private currentUserSubject = new BehaviorSubject<any>(null);
+  currentUser: User | null = null;
+  constructor(private http: HttpClient) {}
 
-  constructor() {
-    this.checkLoginStatus();
+  login(email: string, password: string) {
+    return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap((response) => {
+        console.log(response);
+        this.storeTokens(response);
+        this.currentUserSubject.next(response);
+      })
+    );
   }
 
-  get isLoggedIn(): boolean {
-    return this._isLoggedIn;
+  register(userData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    role: string;
+  }) {
+    return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  get currentUser(): User | null {
-    return this._currentUser;
+  refreshToken() {
+    const refreshToken = localStorage.getItem('refreshToken');
+    return this.http
+      .post(`${this.apiUrl}/refresh`, {
+        token: this.getAccessToken(),
+        refreshToken,
+      })
+      .pipe(tap((response) => this.storeTokens(response)));
   }
 
-  private checkLoginStatus(): void {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      this._isLoggedIn = true;
-
-      const userData = localStorage.getItem('user_data');
-      if (userData) {
-        this._currentUser = JSON.parse(userData);
-      }
-    }
-  }
-
-  login(email: string, password: string): Promise<boolean> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        this._isLoggedIn = true;
-        this._currentUser = {
-          id: '123',
-          name: 'John Doe',
-          email: email,
-          profileImage:
-            'https://a0.muscache.com/defaults/user_pic-50x50.png?v=3',
-        };
-
-        localStorage.setItem('auth_token', 'sample_token');
-        localStorage.setItem('user_data', JSON.stringify(this._currentUser));
-
-        resolve(true);
-      }, 500);
+  confirmEmail(userId: string, code: string) {
+    return this.http.get(`${this.apiUrl}/confirm-email`, {
+      params: { userId, code },
     });
   }
 
-  logout(): void {
-    this._isLoggedIn = false;
-    this._currentUser = null;
-
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user_data');
+  private storeTokens(authResult: any) {
+    localStorage.setItem('accessToken', authResult.taken);
+    localStorage.setItem('refreshToken', authResult.refreshToken);
   }
 
-  register(name: string, email: string, password: string): Promise<boolean> {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        this._isLoggedIn = true;
-        this._currentUser = {
-          id: '123',
-          name: name,
-          email: email,
-          profileImage:
-            'https://a0.muscache.com/defaults/user_pic-50x50.png?v=3',
-        };
+  getAccessToken() {
+    return localStorage.getItem('accessToken');
+  }
+  isAuthenticated() {
+    return !!this.getAccessToken();
+  }
+  logout() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    this.currentUserSubject.next(null);
+  }
+  forgotPassword(email: string) {
+    return this.http.post(`${this.apiUrl}/forget-password`, { email });
+  }
 
-        localStorage.setItem('auth_token', 'sample_token');
-        localStorage.setItem('user_data', JSON.stringify(this._currentUser));
+  resetPassword(email: string, code: string, newPassword: string) {
+    return this.http.post(`${this.apiUrl}/reset-password`, {
+      email,
+      code,
+      newPassword,
+    });
+  }
+  verifyEmail(userId: string, code: string) {
+    return this.http.get(`${this.apiUrl}/confirmation-email`, {
+      params: { userId, code },
+    });
+  }
 
-        resolve(true);
-      }, 500);
+  resendVerificationEmail(email: string) {
+    return this.http.post(`${this.apiUrl}/resend-confirmation-email`, {
+      email,
     });
   }
 }

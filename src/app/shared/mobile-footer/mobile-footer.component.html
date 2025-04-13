@@ -41,7 +41,7 @@
     </a>
   </div>
 
-  <div class="nav-item" *ngIf="authService.isLoggedIn">
+  <div class="nav-item" *ngIf="authService.isAuthenticated">
     <a
       [routerLink]="['/trips']"
       class="nav-link"
@@ -62,7 +62,7 @@
     </a>
   </div>
 
-  <div class="nav-item" *ngIf="authService.isLoggedIn">
+  <div class="nav-item" *ngIf="authService.isAuthenticated">
     <a
       [routerLink]="['/inbox']"
       class="nav-link"
@@ -87,14 +87,16 @@
 
   <div class="nav-item">
     <a
-      [routerLink]="[authService.isLoggedIn ? '/profile' : '/login']"
+      [routerLink]="[authService.isAuthenticated ? '/profile' : '/login']"
       class="nav-link"
-      [class.active]="isActive(authService.isLoggedIn ? '/profile' : '/login')"
+      [class.active]="
+        isActive(authService.isAuthenticated ? '/profile' : '/login')
+      "
     >
       <div
         class="avatar-container"
         *ngIf="
-          authService.isLoggedIn && authService.currentUser?.profileImage;
+          authService.isAuthenticated && authService.currentUser?.profileImage;
           else userIcon
         "
       >
@@ -117,7 +119,7 @@
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
       </ng-template>
-      <span>{{ authService.isLoggedIn ? "Profile" : "Log in" }}</span>
+      <span>{{ authService.isAuthenticated ? "Profile" : "Log in" }}</span>
     </a>
   </div>
 </div>

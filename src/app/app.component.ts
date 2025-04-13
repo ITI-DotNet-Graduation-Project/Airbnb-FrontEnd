@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
@@ -12,6 +12,9 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CardComponent } from './components/cards/card/card/card.component';
 import { CardModule } from './components/cards/card/card.module';
+import { DetailsModule } from './components/cards/card/details/details.module';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
@@ -27,14 +30,17 @@ import { CardModule } from './components/cards/card/card.module';
     FooterComponent,
     CardModule,
     CommonModule,
+    DetailsModule,
+    ToastModule,
   ],
+  providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'Airbnb';
   isMobile: boolean = false;
-
+  dataLoading = true;
   ngOnInit() {
     this.checkIfMobile();
     window.addEventListener('resize', () => this.checkIfMobile());
@@ -49,5 +55,28 @@ export class AppComponent {
   onScroll() {
     this.scrollY = window.scrollY;
     console.log(this.scrollY);
+  }
+
+  currentRoute: string = '';
+
+  constructor(public messageService: MessageService, private router: Router) {
+    this.router.events.subscribe(() => {
+      this.currentRoute = this.router.url;
+    });
+  }
+
+  isFullScreenRoute(): boolean {
+    const fullScreenRoutes = [
+      'not-found',
+      'confirm-email',
+      'login',
+      'reset-password',
+      'forget-password',
+
+      'register',
+      'forgot-password',
+    ];
+
+    return fullScreenRoutes.some((route) => this.currentRoute.includes(route));
   }
 }

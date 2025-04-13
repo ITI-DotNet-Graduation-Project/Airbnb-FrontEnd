@@ -24,7 +24,7 @@
     </svg>
     <img
       [src]="
-        authService.isLoggedIn
+        authService.isAuthenticated
           ? authService.currentUser?.profileImage
           : 'https://a0.muscache.com/defaults/user_pic-50x50.png?v=3'
       "

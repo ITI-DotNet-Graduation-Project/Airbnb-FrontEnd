@@ -1,11 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../AuthService/auth-service.service';
+import { LoadingComponent } from '../../shared/loading/loading.component';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule, LoadingComponent, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -14,45 +24,54 @@ export class LoginComponent {
   isPasswordVisible = false;
   showLoginOptions = false;
   isModalVisible = true;
-
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+  isLoading = false;
+  constructor(
+    private notificationService: MessageService,
+    private router: Router,
+    private authService: AuthService
+  ) {
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        ),
+      ]),
     });
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      console.log('Login form submitted:', this.loginForm.value);
-    } else {
-      this.markFormGroupTouched(this.loginForm);
-    }
+    if (this.loginForm.invalid) return;
+
+    this.isLoading = true;
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.notificationService.add({
+          severity: 'success',
+          summary: 'Login successful',
+          detail: 'Login successful!',
+        });
+        this.isModalVisible = false;
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        this.notificationService.add({
+          severity: 'error',
+          summary: 'Login failed',
+          detail: error.error?.message || 'Login failed',
+        });
+      },
+    });
   }
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
-  }
-
-  toggleLoginOptions() {
-    this.showLoginOptions = !this.showLoginOptions;
-  }
-
-  continueWithGoogle() {
-    console.log('Continue with Google clicked');
-  }
-
-  continueWithFacebook() {
-    console.log('Continue with Facebook clicked');
-  }
-
-  continueWithApple() {
-    console.log('Continue with Apple clicked');
-  }
-
-  continueWithEmail() {
-    console.log('Continue with Email clicked');
-    this.showLoginOptions = false;
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {

@@ -1,0 +1,81 @@
+<div class="email-confirmation-container">
+  <div
+    *ngIf="notificationState !== 'hidden'"
+    class="notification-toast"
+    [class.success]="notificationState === 'success'"
+    [class.error]="notificationState === 'error'"
+  >
+    <div class="icon">
+      <i *ngIf="notificationState === 'success'" class="bi bi-check-circle"></i>
+      <i
+        *ngIf="notificationState === 'error'"
+        class="bi bi-exclamation-circle"
+      ></i>
+    </div>
+    <div class="content">
+      <h3>
+        {{
+          notificationState === "success"
+            ? "Email Confirmed!"
+            : "Confirmation Error"
+        }}
+      </h3>
+      <p>{{ notificationMessage }}</p>
+    </div>
+    <button
+      *ngIf="notificationState === 'success'"
+      class="login-button"
+      (click)="navigateToLogin()"
+    >
+      Go to Login
+    </button>
+  </div>
+  <div
+    *ngIf="notificationState === 'hidden'"
+    class="card animate__animated animate__fadeIn"
+  >
+    <div class="card-header">
+      <div class="icon-container">
+        <i class="bi bi-envelope-check"></i>
+      </div>
+      <h2>Verify Your Email</h2>
+    </div>
+
+    <div class="card-body">
+      <p class="instruction-text">We've sent a verification link to:</p>
+
+      <div class="email-display">
+        <i class="bi bi-envelope-at"></i>
+        <span>{{ email }}</span>
+      </div>
+
+      <p class="hint-text">
+        Check your inbox and click the link to verify your account.
+      </p>
+
+      <div class="divider">
+        <span>Didn't receive it?</span>
+      </div>
+
+      <button
+        class="resend-button"
+        (click)="resendEmail()"
+        [disabled]="isResending || cooldown > 0"
+        [ngClass]="{ loading: isResending }"
+      >
+        <span *ngIf="!isResending && cooldown === 0">
+          <i class="bi bi-send"></i> Resend Email
+        </span>
+        <span *ngIf="isResending">
+          <i class="bi bi-arrow-repeat spin"></i> Sending...
+        </span>
+        <span *ngIf="cooldown > 0"> Resend in {{ cooldown }}s </span>
+      </button>
+
+      <div class="alternative-actions">
+        <p>Wrong email? <a routerLink="/register">Register again</a></p>
+        <p>Already verified? <a routerLink="/login">Login here</a></p>
+      </div>
+    </div>
+  </div>
+</div>

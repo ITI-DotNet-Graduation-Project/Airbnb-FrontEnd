@@ -1,3 +1,9 @@
+<app-loading
+  [isLoading]="isLoading"
+  message="Loading data..."
+  [fullscreen]="true"
+></app-loading>
+
 <div class="modal-backdrop show" *ngIf="isModalVisible"></div>
 <div class="modal d-block" *ngIf="isModalVisible" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -86,11 +92,10 @@
                 </div>
               </div>
             </div>
-
-            <div class="form-text mb-4">
-              We'll call or text you to confirm your number. Standard message
-              and data rates apply.
-              <a href="#" class="text-decoration-underline">Privacy Policy</a>
+            <div class="mb-3 text-end">
+              <a routerLink="/reset-password" class="text-decoration-none">
+                Forgot password?
+              </a>
             </div>
 
             <button
@@ -101,86 +106,15 @@
               Continue
             </button>
           </form>
-
-          <div class="d-flex align-items-center my-4">
-            <hr class="flex-grow-1" />
-            <span class="px-2 text-secondary small text-uppercase">or</span>
-            <hr class="flex-grow-1" />
-          </div>
-
-          <button
-            class="btn btn-outline-secondary w-100 mb-2 d-flex align-items-center justify-content-center"
-            (click)="toggleLoginOptions()"
-          >
-            <span>More login options</span>
-          </button>
-        </ng-container>
-
-        <ng-container *ngIf="showLoginOptions">
-          <div class="mt-3">
-            <button
-              class="btn btn-outline-secondary w-100 mb-3 d-flex align-items-center justify-content-center py-2"
-              (click)="continueWithGoogle()"
-            >
-              <img
-                src="assets/google-icon.png"
-                alt="Google"
-                width="20"
-                height="20"
-                class="me-2"
-              />
-              <span>Continue with Google</span>
-            </button>
-
-            <button
-              class="btn btn-outline-secondary w-100 mb-3 d-flex align-items-center justify-content-center py-2"
-              (click)="continueWithFacebook()"
-            >
-              <img
-                src="assets/facebook-icon.png"
-                alt="Facebook"
-                width="20"
-                height="20"
-                class="me-2"
-              />
-              <span>Continue with Facebook</span>
-            </button>
-
-            <button
-              class="btn btn-outline-secondary w-100 mb-3 d-flex align-items-center justify-content-center py-2"
-              (click)="continueWithApple()"
-            >
-              <img
-                src="assets/apple-icon.png"
-                alt="Apple"
-                width="20"
-                height="20"
-                class="me-2"
-              />
-              <span>Continue with Apple</span>
-            </button>
-
-            <button
-              class="btn btn-outline-secondary w-100 mb-3 d-flex align-items-center justify-content-center py-2"
-              (click)="continueWithEmail()"
-            >
-              <img
-                src="assets/email-icon.png"
-                alt="Email"
-                width="20"
-                height="20"
-                class="me-2"
-              />
-              <span>Continue with Email</span>
-            </button>
-          </div>
         </ng-container>
       </div>
 
       <div class="modal-footer justify-content-center border-top">
         <p class="mb-0">
           Don't have an account?
-          <a href="#" class="text-decoration-underline fw-bold">Sign up</a>
+          <a routerLink="/register" class="text-decoration-underline fw-bold"
+            >Sign up</a
+          >
         </p>
       </div>
     </div>

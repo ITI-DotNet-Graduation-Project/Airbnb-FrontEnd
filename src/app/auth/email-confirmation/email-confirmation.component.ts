@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { AuthService } from '../AuthService/auth-service.service';
+import { AuthService } from '../../AuthService/auth-service.service';
 
 @Component({
   selector: 'app-email-confirmation',

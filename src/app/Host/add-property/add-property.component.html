@@ -1,0 +1,176 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header bg-white">
+          <h2 class="mb-0">Add New Property</h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Basic Information</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="title" class="form-label">Property Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    formControlName="title"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="propertyType" class="form-label"
+                    >Property Type</label
+                  >
+                  <select
+                    class="form-select"
+                    id="propertyType"
+                    formControlName="propertyType"
+                  >
+                    <option value="">Select type</option>
+                    <option [value]="opt.id" *ngFor="let opt of optionsTypes">
+                      {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="description" class="form-label"
+                    >Description</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="description"
+                    rows="3"
+                    formControlName="description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Location</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="location" class="form-label">Full Address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="location"
+                    formControlName="location"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Pricing</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="price" class="form-label"
+                    >Price per night ($)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    formControlName="price"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Property Details</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="bedrooms" class="form-label">Bedrooms</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="bedrooms"
+                    formControlName="bedrooms"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="bathrooms" class="form-label">Bathrooms</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="bathrooms"
+                    formControlName="bathrooms"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Amenities</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <div
+                    class="form-check form-check-inline"
+                    *ngFor="let amenity of amenityOptions"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      [id]="'amenity-' + amenity.value"
+                      [value]="amenity.value"
+                      (change)="onAmenityChange($event)"
+                    />
+                    <label
+                      class="form-check-label"
+                      [for]="'amenity-' + amenity.value"
+                      >{{ amenity.label }}</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Property Images</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="images" class="form-label">Upload Images</label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="images"
+                    multiple
+                    (change)="onFileChange($event)"
+                  />
+                  <div class="form-text">
+                    Upload at least one image of your property
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="cancel()"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="propertyForm.invalid || loading"
+              >
+                <span
+                  *ngIf="loading"
+                  class="spinner-border spinner-border-sm me-1"
+                ></span>
+                Add Property
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

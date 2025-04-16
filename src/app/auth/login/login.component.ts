@@ -11,6 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../AuthService/auth-service.service';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { MessageService } from 'primeng/api';
+import { LoginResponse } from '../../models/RegisterRequest.modes';
 
 @Component({
   selector: 'app-login',
@@ -44,27 +45,34 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.invalid) return;
-
-    this.isLoading = true;
     const { email, password } = this.loginForm.value;
 
     this.authService.login(email, password).subscribe({
-      next: () => {
+      next: (response: LoginResponse) => {
+        console.log(response);
         this.isLoading = false;
+        localStorage.setItem('currentUser', JSON.stringify(response));
+
         this.notificationService.add({
           severity: 'success',
           summary: 'Login successful',
-          detail: 'Login successful!',
+          detail: 'Welcome back!',
         });
+
         this.isModalVisible = false;
-        this.router.navigate(['/']);
+
+        if (response.role === 'Host') {
+          this.router.navigate(['/host']);
+        } else {
+          this.router.navigate(['/']);
+        }
       },
-      error: (error) => {
+      error: (err) => {
         this.isLoading = false;
         this.notificationService.add({
           severity: 'error',
           summary: 'Login failed',
-          detail: error.error?.message || 'Login failed',
+          detail: 'Invalid credentials or server error',
         });
       },
     });

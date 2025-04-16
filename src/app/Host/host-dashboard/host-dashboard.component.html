@@ -1,0 +1,87 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Host Dashboard</h1>
+    <button class="btn btn-primary" (click)="goToProfile()">
+      <i class="bi bi-person-circle me-2"></i>View Profile
+    </button>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div class="card stat-card h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-building fs-1 text-primary mb-3"></i>
+          <h3 class="card-title">Total Properties</h3>
+          <p class="display-5 fw-bold">{{ totalProperties }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div class="card stat-card h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-calendar-check fs-1 text-success mb-3"></i>
+          <h3 class="card-title">Active Bookings</h3>
+          <p class="display-5 fw-bold">{{ activeBookings }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card stat-card h-100">
+        <div class="card-body text-center">
+          <i class="bi bi-star-fill fs-1 text-warning mb-3"></i>
+          <h3 class="card-title">Average Rating</h3>
+          <p class="display-5 fw-bold">
+            4.3 <i class="bi bi-star-fill text-warning"></i>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div
+      class="card-header bg-white d-flex justify-content-between align-items-center"
+    >
+      <h2 class="mb-0">Your Properties</h2>
+      <button class="btn btn-success" (click)="navigateToAddProperty()">
+        <i class="bi bi-plus-circle me-2"></i>Add New Property
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="text-center py-5" *ngIf="loading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading your properties...</p>
+      </div>
+
+      <div class="alert alert-danger" *ngIf="error">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+      </div>
+
+      <div
+        class="text-center py-5"
+        *ngIf="!loading && !error && properties.length === 0"
+      >
+        <i class="bi bi-house-x fs-1 text-muted mb-3"></i>
+        <h3>No Properties Found</h3>
+        <p class="text-muted mb-4">You haven't listed any properties yet.</p>
+        <button class="btn btn-success" (click)="navigateToAddProperty()">
+          <i class="bi bi-plus-circle me-2"></i>Add Your First Property
+        </button>
+      </div>
+
+      <div class="row g-4" *ngIf="!loading && !error && properties.length > 0">
+        <div class="col-md-6 col-lg-4" *ngFor="let property of properties">
+          <app-property-card
+            [property]="property"
+            (view)="navigateToViewProperty($event)"
+            (edit)="navigateToEditProperty($event)"
+            (delete)="deleteProperty($event)"
+          >
+          </app-property-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

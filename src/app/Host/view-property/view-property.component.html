@@ -1,0 +1,175 @@
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-body p-0">
+          <div
+            id="propertyCarousel"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-inner">
+              <div
+                class="carousel-item"
+                [class.active]="i === 0"
+                *ngFor="let image of property.propertyImages; let i = index"
+              >
+                <img
+                  [src]="
+                    'https://localhost:7042/uploads/' + image.imageUrl.slice(8)
+                  "
+                />
+              </div>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#propertyCarousel"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#propertyCarousel"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header bg-white">
+          <h2 class="mb-0">{{ property.title }}</h2>
+          <p class="text-muted mb-0">
+            <i class="bi bi-geo-alt-fill me-1"></i>{{ property.location }}
+          </p>
+        </div>
+        <div class="card-body">
+          <h4 class="mb-3">About this property</h4>
+          <p>{{ property.description }}</p>
+
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-house-door-fill fs-4 text-primary me-3"></i>
+                <div>
+                  <h6 class="mb-0">Property Type</h6>
+                  <p class="mb-0 text-capitalize">
+                    {{ property.categoryDescription }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-currency-dollar fs-4 text-primary me-3"></i>
+                <div>
+                  <h6 class="mb-0">Price</h6>
+                  <p class="mb-0">${{ property.price }} per night</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-door-closed-fill fs-4 text-primary me-3"></i>
+                <div>
+                  <h6 class="mb-0">Bedrooms</h6>
+                  <p class="mb-0">{{ property.bedrooms }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-bucket-fill fs-4 text-primary me-3"></i>
+                <div>
+                  <h6 class="mb-0">Bathrooms</h6>
+                  <p class="mb-0">{{ property.bathrooms }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="mb-3">Amenities</h4>
+          <div class="row g-3">
+            <div class="col-md-6" *ngFor="let amenity of property.amenities">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                <span class="text-capitalize">{{ amenity }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="card mb-4"
+        *ngIf="property.reviews && property.reviews.length > 0"
+      >
+        <div class="card-header bg-white">
+          <h2 class="mb-0">Reviews</h2>
+          <div class="d-flex align-items-center">
+            <span class="badge bg-warning text-dark me-2">
+              <i class="bi bi-star-fill me-1"></i>
+              {{ property.averageRating | number : "1.1-1" }}
+            </span>
+            <span class="text-muted"
+              >{{ property.reviews.length }} reviews</span
+            >
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="review-item mb-4" *ngFor="let review of property.reviews">
+            <div class="d-flex justify-content-between mb-2">
+              <h5 class="mb-0">{{ review.userName }}</h5>
+              <div class="text-warning">
+                <i
+                  class="bi bi-star-fill"
+                  *ngFor="let star of [1, 2, 3, 4, 5]"
+                ></i>
+              </div>
+            </div>
+            <p class="text-muted small">
+              {{ review.createdAt | date : "mediumDate" }}
+            </p>
+            <p>{{ review.comment }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card sticky-top" style="top: 20px">
+        <div class="card-header bg-white">
+          <h3 class="mb-0">Booking Options</h3>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="fw-bold">${{ property.price }}</span>
+            <span class="text-muted">per night</span>
+          </div>
+
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" (click)="navigateToEditProperty()">
+              <i class="bi bi-pencil-fill me-2"></i>Edit Property
+            </button>
+            <button class="btn btn-outline-secondary" (click)="goBack()">
+              <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

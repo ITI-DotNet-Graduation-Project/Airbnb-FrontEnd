@@ -5,3 +5,9 @@ export interface RegisterRequest {
   password: string;
   role: string;
 }
+
+export interface LoginResponse {
+  taken: string;
+  refreshToken: string;
+  role: string;
+}

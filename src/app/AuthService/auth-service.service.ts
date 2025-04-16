@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/User.models';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
   private apiUrl = 'https://localhost:7042/api/Auth';
   private currentUserSubject = new BehaviorSubject<any>(null);
-  currentUser: User | null = null;
+  currentUser: any = null;
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
@@ -21,7 +21,71 @@ export class AuthService {
       })
     );
   }
+  getUserId() {
+    try {
+      const currentUserStr = localStorage.getItem('currentUser');
+      if (currentUserStr) {
+        const currentUser = JSON.parse(currentUserStr);
+        if (currentUser?.id) {
+          return currentUser.id;
+        }
+      }
+    } catch (error) {
+      console.error('Error retrieving id:', error);
+      return '';
+    }
+  }
 
+  getCurrentUser() {
+    return this.http
+      .get<User>(`https://localhost:7042/api/Users/current`, {
+        headers: this.getAuthHeaders(),
+      })
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching current user', error);
+          throw error;
+        })
+      );
+  }
+
+  // Update user profile
+  updateProfile(userId: number, formData: FormData): Observable<User> {
+    return this.http
+      .put<User>(`https://localhost:7042/api/Users/profile`, formData)
+      .pipe(
+        tap((updatedUser) => {
+          // Optional: Update local storage or state management
+          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        }),
+        catchError((error) => {
+          console.error('Error updating profile', error);
+          throw error;
+        })
+      );
+  }
+  getToken(): string {
+    try {
+      const currentUserStr = localStorage.getItem('currentUser');
+      if (currentUserStr) {
+        const currentUser = JSON.parse(currentUserStr);
+        if (currentUser?.taken) {
+          return currentUser.taken;
+        }
+      }
+    } catch (error) {
+      console.error('Error retrieving token:', error);
+      return '';
+    }
+  }
+  // auth.service.ts
+  getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    console.log(token);
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }
   register(userData: {
     firstName: string;
     lastName: string;

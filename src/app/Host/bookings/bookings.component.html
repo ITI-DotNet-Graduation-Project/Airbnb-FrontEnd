@@ -1,0 +1,114 @@
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">Your Bookings</h1>
+    <div class="btn-group">
+      <button
+        class="btn btn-outline-secondary"
+        [class.active]="filter === 'all'"
+        (click)="filter = 'all'"
+      >
+        All
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        [class.active]="filter === 'upcoming'"
+        (click)="filter = 'upcoming'"
+      >
+        Upcoming
+      </button>
+      <button
+        class="btn btn-outline-secondary"
+        [class.active]="filter === 'past'"
+        (click)="filter = 'past'"
+      >
+        Past
+      </button>
+    </div>
+  </div>
+
+  <div class="text-center py-5" *ngIf="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Loading bookings...</p>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="error">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+  </div>
+
+  <div
+    class="text-center py-5"
+    *ngIf="!loading && !error && filteredBookings.length === 0"
+  >
+    <i class="bi bi-calendar-x fs-1 text-muted mb-3"></i>
+    <h3>No Bookings Found</h3>
+    <p class="text-muted">You don't have any bookings yet.</p>
+  </div>
+
+  <div
+    class="row g-4"
+    *ngIf="!loading && !error && filteredBookings.length > 0"
+  >
+    <div class="col-12" *ngFor="let booking of filteredBookings">
+      <div class="card booking-card">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <h5 class="mb-1">{{ booking.propertyTitle }}</h5>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'bg-warning': booking.status === 'pending',
+                  'bg-success': booking.status === 'confirmed',
+                  'bg-danger': booking.status === 'cancelled',
+                  'bg-secondary': booking.status === 'completed'
+                }"
+              >
+                {{ booking.status | titlecase }}
+              </span>
+            </div>
+            <div class="col-md-2">
+              <div class="d-flex align-items-center">
+                <img
+                  [src]="booking.guestAvatar || 'assets/default-avatar.jpg'"
+                  class="rounded-circle me-2"
+                  width="40"
+                  height="40"
+                  alt="Guest"
+                />
+                <span>{{ booking.guestName }}</span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div>
+                <small class="text-muted">Check-in</small>
+                <p class="mb-0">{{ booking.checkIn | date : "mediumDate" }}</p>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div>
+                <small class="text-muted">Check-out</small>
+                <p class="mb-0">{{ booking.checkOut | date : "mediumDate" }}</p>
+              </div>
+            </div>
+            <div class="col-md-2 text-end">
+              <button
+                class="btn btn-sm btn-outline-primary me-2"
+                (click)="viewGuestDetails(booking.guestId)"
+              >
+                <i class="bi bi-person"></i>
+              </button>
+              <button
+                class="btn btn-sm btn-primary"
+                (click)="openMessageModal(booking.guestId, booking.guestName)"
+              >
+                <i class="bi bi-envelope"></i> Message
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

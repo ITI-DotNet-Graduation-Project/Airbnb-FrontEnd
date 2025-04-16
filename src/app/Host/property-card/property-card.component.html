@@ -1,0 +1,59 @@
+<div class="card h-100 property-card">
+  <img
+    [src]="
+      'https://localhost:7042/uploads/' +
+      property.propertyImages[0].imageUrl.slice(8)
+    "
+    class="card-img-top property-image"
+    [alt]="property.title"
+  />
+
+  <div class="card-body">
+    <h5 class="card-title">{{ property.title }}</h5>
+    <p class="card-text text-muted mb-2">
+      <i class="bi bi-geo-alt-fill me-1"></i>{{ property.location }}
+    </p>
+    <p class="fw-bold mb-3">
+      ${{ property.price }}
+      <small class="text-muted fw-normal">per night</small>
+    </p>
+
+    <div class="d-flex align-items-center mb-3">
+      <span class="badge bg-warning text-dark me-2">
+        <i class="bi bi-star-fill me-1"></i>
+
+        {{
+          property.averageRating
+            ? (property.averageRating | number : "1.1-1")
+            : "New"
+        }}
+      </span>
+      <span class="text-muted small" *ngIf="property.reviews?.length">
+        ({{ property.reviews.length }} reviews)
+      </span>
+    </div>
+  </div>
+
+  <div class="card-footer bg-white border-top-0">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button
+        class="btn btn-sm btn-outline-primary me-md-2"
+        (click)="view.emit(property.id)"
+      >
+        <i class="bi bi-eye-fill me-1"></i>View
+      </button>
+      <button
+        class="btn btn-sm btn-outline-secondary me-md-2"
+        (click)="edit.emit(property.id)"
+      >
+        <i class="bi bi-pencil-fill me-1"></i>Edit
+      </button>
+      <button
+        class="btn btn-sm btn-outline-danger"
+        (click)="delete.emit(property.id)"
+      >
+        <i class="bi bi-trash-fill me-1"></i>Delete
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,241 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card">
+        <div
+          class="card-header bg-white d-flex justify-content-between align-items-center"
+        >
+          <h2 class="mb-0">Edit Property</h2>
+          <button
+            class="btn btn-sm btn-outline-danger"
+            (click)="deleteProperty()"
+          >
+            <i class="bi bi-trash-fill me-1"></i>Delete Property
+          </button>
+        </div>
+
+        <div class="card-body">
+          <div class="text-center py-5" *ngIf="loading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">Loading property details...</p>
+          </div>
+
+          <div class="alert alert-danger" *ngIf="error">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+          </div>
+
+          <form
+            [formGroup]="propertyForm"
+            (ngSubmit)="onSubmit()"
+            *ngIf="!loading && !error"
+          >
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Basic Information</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="title" class="form-label">Property Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    formControlName="title"
+                  />
+                  <div
+                    *ngIf="
+                      propertyForm.get('title')?.invalid &&
+                      (propertyForm.get('title')?.dirty ||
+                        propertyForm.get('title')?.touched)
+                    "
+                    class="text-danger small"
+                  >
+                    Title is required
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label for="propertyType" class="form-label"
+                    >Property Type</label
+                  >
+                  <select
+                    class="form-select"
+                    id="propertyType"
+                    formControlName="propertyType"
+                  >
+                    <option value="">Select type</option>
+                    <option *ngFor="let opt of options" [value]="opt.id">
+                      {{ opt.description }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="description" class="form-label"
+                    >Description</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="description"
+                    rows="4"
+                    formControlName="description"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Location</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="location" class="form-label">Full Address</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="location"
+                    formControlName="location"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Pricing</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="price" class="form-label"
+                    >Price per night ($)</label
+                  >
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    formControlName="price"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Property Details</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="bedrooms" class="form-label">Bedrooms</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="bedrooms"
+                    formControlName="bedrooms"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="bathrooms" class="form-label">Bathrooms</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="bathrooms"
+                    formControlName="bathrooms"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Amenities</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <div
+                    class="form-check form-check-inline"
+                    *ngFor="let amenity of amenityOptions"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      [id]="'amenity-' + amenity.value"
+                      [value]="amenity.value"
+                      [checked]="
+                        propertyForm.value.amenities.includes(amenity.value)
+                      "
+                      (change)="onAmenityChange($event)"
+                    />
+                    <label
+                      class="form-check-label"
+                      [for]="'amenity-' + amenity.value"
+                      >{{ amenity.label }}</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Current Images</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="d-flex flex-wrap gap-3">
+                    <div
+                      class="position-relative"
+                      *ngFor="let image of propertyImages"
+                    >
+                      <img
+                        [src]="
+                          'https://localhost:7042/uploads/' +
+                          image.imageUrl.slice(8)
+                        "
+                        class="img-thumbnail"
+                        style="width: 150px; height: 100px; object-fit: cover"
+                      />
+                      <button
+                        class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                        (click)="removeImage(image.id)"
+                      >
+                        <i class="bi bi-x"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2">Add More Images</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="newImages" class="form-label"
+                    >Upload Additional Images</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="newImages"
+                    multiple
+                    (change)="onFileChange($event)"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="cancel()"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="propertyForm.invalid || updating"
+              >
+                <span
+                  *ngIf="updating"
+                  class="spinner-border spinner-border-sm me-1"
+                ></span>
+                Update Property
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

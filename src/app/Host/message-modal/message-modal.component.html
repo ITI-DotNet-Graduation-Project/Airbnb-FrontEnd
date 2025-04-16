@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <h5 class="modal-title">Message {{ recipientName }}</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="dismiss()"
+  ></button>
+</div>
+
+<div class="modal-body message-modal">
+  <div class="message-history mb-3">
+    <div
+      *ngFor="let message of messages"
+      class="message-bubble"
+      [class.sent]="message.senderId === currentUserId"
+      [class.received]="message.senderId !== currentUserId"
+    >
+      <div class="message-content">{{ message.content }}</div>
+      <div class="message-time">
+        {{ message.timestamp | date : "shortTime" }}
+      </div>
+    </div>
+
+    <div class="text-center py-3" *ngIf="loadingMessages">
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="message-input">
+    <textarea
+      class="form-control"
+      [(ngModel)]="newMessage"
+      placeholder="Type your message here..."
+      rows="3"
+      [disabled]="sending"
+    ></textarea>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+      <small class="text-muted" *ngIf="sending">Sending...</small>
+      <button
+        class="btn btn-primary"
+        (click)="sendMessage()"
+        [disabled]="!newMessage.trim() || sending"
+      >
+        <span
+          *ngIf="sending"
+          class="spinner-border spinner-border-sm me-1"
+        ></span>
+        Send
+      </button>
+    </div>
+  </div>
+</div>

@@ -15,6 +15,8 @@ import { CardModule } from './components/cards/card/card.module';
 import { DetailsModule } from './components/cards/card/details/details.module';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { HostDashboardComponent } from './Host/host-dashboard/host-dashboard.component';
+import { UserProfileComponent } from './auth/user/user.component';
 
 @Component({
   selector: 'app-root',
@@ -32,6 +34,8 @@ import { ToastModule } from 'primeng/toast';
     CommonModule,
     DetailsModule,
     ToastModule,
+    UserProfileComponent,
+    HostDashboardComponent,
   ],
   providers: [MessageService],
   templateUrl: './app.component.html',
@@ -72,9 +76,10 @@ export class AppComponent {
       'login',
       'reset-password',
       'forget-password',
-
+      'host',
       'register',
       'forgot-password',
+      'profile',
     ];
 
     return fullScreenRoutes.some((route) => this.currentRoute.includes(route));

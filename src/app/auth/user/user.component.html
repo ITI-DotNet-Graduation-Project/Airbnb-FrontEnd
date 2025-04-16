@@ -1,0 +1,116 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <h2>Your Profile</h2>
+    <div class="profile-image-container" *ngIf="!isEditing">
+      <img
+        [src]="getProfileImageUrl()"
+        alt="Profile Image"
+        class="profile-image"
+      />
+    </div>
+  </div>
+
+  <div class="profile-form" *ngIf="!isEditing">
+    <div class="profile-field">
+      <label>First Name</label>
+      <span class="profile-value">{{ user.firstName || "Not specified" }}</span>
+    </div>
+
+    <div class="profile-field">
+      <label>Last Name</label>
+      <span class="profile-value">{{ user.lastName || "Not specified" }}</span>
+    </div>
+
+    <div class="profile-field">
+      <label>Email</label>
+      <span class="profile-value">{{ user.email }}</span>
+    </div>
+
+    <button class="edit-button" (click)="toggleEdit()">
+      <i class="fas fa-edit"></i> Edit Profile
+    </button>
+  </div>
+
+  <form
+    class="profile-form editing"
+    *ngIf="isEditing"
+    (ngSubmit)="saveProfile()"
+  >
+    <div class="profile-image-upload" *ngIf="isEditing">
+      <div class="image-preview">
+        <img
+          [src]="getProfileImageUrl()"
+          alt="Profile Preview"
+          class="preview-image"
+        />
+      </div>
+      <div class="upload-controls">
+        <input
+          type="file"
+          id="fileInput"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          style="display: none"
+        />
+        <label for="fileInput" class="upload-button">
+          <i class="fas fa-camera"></i> Change Photo
+        </label>
+        <div *ngIf="selectedFile" class="file-info">
+          {{ selectedFile.name }}
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-field">
+      <label for="firstName">First Name</label>
+      <input
+        id="firstName"
+        type="text"
+        [(ngModel)]="user.firstName"
+        name="firstName"
+        placeholder="Enter your first name"
+        required
+      />
+    </div>
+
+    <div class="profile-field">
+      <label for="lastName">Last Name</label>
+      <input
+        id="lastName"
+        type="text"
+        [(ngModel)]="user.lastName"
+        name="lastName"
+        placeholder="Enter your last name"
+        required
+      />
+    </div>
+
+    <div class="profile-field">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        [(ngModel)]="user.email"
+        name="email"
+        placeholder="Enter your email"
+        required
+      />
+    </div>
+
+    <div class="button-group">
+      <button
+        type="button"
+        class="cancel-button"
+        (click)="toggleEdit()"
+        [disabled]="isSaving"
+      >
+        <i class="fas fa-times"></i> Cancel
+      </button>
+      <button type="submit" class="save-button" [disabled]="isSaving">
+        <i class="fas fa-save"></i>
+        <span *ngIf="!isSaving">Save Changes</span>
+        <span *ngIf="isSaving">Saving...</span>
+      </button>
+    </div>
+  </form>
+</div>

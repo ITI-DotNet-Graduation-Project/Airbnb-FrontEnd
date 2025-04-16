@@ -1,0 +1,21 @@
+.property-main-image {
+  height: 500px;
+  object-fit: cover;
+}
+
+.review-item {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .property-main-image {
+    height: 300px;
+  }
+}

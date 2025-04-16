@@ -8,8 +8,8 @@ import {
   FormControl,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../AuthService/auth-service.service';
-import { LoadingComponent } from '../shared/loading/loading.component';
+import { AuthService } from '../../AuthService/auth-service.service';
+import { LoadingComponent } from '../../shared/loading/loading.component';
 import { CommonModule } from '@angular/common';
 
 @Component({

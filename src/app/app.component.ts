@@ -80,6 +80,8 @@ export class AppComponent {
       'register',
       'forgot-password',
       'profile',
+      'properties',
+      'booking-confirmation',
     ];
 
     return fullScreenRoutes.some((route) => this.currentRoute.includes(route));

@@ -9,6 +9,6 @@ export class NavService {
     'https://localhost:7042/api/PropertyCategory/getallCategories';
   constructor(private http: HttpClient) {}
   getAll() {
-    return this.http.get(`${this.apiUrl}/`);
+    return this.http.get(`${this.apiUrl}`);
   }
 }

@@ -31,6 +31,9 @@ export class PropertyService {
   }
 
   createProperty(property: FormData) {
+    property.forEach((value, key) => {
+      console.log('Availabilities in FormData:', value, key);
+    });
     return this.http.post<Property>(
       `${this.apiUrl}/Property/create-property`,
       property

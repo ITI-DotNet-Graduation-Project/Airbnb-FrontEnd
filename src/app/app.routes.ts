@@ -16,6 +16,8 @@ import { EditPropertyComponent } from './Host/edit-property/edit-property.compon
 import { ViewPropertyComponent } from './Host/view-property/view-property.component';
 import { BookingsComponent } from './Host/bookings/bookings.component';
 import { UserProfileComponent } from './auth/user/user.component';
+import { PropertyDetailsComponent } from './property-details/property-details.component';
+import { BookingConfirmationComponent } from './booking-confirmation/booking-confirmation.component';
 
 export const routes: Routes = [
   {
@@ -57,6 +59,8 @@ export const routes: Routes = [
     component: PaymentComponent,
     canActivate: [authGuard],
   },
+  { path: 'properties/:id', component: PropertyDetailsComponent },
+  { path: 'booking-confirmation/:id', component: BookingConfirmationComponent },
   {
     path: 'host',
     canActivate: [authGuard],

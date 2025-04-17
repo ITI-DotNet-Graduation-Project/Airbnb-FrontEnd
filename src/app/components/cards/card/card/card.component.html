@@ -1,22 +1,68 @@
 <div class="card-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-message">
+    <i class="error-icon">⚠️</i>
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadCards()">Retry</button>
+  </div>
+
+  <!-- Cards -->
   <div class="card" *ngFor="let card of cards">
-    <app-card-image [images]="card.images"></app-card-image>
+    <app-card-image [images]="card.propertyImages"></app-card-image>
 
-    <app-card-details
-      [location]="card.location"
-      [rating]="card.rating"
-      [distance]="card.distance"
-      [date]="card.date"
-    >
-    </app-card-details>
+    <div class="card-content" (click)="navigateToDetails(card.id)">
+      <div class="card-header">
+        <h3 class="card-title">{{ card.title }}</h3>
+        <div class="rating" *ngIf="card.averageRating">
+          <i class="star-icon">★</i>
+          <span>{{ card.averageRating | number : "1.1-1" }}</span>
+        </div>
+        <div class="rating" *ngIf="!card.averageRating">
+          <i class="star-icon">★</i>
+          <span>new</span>
+        </div>
+      </div>
 
-    <app-card-price
-      [price]="card.price"
-      [numNights]="card.numNights"
-    ></app-card-price>
+      <p class="card-location">
+        <i class="location-icon">📍</i> {{ card.location }}
+      </p>
+
+      <div class="card-details">
+        <span class="detail">
+          <i class="bed-icon">🛏️</i> {{ card.bedrooms }} bedroom{{
+            card.bedrooms !== 1 ? "s" : ""
+          }}
+        </span>
+        <span class="detail">
+          <i class="bath-icon">🚿</i> {{ card.bathrooms }} bathroom{{
+            card.bathrooms !== 1 ? "s" : ""
+          }}
+        </span>
+        <span class="detail" *ngIf="card.maxGuest > 0">
+          <i class="guest-icon">👥</i> Up to {{ card.maxGuest }} guest{{
+            card.maxGuest !== 1 ? "s" : ""
+          }}
+        </span>
+      </div>
+
+      <div class="card-footer">
+        <app-card-price
+          [price]="card.totalPrice"
+          [numNights]="card.numNights"
+          [pricePerNight]="card.price"
+        >
+        </app-card-price>
+      </div>
+    </div>
   </div>
 </div>
+
 <div class="explore-section">
-  <p>Continue exploring beachfront homes</p>
-  <button class="show-more-btn">Show more</button>
+  <p>Continue exploring {{ cards[0]?.categoryDescription || "properties" }}</p>
+  <button class="show-more-btn" (click)="loadMore()">Show more</button>
 </div>

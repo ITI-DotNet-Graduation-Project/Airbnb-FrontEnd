@@ -81,7 +81,26 @@
                 </div>
               </div>
             </div>
-
+            <div class="col-md-4">
+              <label for="maxGuest" class="form-label">Max Guests</label>
+              <input
+                type="number"
+                class="form-control"
+                id="maxGuest"
+                formControlName="maxGuest"
+                min="1"
+              />
+              <div
+                *ngIf="
+                  propertyForm.get('maxGuest')?.invalid &&
+                  (propertyForm.get('maxGuest')?.dirty ||
+                    propertyForm.get('maxGuest')?.touched)
+                "
+                class="text-danger small"
+              >
+                Please enter a valid number (minimum 1)
+              </div>
+            </div>
             <div class="mb-4">
               <h5 class="mb-3 border-bottom pb-2">Location</h5>
               <div class="row g-3">
@@ -137,35 +156,86 @@
                 </div>
               </div>
             </div>
-
+            <!-- Add this section after the "Property Details" section and before the "Current Images" section -->
             <div class="mb-4">
-              <h5 class="mb-3 border-bottom pb-2">Amenities</h5>
+              <h5 class="mb-3 border-bottom pb-2">Availability</h5>
               <div class="row g-3">
                 <div class="col-12">
+                  <div class="table-responsive mb-3">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Status</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          *ngFor="
+                            let availability of availabilities;
+                            let i = index
+                          "
+                        >
+                          <td>
+                            <input
+                              type="date"
+                              class="form-control"
+                              [(ngModel)]="availability.startDate"
+                              [ngModelOptions]="{ standalone: true }"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="date"
+                              class="form-control"
+                              [(ngModel)]="availability.endDate"
+                              [ngModelOptions]="{ standalone: true }"
+                            />
+                          </td>
+                          <td>
+                            <span
+                              class="badge"
+                              [ngClass]="{
+                                'bg-success': !availability.isBooked,
+                                'bg-danger': availability.isBooked
+                              }"
+                            >
+                              {{
+                                availability.isBooked ? "Booked" : "Available"
+                              }}
+                            </span>
+                          </td>
+                          <td>
+                            <button
+                              class="btn btn-sm btn-outline-danger"
+                              (click)="removeAvailability(i)"
+                            >
+                              <i class="bi bi-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                   <div
-                    class="form-check form-check-inline"
-                    *ngFor="let amenity of amenityOptions"
+                    class="d-flex justify-content-between align-items-center"
                   >
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [id]="'amenity-' + amenity.value"
-                      [value]="amenity.value"
-                      [checked]="
-                        propertyForm.value.amenities.includes(amenity.value)
-                      "
-                      (change)="onAmenityChange($event)"
-                    />
-                    <label
-                      class="form-check-label"
-                      [for]="'amenity-' + amenity.value"
-                      >{{ amenity.label }}</label
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-primary"
+                      (click)="addAvailability()"
                     >
+                      <i class="bi bi-plus-circle me-1"></i>Add Availability
+                    </button>
+                    <small class="text-muted">
+                      Note: Changes will be saved when you update the property
+                    </small>
                   </div>
                 </div>
               </div>
             </div>
-
             <div class="mb-4">
               <h5 class="mb-3 border-bottom pb-2">Current Images</h5>
               <div class="row g-3">
@@ -177,8 +247,8 @@
                     >
                       <img
                         [src]="
-                          'https://localhost:7042/uploads/' +
-                          image.imageUrl.slice(8)
+                          'https://localhost:7042/images/properties/' +
+                          image.imageUrl
                         "
                         class="img-thumbnail"
                         style="width: 150px; height: 100px; object-fit: cover"

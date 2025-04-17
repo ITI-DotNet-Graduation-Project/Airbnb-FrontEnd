@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { CardImageComponent } from '../card-image/card-image.component';
 import { CardPriceComponent } from '../card-price/card-price.component';
+import { CardService } from '../../../../services/card.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card',
@@ -9,125 +11,70 @@ import { CardPriceComponent } from '../card-price/card-price.component';
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-  cards = [
-    {
-      images: [
-        '../../../../assets/Finalproject/Card1/1.jpeg',
-        '../../../../assets/Finalproject/Card1/2.jpeg',
-        '../../../../assets/Finalproject/Card1/3.jpeg',
-        '../../../../assets/Finalproject/Card1/4.jpeg',
-      ],
+  cards: any[] = [];
+  isLoading = true;
+  error: string | null = null;
+  currentPage = 1;
 
-      location: 'Batroun, Lebanon',
-      rating: 4.96,
-      distance: '623 kilometers away',
-      date: 'Apr 27 – May 2',
+  constructor(private cardService: CardService, private router: Router) {}
 
-      price: '42,128 ج.م ',
-      numNights: 'for 5 nights',
-    },
-    {
-      images: [
-        '../../../../assets/Finalproject/Card2/1.jpg',
-        '../../../../assets/Finalproject/Card2/2.jpg',
-        '../../../../assets/Finalproject/Card2/3.jpg',
-        '../../../../assets/Finalproject/Card2/4.jpg',
-      ],
-      location: 'Rhodes, Greece',
-      rating: 4.96,
-      distance: 'Zefyros Strand',
-      date: 'Oct 4 - 9',
+  ngOnInit(): void {
+    this.loadCards();
+  }
 
-      price: '20,875 ج.م ',
-      numNights: 'for 3 nights',
-    },
-    {
-      images: [
-        '../../../../assets/Finalproject/Card3/1.jpeg',
-        '../../../../assets/Finalproject/Card3/2.jpeg',
-        '../../../../assets/Finalproject/Card3/3.jpeg',
-        '../../../../assets/Finalproject/Card3/4.jpeg',
-      ],
-      location: 'Koutsouras, Greece',
-      rating: 4.96,
-      distance: 'Makrygialos-Lagoufa',
-      date: 'May 1 - 6',
-      price: '33,401 ج.م ',
-      numNights: 'for 4 nights',
-    },
-    {
-      images: [
-        '../../../../assets/Finalproject/Card4/1.jpg',
-        '../../../../assets/Finalproject/Card4/2.jpg',
-        '../../../../assets/Finalproject/Card4/3.jpg',
-        '../../../../assets/Finalproject/Card4/4.jpg',
-      ],
-      location: 'Dahab, Egypt',
-      rating: 4.96,
-      distance: 'Asala Open Beach',
-      date: 'May 15 - 20',
-      price: '43,708ج.م ',
-      numNights: 'for 2 nights',
-    },
+  loadCards(): void {
+    this.isLoading = true;
+    this.error = null;
 
-    {
-      images: [
-        '../../../../assets/Finalproject/Card1/1.jpeg',
-        '../../../../assets/Finalproject/Card1/2.jpeg',
-        '../../../../assets/Finalproject/Card1/3.jpeg',
-        '../../../../assets/Finalproject/Card1/4.jpeg',
-      ],
+    this.cardService.getCards().subscribe({
+      next: (data) => {
+        this.cards = data.map((card) => ({
+          ...card,
+          totalPrice: this.calculateTotalPrice(card),
+          numNights: this.calculateNumNights(card),
+        }));
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load properties. Please try again later.';
+        this.isLoading = false;
+        console.error('Error loading cards:', err);
+      },
+    });
+  }
 
-      location: 'Batroun, Lebanon',
-      rating: 4.96,
-      distance: '623 kilometers away',
-      date: 'Apr 27 – May 2',
+  loadMore(): void {
+    this.currentPage++;
+    this.cardService.getCardsPaginated(this.currentPage).subscribe({
+      next: (newCards) => {
+        this.cards = [
+          ...this.cards,
+          ...newCards.map((card) => ({
+            ...card,
+            totalPrice: this.calculateTotalPrice(card),
+            numNights: this.calculateNumNights(card),
+          })),
+        ];
+      },
+      error: (err) => {
+        console.error('Error loading more cards:', err);
+      },
+    });
+  }
 
-      price: '42,128 ج.م ',
-      numNights: 'for 5 nights',
-    },
-    {
-      images: [
-        '../../../../assets/Finalproject/Card2/1.jpg',
-        '../../../../assets/Finalproject/Card2/2.jpg',
-        '../../../../assets/Finalproject/Card2/3.jpg',
-        '../../../../assets/Finalproject/Card2/4.jpg',
-      ],
-      location: 'Rhodes, Greece',
-      rating: 4.96,
-      distance: 'Zefyros Strand',
-      date: 'Oct 4 - 9',
+  calculateNumNights(card: any): number {
+    if (!card.availabilities || card.availabilities.length === 0) return 1;
+    const availability = card.availabilities[0];
+    const start = new Date(availability.startDate);
+    const end = new Date(availability.endDate);
+    return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  }
 
-      price: '20,875 ج.م ',
-      numNights: 'for 3 nights',
-    },
-    {
-      images: [
-        '../../../../assets/Finalproject/Card3/1.jpeg',
-        '../../../../assets/Finalproject/Card3/2.jpeg',
-        '../../../../assets/Finalproject/Card3/3.jpeg',
-        '../../../../assets/Finalproject/Card3/4.jpeg',
-      ],
-      location: 'Koutsouras, Greece',
-      rating: 4.96,
-      distance: 'Makrygialos-Lagoufa',
-      date: 'May 1 - 6',
-      price: '33,401 ج.م ',
-      numNights: 'for 4 nights',
-    },
-    {
-      images: [
-        '../../../../assets/Finalproject/Card4/1.jpg',
-        '../../../../assets/Finalproject/Card4/2.jpg',
-        '../../../../assets/Finalproject/Card4/3.jpg',
-        '../../../../assets/Finalproject/Card4/4.jpg',
-      ],
-      location: 'Dahab, Egypt',
-      rating: 4.96,
-      distance: 'Asala Open Beach',
-      date: 'May 15 - 20',
-      price: '43,708ج.م ',
-      numNights: 'for 2 nights',
-    },
-  ];
+  calculateTotalPrice(card: any): number {
+    return card.price * this.calculateNumNights(card);
+  }
+
+  navigateToDetails(cardId: number): void {
+    this.router.navigate(['/properties', cardId]);
+  }
 }

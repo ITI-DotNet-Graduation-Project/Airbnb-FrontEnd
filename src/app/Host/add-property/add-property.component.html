@@ -1,148 +1,370 @@
 <div class="container py-4">
   <div class="row justify-content-center">
     <div class="col-lg-8">
-      <div class="card">
-        <div class="card-header bg-white">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white rounded-top-3">
           <h2 class="mb-0">Add New Property</h2>
         </div>
         <div class="card-body">
           <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
             <div class="mb-4">
-              <h5 class="mb-3 border-bottom pb-2">Basic Information</h5>
+              <h5 class="mb-3 border-bottom pb-2 text-primary">
+                Basic Information
+              </h5>
               <div class="row g-3">
                 <div class="col-md-6">
-                  <label for="title" class="form-label">Property Title</label>
+                  <label for="title" class="form-label">Property Title*</label>
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control rounded-pill"
                     id="title"
                     formControlName="title"
+                    [class.is-invalid]="
+                      title.invalid && (title.dirty || title.touched)
+                    "
                   />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="title.errors?.['required']"
+                  >
+                    Title is required
+                  </div>
                 </div>
                 <div class="col-md-6">
                   <label for="propertyType" class="form-label"
-                    >Property Type</label
+                    >Property Type*</label
                   >
                   <select
-                    class="form-select"
+                    class="form-select rounded-pill"
                     id="propertyType"
                     formControlName="propertyType"
+                    [class.is-invalid]="
+                      propertyType.invalid &&
+                      (propertyType.dirty || propertyType.touched)
+                    "
                   >
                     <option value="">Select type</option>
                     <option [value]="opt.id" *ngFor="let opt of optionsTypes">
                       {{ opt.description }}
                     </option>
                   </select>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="propertyType.errors?.['required']"
+                  >
+                    Property type is required
+                  </div>
                 </div>
                 <div class="col-12">
                   <label for="description" class="form-label"
-                    >Description</label
+                    >Description*</label
                   >
                   <textarea
-                    class="form-control"
+                    class="form-control rounded-3"
                     id="description"
                     rows="3"
                     formControlName="description"
+                    [class.is-invalid]="
+                      description.invalid &&
+                      (description.dirty || description.touched)
+                    "
                   ></textarea>
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <h5 class="mb-3 border-bottom pb-2">Location</h5>
-              <div class="row g-3">
-                <div class="col-12">
-                  <label for="location" class="form-label">Full Address</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="location"
-                    formControlName="location"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <h5 class="mb-3 border-bottom pb-2">Pricing</h5>
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="price" class="form-label"
-                    >Price per night ($)</label
-                  >
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="price"
-                    formControlName="price"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <h5 class="mb-3 border-bottom pb-2">Property Details</h5>
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="bedrooms" class="form-label">Bedrooms</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="bedrooms"
-                    formControlName="bedrooms"
-                  />
-                </div>
-                <div class="col-md-6">
-                  <label for="bathrooms" class="form-label">Bathrooms</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="bathrooms"
-                    formControlName="bathrooms"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <h5 class="mb-3 border-bottom pb-2">Amenities</h5>
-              <div class="row g-3">
-                <div class="col-12">
                   <div
-                    class="form-check form-check-inline"
-                    *ngFor="let amenity of amenityOptions"
+                    class="invalid-feedback"
+                    *ngIf="description.errors?.['required']"
                   >
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      [id]="'amenity-' + amenity.value"
-                      [value]="amenity.value"
-                      (change)="onAmenityChange($event)"
-                    />
-                    <label
-                      class="form-check-label"
-                      [for]="'amenity-' + amenity.value"
-                      >{{ amenity.label }}</label
-                    >
+                    Description is required
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="mb-4">
-              <h5 class="mb-3 border-bottom pb-2">Property Images</h5>
+              <h5 class="mb-3 border-bottom pb-2 text-primary">
+                Availability*
+              </h5>
+              <div formArrayName="availabilities">
+                <div
+                  class="alert alert-warning rounded-3"
+                  *ngIf="availabilities.length === 0"
+                >
+                  Please add at least one availability period
+                </div>
+
+                <div
+                  *ngFor="
+                    let availability of availabilities.controls;
+                    let i = index
+                  "
+                  [formGroupName]="i"
+                  class="mb-3"
+                >
+                  <div class="row g-2">
+                    <div class="col-md-5">
+                      <label class="form-label">Start Date*</label>
+                      <input
+                        type="date"
+                        class="form-control rounded-pill"
+                        formControlName="startDate"
+                        [min]="today"
+                        [class.is-invalid]="
+                          availability.get('startDate')?.invalid &&
+                          (availability.get('startDate')?.dirty ||
+                            availability.get('startDate')?.touched)
+                        "
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="availability.get('startDate')?.errors?.['required']"
+                      >
+                        Start date is required
+                      </div>
+                    </div>
+                    <div class="col-md-5">
+                      <label class="form-label">End Date*</label>
+                      <input
+                        type="date"
+                        class="form-control rounded-pill"
+                        formControlName="endDate"
+                        [min]="availability.get('startDate')?.value || today"
+                        [class.is-invalid]="
+                          availability.get('endDate')?.invalid &&
+                          (availability.get('endDate')?.dirty ||
+                            availability.get('endDate')?.touched)
+                        "
+                      />
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="availability.get('endDate')?.errors?.['required']"
+                      >
+                        End date is required
+                      </div>
+                      <div
+                        class="invalid-feedback"
+                        *ngIf="availability.get('endDate')?.errors?.['min']"
+                      >
+                        End date must be after start date
+                      </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger w-100 rounded-pill"
+                        (click)="removeAvailability(i)"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  class="btn btn-outline-primary mt-2 rounded-pill"
+                  (click)="addAvailability()"
+                >
+                  <i class="bi bi-plus"></i> Add Availability Period
+                </button>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2 text-primary">Location</h5>
+              <div class="row g-3">
+                <div class="col-12">
+                  <label for="location" class="form-label">Full Address*</label>
+                  <input
+                    type="text"
+                    class="form-control rounded-pill"
+                    id="location"
+                    formControlName="location"
+                    [class.is-invalid]="
+                      location.invalid && (location.dirty || location.touched)
+                    "
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="location.errors?.['required']"
+                  >
+                    Address is required
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2 text-primary">Pricing</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="price" class="form-label"
+                    >Price per night ($)*</label
+                  >
+                  <div class="input-group">
+                    <span class="input-group-text rounded-start-pill">$</span>
+                    <input
+                      type="number"
+                      class="form-control rounded-end-pill"
+                      id="price"
+                      formControlName="price"
+                      min="1"
+                      [class.is-invalid]="
+                        price.invalid && (price.dirty || price.touched)
+                      "
+                    />
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="price.errors?.['required']"
+                  >
+                    Price is required
+                  </div>
+                  <div class="invalid-feedback" *ngIf="price.errors?.['min']">
+                    Price must be at least $1
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2 text-primary">
+                Property Details
+              </h5>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label for="bedrooms" class="form-label">Bedrooms*</label>
+                  <input
+                    type="number"
+                    class="form-control rounded-pill"
+                    id="bedrooms"
+                    formControlName="bedrooms"
+                    min="1"
+                    [class.is-invalid]="
+                      bedrooms.invalid && (bedrooms.dirty || bedrooms.touched)
+                    "
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="bedrooms.errors?.['required']"
+                  >
+                    Bedrooms count is required
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="bedrooms.errors?.['min']"
+                  >
+                    Must have at least 1 bedroom
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="bathrooms" class="form-label">Bathrooms*</label>
+                  <input
+                    type="number"
+                    class="form-control rounded-pill"
+                    id="bathrooms"
+                    formControlName="bathrooms"
+                    min="1"
+                    [class.is-invalid]="
+                      bathrooms.invalid &&
+                      (bathrooms.dirty || bathrooms.touched)
+                    "
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="bathrooms.errors?.['required']"
+                  >
+                    Bathrooms count is required
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="bathrooms.errors?.['min']"
+                  >
+                    Must have at least 1 bathroom
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="maxGuest" class="form-label">Max Guests*</label>
+                  <input
+                    type="number"
+                    class="form-control rounded-pill"
+                    id="maxGuest"
+                    formControlName="maxGuest"
+                    min="1"
+                    [class.is-invalid]="
+                      maxGuest.invalid && (maxGuest.dirty || maxGuest.touched)
+                    "
+                  />
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="maxGuest.errors?.['required']"
+                  >
+                    Maximum guests is required
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="maxGuest.errors?.['min']"
+                  >
+                    Must accommodate at least 1 guest
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="mb-3 border-bottom pb-2 text-primary">
+                Property Images*
+              </h5>
               <div class="row g-3">
                 <div class="col-12">
                   <label for="images" class="form-label">Upload Images</label>
-                  <input
-                    type="file"
-                    class="form-control"
-                    id="images"
-                    multiple
-                    (change)="onFileChange($event)"
-                  />
+                  <div class="file-upload-wrapper">
+                    <input
+                      type="file"
+                      class="form-control rounded-pill"
+                      id="images"
+                      multiple
+                      accept="image/*"
+                      (change)="onFileChange($event)"
+                      [class.is-invalid]="
+                        images.invalid && (images.dirty || images.touched)
+                      "
+                    />
+                  </div>
+                  <div
+                    class="invalid-feedback"
+                    *ngIf="images.errors?.['required']"
+                  >
+                    At least one image is required
+                  </div>
                   <div class="form-text">
                     Upload at least one image of your property
+                  </div>
+
+                  <div class="mt-2" *ngIf="previewImages.length > 0">
+                    <div class="d-flex flex-wrap gap-2">
+                      <div
+                        *ngFor="let img of previewImages"
+                        class="position-relative"
+                      >
+                        <img
+                          [src]="img.url"
+                          class="img-thumbnail rounded-3"
+                          style="width: 100px; height: 100px; object-fit: cover"
+                        />
+                        <button
+                          type="button"
+                          class="btn btn-sm btn-danger position-absolute top-0 end-0 rounded-circle"
+                          style="
+                            width: 24px;
+                            height: 24px;
+                            padding: 0;
+                            transform: translate(50%, -50%);
+                          "
+                          (click)="removeImage(img.index)"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -151,22 +373,28 @@
             <div class="d-flex justify-content-between mt-4">
               <button
                 type="button"
-                class="btn btn-outline-secondary"
+                class="btn btn-outline-secondary rounded-pill px-4"
                 (click)="cancel()"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                class="btn btn-primary"
-                [disabled]="propertyForm.invalid || loading"
+                class="btn btn-primary rounded-pill px-4"
+                [disabled]="
+                  propertyForm.invalid || availabilities.length === 0 || loading
+                "
               >
                 <span
                   *ngIf="loading"
                   class="spinner-border spinner-border-sm me-1"
                 ></span>
-                Add Property
+                {{ loading ? "Processing..." : "Add Property" }}
               </button>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger mt-3 rounded-3">
+              {{ error }}
             </div>
           </form>
         </div>

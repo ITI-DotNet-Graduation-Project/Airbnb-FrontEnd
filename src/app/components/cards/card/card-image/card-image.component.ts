@@ -6,27 +6,37 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./card-image.component.css'],
 })
 export class CardImageComponent implements OnInit {
-  @Input() images: string[] = [];
-
+  @Input() images: any[] = [];
   currentIndex: number = 0;
   currentImage: string = '';
+  baseImageUrl = 'https://localhost:7042/images/properties/';
 
   ngOnInit(): void {
-    this.currentImage = this.images[0];
-    console.log(this.currentImage);
+    if (this.images && this.images.length > 0) {
+      this.currentImage = this.getFullImageUrl(this.images[0]);
+    }
+  }
+
+  private getImageUrl(image: any): string {
+    return typeof image === 'string' ? image : image.imageUrl;
+  }
+
+  private getFullImageUrl(image: any): string {
+    const imagePath = this.getImageUrl(image);
+    return `${this.baseImageUrl}${imagePath}`;
   }
 
   nextImage(): void {
     if (this.currentIndex < this.images.length - 1) {
       this.currentIndex++;
-      this.currentImage = this.images[this.currentIndex];
+      this.currentImage = this.getFullImageUrl(this.images[this.currentIndex]);
     }
   }
 
   prevImage(): void {
     if (this.currentIndex > 0) {
       this.currentIndex--;
-      this.currentImage = this.images[this.currentIndex];
+      this.currentImage = this.getFullImageUrl(this.images[this.currentIndex]);
     }
   }
 
@@ -39,7 +49,9 @@ export class CardImageComponent implements OnInit {
   }
 
   goToImage(index: number): void {
-    this.currentIndex = index;
-    this.currentImage = this.images[this.currentIndex];
+    if (index >= 0 && index < this.images.length) {
+      this.currentIndex = index;
+      this.currentImage = this.getFullImageUrl(this.images[this.currentIndex]);
+    }
   }
 }

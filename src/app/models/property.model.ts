@@ -12,6 +12,8 @@ export interface Property {
   propertyImages: PropertyImage[];
   averageRating?: number;
   reviews?: Review[];
+  maxGuest: number;
+  availabilities: any[];
   hostId: string;
   createdAt: Date;
   updatedAt: Date;

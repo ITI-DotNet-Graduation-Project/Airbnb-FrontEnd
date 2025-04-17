@@ -17,9 +17,8 @@ export class BookingsComponent implements OnInit {
   error: string | null = null;
 
   constructor(
-    private propertyService: PropertyService
-  ) // private modalService: NgbModal,
-  // private toastr: ToastrService
+    private propertyService: PropertyService // private modalService: NgbModal,
+  ) // private toastr: ToastrService
   {}
 
   ngOnInit(): void {
@@ -47,8 +46,9 @@ export class BookingsComponent implements OnInit {
   applyFilter(): void {
     const now = new Date();
     this.filteredBookings = this.bookings.filter((booking) => {
-      if (this.filter === 'upcoming') return new Date(booking.checkOut) > now;
-      if (this.filter === 'past') return new Date(booking.checkOut) <= now;
+      if (this.filter === 'upcoming')
+        return new Date(booking.checkInDate) > now;
+      if (this.filter === 'past') return new Date(booking.checkOutDate) <= now;
       return true;
     });
   }

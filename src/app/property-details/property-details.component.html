@@ -1,0 +1,373 @@
+<div class="property-details-container">
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+
+  <div *ngIf="property" class="property-details">
+    <div class="gallery">
+      <app-image-gallery [images]="property.propertyImages"></app-image-gallery>
+    </div>
+
+    <div class="main-content">
+      <div class="booking-status" *ngIf="property">
+        <h2>Current Status</h2>
+        <div
+          class="status-indicator"
+          [class.booked]="isBookedToday"
+          [class.available]="!isBookedToday"
+        >
+          <i class="status-icon">{{ isBookedToday ? "❌" : "✅" }}</i>
+          <span>{{
+            isBookedToday ? "Booked for today" : "Available today"
+          }}</span>
+        </div>
+      </div>
+      <div class="header">
+        <h1>{{ property.title }}</h1>
+        <div class="location">
+          <i class="location-icon">📍</i>
+          <span>{{ property.location }}</span>
+        </div>
+      </div>
+
+      <div class="property-highlights">
+        <div class="highlight" *ngIf="property.averageRating">
+          <i class="star-icon">★</i>
+          <span>{{ property.averageRating | number : "1.1-1" }}</span>
+        </div>
+        <div class="highlight">
+          <i class="category-icon">🏠</i>
+          <span>{{ property.categoryDescription }}</span>
+        </div>
+      </div>
+
+      <div class="property-description">
+        <h2>About this place</h2>
+        <p>{{ property.description }}</p>
+      </div>
+
+      <div class="amenities">
+        <h2>What this place offers</h2>
+        <div class="amenities-grid">
+          <div class="amenity">
+            <i class="bed-icon">🛏️</i>
+            <span
+              >{{ property.bedrooms }} bedroom{{
+                property.bedrooms !== 1 ? "s" : ""
+              }}</span
+            >
+          </div>
+          <div class="amenity">
+            <i class="bath-icon">🚿</i>
+            <span
+              >{{ property.bathrooms }} bathroom{{
+                property.bathrooms !== 1 ? "s" : ""
+              }}</span
+            >
+          </div>
+          <div class="amenity" *ngIf="property.maxGuest > 0">
+            <i class="guest-icon">👥</i>
+            <span
+              >Up to {{ property.maxGuest }} guest{{
+                property.maxGuest !== 1 ? "s" : ""
+              }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="rental-calendar">
+        <h2>Availability Calendar</h2>
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <span class="month">{{ currentMonth }}</span>
+            <div class="calendar-nav">
+              <button (click)="previousMonth()" class="nav-button">❮</button>
+              <button (click)="nextMonth()" class="nav-button">❯</button>
+            </div>
+          </div>
+          <div class="weekdays">
+            <div
+              *ngFor="
+                let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+              "
+              class="weekday"
+            >
+              {{ day }}
+            </div>
+          </div>
+          <div class="days-grid">
+            <div
+              *ngFor="let day of calendarDays"
+              class="day-cell"
+              [class.empty]="!day.date"
+              [class.booked]="day.isBooked"
+              [class.today]="day.isToday"
+              [class.selected]="day.isSelected"
+            >
+              <span *ngIf="day.date">{{ day.date.getDate() }}</span>
+              <span *ngIf="day.isBooked" class="status-icon">✗</span>
+              <span *ngIf="day.isAvailable && !day.isBooked" class="status-icon"
+                >✓</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="calendar-legend">
+          <div class="legend-item">
+            <span class="legend-color available"></span>
+            <span>Available</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color booked"></span>
+            <span>Booked</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color today"></span>
+            <span>Today</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="availability">
+        <h2>Availability Details</h2>
+        <div
+          *ngIf="property.availabilities && property.availabilities.length > 0"
+        >
+          <p>
+            Available from
+            {{ formatDate(property.availabilities[0].startDate) }} to
+            {{ formatDate(property.availabilities[0].endDate) }}
+          </p>
+          <p>{{ numNights }} night{{ numNights !== 1 ? "s" : "" }} stay</p>
+        </div>
+        <div
+          *ngIf="
+            !property.availabilities || property.availabilities.length === 0
+          "
+        >
+          <p>Contact host for availability</p>
+        </div>
+      </div>
+
+      <div class="reviews-section card">
+        <h2>Guest Reviews</h2>
+
+        <div *ngIf="property?.reviews?.length > 0; else noReviews">
+          <div class="review-summary">
+            <div class="average-rating">
+              <span class="rating-number">{{
+                property.averageRating | number : "1.1-1"
+              }}</span>
+              <div class="stars">
+                <i class="star-icon filled">★</i>
+                <span class="rating-text">out of 5</span>
+              </div>
+              <span class="review-count">
+                {{ property.reviews.length }} review{{
+                  property.reviews.length !== 1 ? "s" : ""
+                }}
+              </span>
+            </div>
+          </div>
+
+          <div class="reviews-list">
+            <div class="review-card" *ngFor="let review of property.reviews">
+              <div class="review-header">
+                <div class="reviewer-info">
+                  <div
+                    class="reviewer-avatar"
+                    [style.background-color]="review.avatarColor"
+                  >
+                    {{ review.avatarInitial }}
+                  </div>
+                  <div class="reviewer-details">
+                    <span class="reviewer-name">{{ review.userName }}</span>
+                    <span class="review-date">{{
+                      review.createdAt | date : "mediumDate"
+                    }}</span>
+                  </div>
+                </div>
+                <div class="review-rating">
+                  <span *ngFor="let star of [1, 2, 3, 4, 5]">
+                    <i class="star-icon" [class.filled]="star <= review.rating"
+                      >★</i
+                    >
+                  </span>
+                </div>
+              </div>
+              <div class="review-content">
+                <p>{{ review.comment }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noReviews>
+          <div class="no-reviews">
+            <p>No reviews yet. Be the first to review this property!</p>
+            <button
+              class="add-review-btn"
+              (click)="openReviewForm()"
+              *ngIf="hasBookedThisProperty"
+            >
+              Add Review
+            </button>
+            <p *ngIf="!hasBookedThisProperty">
+              You must book and complete a stay to review this property
+            </p>
+          </div>
+        </ng-template>
+
+        <div class="review-form-container card" *ngIf="showReviewForm">
+          <h3>Write a Review</h3>
+          <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+            <div class="rating-input">
+              <label>Your Rating:</label>
+              <div class="star-rating">
+                <span
+                  *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"
+                  (click)="setRating(star)"
+                  [class.filled]="star <= newReview.rating"
+                  [class.hover]="star <= hoverRating"
+                  (mouseover)="hoverRating = star"
+                  (mouseout)="hoverRating = 0"
+                >
+                  ★
+                </span>
+              </div>
+              <small
+                *ngIf="reviewForm.submitted && newReview.rating === 0"
+                class="text-danger"
+              >
+                Please select a rating
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="comment">Your Review:</label>
+              <textarea
+                id="comment"
+                name="comment"
+                [(ngModel)]="newReview.comment"
+                required
+                minlength="10"
+                maxlength="500"
+                placeholder="Share your experience (minimum 10 characters)"
+              ></textarea>
+              <small
+                *ngIf="
+                  reviewForm.submitted &&
+                  reviewForm.controls.comment?.errors?.required
+                "
+                class="text-danger"
+              >
+                Review is required
+              </small>
+              <small
+                *ngIf="
+                  reviewForm.submitted &&
+                  reviewForm.controls.comment?.errors?.minlength
+                "
+                class="text-danger"
+              >
+                Review must be at least 10 characters
+              </small>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="cancel-btn" (click)="cancelReview()">
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="submit-btn"
+                [disabled]="!reviewForm.form.valid || newReview.rating === 0"
+              >
+                Submit Review
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-sidebar">
+      <div class="booking-card">
+        <div class="price-section">
+          <span class="price">{{
+            totalPrice | currency : "EGP" : "symbol" : "1.0-0"
+          }}</span>
+          <span class="per-night"
+            >total for {{ numNights }} night{{
+              numNights !== 1 ? "s" : ""
+            }}</span
+          >
+          <span class="price-per-night"
+            >{{ property.price | currency : "EGP" : "symbol" : "1.0-0" }} per
+            night</span
+          >
+        </div>
+
+        <div class="booking-form">
+          <div class="date-picker">
+            <label>Check-in</label>
+            <input
+              type="date"
+              [(ngModel)]="bookingData.checkInDate"
+              name="checkInDate"
+              (change)="validateDates()"
+              required
+            />
+          </div>
+          <div class="date-picker">
+            <label>Check-out</label>
+            <input
+              type="date"
+              [(ngModel)]="bookingData.checkOutDate"
+              name="checkOutDate"
+              (change)="validateDates()"
+              required
+            />
+          </div>
+          <div class="guests-selector">
+            <label>Guests</label>
+            <select [(ngModel)]="bookingData.guests" name="guests">
+              <option *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8]" [value]="n">
+                {{ n }} guest{{ n !== 1 ? "s" : "" }}
+              </option>
+            </select>
+          </div>
+          <div
+            class="booking-summary"
+            *ngIf="bookingData.checkInDate && bookingData.checkOutDate"
+          >
+            <div class="summary-row">
+              <span
+                >{{ property.price | currency : "EGP" : "symbol" : "1.0-0" }} x
+                {{ calculateNights() }} nights</span
+              >
+              <span>{{
+                calculateSubtotal() | currency : "EGP" : "symbol" : "1.0-0"
+              }}</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <span>{{
+                calculateTotalPrice() | currency : "EGP" : "symbol" : "1.0-0"
+              }}</span>
+            </div>
+          </div>
+          <button
+            class="book-now-btn"
+            (click)="submitBooking()"
+            [disabled]="!isBookingValid()"
+          >
+            Book Now
+          </button>
+          <div class="error-message" *ngIf="bookingError">
+            {{ bookingError }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

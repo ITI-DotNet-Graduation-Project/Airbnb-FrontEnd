@@ -1,0 +1,33 @@
+<div class="gallery-container">
+  <div class="main-image">
+    <img [src]="currentImage" alt="Property image" />
+    <button
+      class="nav-btn prev"
+      (click)="prevImage()"
+      *ngIf="images.length > 1"
+    >
+      ‹
+    </button>
+    <button
+      class="nav-btn next"
+      (click)="nextImage()"
+      *ngIf="images.length > 1"
+    >
+      ›
+    </button>
+  </div>
+
+  <div class="thumbnail-container" *ngIf="images.length > 1">
+    <div
+      class="thumbnail"
+      *ngFor="let img of images; let i = index"
+      [class.active]="i === currentIndex"
+      (click)="selectImage(i)"
+    >
+      <img
+        [src]="'https://localhost:7042/images/properties/' + img.imageUrl"
+        alt="Thumbnail"
+      />
+    </div>
+  </div>
+</div>

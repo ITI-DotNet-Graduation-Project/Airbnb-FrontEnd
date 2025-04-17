@@ -1,0 +1,88 @@
+<div class="confirmation-container container py-5">
+  <div
+    *ngIf="isLoading"
+    class="loading-spinner d-flex justify-content-center align-items-center"
+    style="height: 300px"
+  >
+    <div
+      class="spinner-border text-primary"
+      style="width: 3rem; height: 3rem"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!isLoading && booking"
+    class="confirmation-card card shadow-lg mx-auto"
+    style="max-width: 600px"
+  >
+    <div class="card-header bg-success text-white text-center py-4">
+      <div class="d-flex justify-content-center align-items-center">
+        <h1 class="card-title mb-0 me-3">Booking Confirmed!</h1>
+        <i class="confirmation-icon fs-1">✓</i>
+      </div>
+    </div>
+
+    <div class="card-body p-4">
+      <h2 class="text-center mb-4">Your Booking Details</h2>
+
+      <div class="booking-details">
+        <div
+          class="detail-row d-flex justify-content-between py-2 border-bottom"
+        >
+          <span class="detail-label fw-bold">Booking ID:</span>
+          <span class="detail-value">{{ booking.id }}</span>
+        </div>
+
+        <div
+          class="detail-row d-flex justify-content-between py-2 border-bottom"
+        >
+          <span class="detail-label fw-bold">Property:</span>
+          <span class="detail-value">{{ booking.propertyTitle }}</span>
+        </div>
+
+        <div
+          class="detail-row d-flex justify-content-between py-2 border-bottom"
+        >
+          <span class="detail-label fw-bold">Check-in:</span>
+          <span class="detail-value">{{
+            booking.checkInDte | date : "mediumDate"
+          }}</span>
+        </div>
+
+        <div
+          class="detail-row d-flex justify-content-between py-2 border-bottom"
+        >
+          <span class="detail-label fw-bold">Check-out:</span>
+          <span class="detail-value">{{
+            booking.checkOutDate | date : "mediumDate"
+          }}</span>
+        </div>
+
+        <div
+          class="detail-row d-flex justify-content-between py-2 border-bottom"
+        >
+          <span class="detail-label fw-bold">Guests:</span>
+          <span class="detail-value">{{ booking.guests }}</span>
+        </div>
+
+        <div
+          class="detail-row total d-flex justify-content-between py-3 mt-3 bg-light rounded p-2"
+        >
+          <span class="detail-label fw-bold fs-5">Total:</span>
+          <span class="detail-value fs-5 fw-bold text-success">{{
+            booking.totalPrice | currency : "EGP" : "symbol" : "1.0-0"
+          }}</span>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="back-to-home btn btn-primary px-4 py-2" routerLink="/">
+          <i class="bi bi-house-door me-2"></i>Back to Home
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

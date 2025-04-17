@@ -1,0 +1,26 @@
+*
+{
+  font-family: sans-serif;
+}
+.card-details {
+    padding: 12px;
+  }
+  
+  .location {
+    font-weight:500;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .rating {
+    font-size: 15px;
+    margin: 4px 0px 4px 85px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .distance,
+  .date {
+    font-size: 15px;
+    color: #888;
+  }

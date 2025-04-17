@@ -1,0 +1,27 @@
+
+  <div class="card-container">
+    <div class="card" *ngFor="let card of cards">
+      <app-card-image [images]="card.images"></app-card-image>
+  
+      <app-card-details
+        [location]="card.location"
+        [rating]="card.rating"
+        [distance]="card.distance"
+        [date]="card.date"
+      >
+      </app-card-details>
+  
+      <app-card-price
+        [price]="card.price"
+        [numNights]="card.numNights"
+      ></app-card-price>
+    </div>
+    
+  </div>
+  
+  <div class="explore-section">
+    <p>Continue exploring beachfront homes</p>
+    <button class="show-more-btn">Show more</button>
+  </div>
+  
+  

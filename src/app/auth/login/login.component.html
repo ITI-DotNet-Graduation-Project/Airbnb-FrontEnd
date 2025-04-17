@@ -1,0 +1,122 @@
+<app-loading
+  [isLoading]="isLoading"
+  message="Loading data..."
+  [fullscreen]="true"
+></app-loading>
+
+<div class="modal-backdrop show" *ngIf="isModalVisible"></div>
+<div class="modal d-block" *ngIf="isModalVisible" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom">
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="isModalVisible = false"
+        ></button>
+        <h5 class="modal-title w-100 text-center">Log in or sign up</h5>
+      </div>
+
+      <div class="modal-body p-4">
+        <h4 class="mb-4">Welcome to Airbnb</h4>
+
+        <ng-container *ngIf="!showLoginOptions">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <div class="form-floating">
+                <input
+                  type="email"
+                  class="form-control"
+                  id="emailInput"
+                  placeholder="Email"
+                  formControlName="email"
+                  [ngClass]="{
+                    'is-invalid':
+                      loginForm.get('email')?.touched &&
+                      loginForm.get('email')?.invalid
+                  }"
+                />
+                <label for="emailInput">Email</label>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']"
+                >
+                  Email is required
+                </div>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['email']"
+                >
+                  Please enter a valid email
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <div class="form-floating">
+                <input
+                  [type]="isPasswordVisible ? 'text' : 'password'"
+                  class="form-control"
+                  id="passwordInput"
+                  placeholder="Password"
+                  formControlName="password"
+                  [ngClass]="{
+                    'is-invalid':
+                      loginForm.get('password')?.touched &&
+                      loginForm.get('password')?.invalid
+                  }"
+                />
+                <label for="passwordInput">Password</label>
+                <button
+                  type="button"
+                  class="btn btn-sm position-absolute end-0 top-50 translate-middle-y me-3 text-secondary"
+                  (click)="togglePasswordVisibility()"
+                >
+                  <i
+                    class="bi"
+                    [ngClass]="isPasswordVisible ? 'bi-eye-slash' : 'bi-eye'"
+                  ></i>
+                </button>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']"
+                >
+                  Password is required
+                </div>
+                <div
+                  class="invalid-feedback"
+                  *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['minlength']"
+                >
+                  Password must be at least 8 characters
+                </div>
+              </div>
+            </div>
+            <div class="mb-3 text-end">
+              <a routerLink="/reset-password" class="text-decoration-none">
+                Forgot password?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-danger w-100 py-3 mb-3"
+              [disabled]="loginForm.invalid"
+            >
+              Continue
+            </button>
+          </form>
+        </ng-container>
+      </div>
+
+      <div class="modal-footer justify-content-center border-top">
+        <p class="mb-0">
+          Don't have an account?
+          <a routerLink="/register" class="text-decoration-underline fw-bold"
+            >Sign up</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="profile-menu-container">
+  <button class="profile-button" (click)="toggleMenu($event)">
+    <svg
+      viewBox="0 0 32 32"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      role="presentation"
+      focusable="false"
+      style="
+        display: block;
+        fill: none;
+        height: 16px;
+        width: 16px;
+        stroke: currentcolor;
+        stroke-width: 3;
+        overflow: visible;
+      "
+    >
+      <g fill="none" fill-rule="nonzero">
+        <path d="m2 16h28"></path>
+        <path d="m2 24h28"></path>
+        <path d="m2 8h28"></path>
+      </g>
+    </svg>
+    <img
+      [src]="
+        authService.isAuthenticated
+          ? authService.currentUser?.profileImage
+          : 'https://a0.muscache.com/defaults/user_pic-50x50.png?v=3'
+      "
+      alt="User profile"
+      class="profile-image"
+    />
+  </button>
+
+  <div class="dropdown-menu" *ngIf="isMenuOpen">
+    <div class="menu-container">
+      <div *ngIf="!authService.isLoggedIn">
+        <a href="/login" class="menu-item">Log in</a>
+        <a href="/signup" class="menu-item">Sign up</a>
+        <div class="divider"></div>
+        <a href="/help" class="menu-item">Help</a>
+      </div>
+
+      <div *ngIf="authService.isLoggedIn">
+        <a href="/trips" class="menu-item">Trips</a>
+        <a href="/wishlists" class="menu-item">Wishlists</a>
+        <div class="divider"></div>
+        <a href="/account-settings" class="menu-item">Account</a>
+        <div class="divider"></div>
+        <a href="/help" class="menu-item">Help</a>
+        <a href="#" class="menu-item" (click)="logout($event)">Log out</a>
+      </div>
+    </div>
+  </div>
+</div>

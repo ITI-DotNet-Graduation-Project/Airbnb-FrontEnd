@@ -1,0 +1,97 @@
+.modal-backdrop {
+  opacity: 0.5;
+}
+
+.modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+.modal-header {
+  padding: 16px 24px;
+  position: relative;
+}
+
+.modal-header .btn-close {
+  position: absolute;
+  left: 16px;
+  margin: 0;
+}
+
+.modal-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-body h4 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222222;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+
+.form-control:focus {
+  border-color: #222222;
+  box-shadow: none;
+}
+
+.btn-danger {
+  background-color: #ff385c;
+  border-color: #ff385c;
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.btn-danger:hover {
+  background-color: #d93148;
+  border-color: #d93148;
+}
+
+.btn-outline-secondary {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 12px;
+  border-color: #dddddd;
+  color: #222222;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #f7f7f7;
+  color: #222222;
+  border-color: #dddddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-text {
+  font-size: 12px;
+  color: #717171;
+}
+
+.form-text a {
+  color: #222222;
+}
+
+.form-text a:hover {
+  color: #ff385c;
+}
+
+.modal-footer {
+  padding: 16px;
+}
+
+.modal-footer a {
+  color: #222222;
+}
+
+.modal-footer a:hover {
+  color: #ff385c;
+}

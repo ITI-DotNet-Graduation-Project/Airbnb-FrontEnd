@@ -1,0 +1,87 @@
+<div class="search-container">
+  <div class="search-collapsed" *ngIf="!isExpanded" (click)="expandSearch()">
+    <input type="text" placeholder="Where are you going?" readonly />
+    <button class="search-icon-button">
+      <svg
+        viewBox="0 0 32 32"
+        xmlns="http://www.w3.org/2000/svg"
+        style="
+          display: block;
+          fill: none;
+          height: 16px;
+          width: 16px;
+          stroke: white;
+          stroke-width: 4;
+          overflow: visible;
+        "
+        aria-hidden="true"
+        role="presentation"
+        focusable="false"
+      >
+        <path
+          fill="none"
+          d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"
+        ></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="search-expanded" *ngIf="isExpanded">
+    <div class="search-field">
+      <label>Location</label>
+      <input
+        type="text"
+        [(ngModel)]="location"
+        placeholder="Where are you going?"
+      />
+    </div>
+
+    <div class="search-field">
+      <label>Check in</label>
+      <input type="date" [(ngModel)]="checkInDate" placeholder="Add dates" />
+    </div>
+
+    <div class="search-field">
+      <label>Check out</label>
+      <input type="date" [(ngModel)]="checkOutDate" placeholder="Add dates" />
+    </div>
+
+    <div class="search-field">
+      <label>Guests</label>
+      <input
+        type="number"
+        [(ngModel)]="guestCount"
+        min="1"
+        placeholder="Add guests"
+      />
+    </div>
+
+    <div class="search-actions">
+      <button class="cancel-button" (click)="collapseSearch()">Cancel</button>
+      <button class="search-button" (click)="submitSearch()">
+        <svg
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+          style="
+            display: block;
+            fill: none;
+            height: 16px;
+            width: 16px;
+            stroke: white;
+            stroke-width: 4;
+            overflow: visible;
+          "
+          aria-hidden="true"
+          role="presentation"
+          focusable="false"
+        >
+          <path
+            fill="none"
+            d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9"
+          ></path>
+        </svg>
+        Search
+      </button>
+    </div>
+  </div>
+</div>

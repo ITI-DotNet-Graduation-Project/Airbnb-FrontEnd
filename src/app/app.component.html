@@ -1,0 +1,43 @@
+<div class="forIcon">
+  <app-ch (toggleChat)="toggleChat()"></app-ch>
+  
+
+  <p-toast></p-toast>
+  <div *ngIf="!isFullScreenRoute()">
+    <div class="container">
+      <app-header  ></app-header>
+      
+      <app-navbar></app-navbar>
+  
+      <!-- <app-chatbot *ngIf="isModalOpen" class="chat-modal"></app-chatbot> -->
+      <app-chatbot *ngIf="isChatOpen" class="chat-modal"></app-chatbot>
+      
+       
+  
+      <pre style="height: 10px" *ngIf="!isMobile"></pre>
+      <pre style="height: 70px" *ngIf="isMobile"></pre>
+      <div class="router-container">
+        <router-outlet>
+          
+        </router-outlet>
+      </div>
+      
+    </div>
+    
+    <app-footer *ngIf="!isMobile"></app-footer>
+    <app-mobile-footer *ngIf="isMobile"></app-mobile-footer>
+    
+   
+  </div>
+  
+  <div *ngIf="isFullScreenRoute()">
+    <router-outlet></router-outlet>
+  </div>
+  
+  
+  
+  
+  
+</div>
+
+

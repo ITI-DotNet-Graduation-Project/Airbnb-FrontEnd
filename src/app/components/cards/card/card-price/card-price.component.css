@@ -1,0 +1,17 @@
+.card-price {
+    padding: 0 12px 12px;
+    font-size: 13px;
+    color: #333;
+  }
+  
+   .num {
+    font-weight: bold;
+    font-size: 13px;
+    color: #333;
+  }
+  .num_of_nights
+  {
+    font-size: 15px;
+    color: #888;
+    cursor:auto;
+  }

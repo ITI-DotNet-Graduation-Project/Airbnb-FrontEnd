@@ -1,0 +1,67 @@
+<!-- 
+  <div *ngIf="isOpen" class="chat-modal">
+    <div class="chat-top">
+      <h1>Chat</h1>
+      
+      <button (click)="toggleModal()" class="close-button">
+        <i class="bi bi-x"></i>
+    </button>
+    
+    </div>
+    <div class="chat-modal-content">
+      <p>Welcome to our place! Let us know if you have any questions or need anything 🌟</p>
+      
+      <div class="chat-box" >
+         <input type="text" [(ngModel)]="userMessage" placeholder="Type your message..." (keydown.enter)="sendMessage()" />
+        <button (click)="sendMessage()">
+          <i class="bi bi-send-fill"></i>
+        </button>
+        
+      </div>
+    </div>
+  </div>
+
+  -->
+
+
+  <div *ngIf="isOpen" class="chat-modal">
+    <div class="chat-top">
+      <h1>Chat</h1>
+      <button (click)="toggleModal()" class="close-button">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+  
+    <div class="chat-modal-content">
+     
+  
+      <!-- <div class="chat-messages">
+        <div *ngFor="let msg of messages">
+          <div [ngClass]="msg.from === 'user' ? 'user-msg' : 'bot-msg'">
+            {{ msg.text }}
+          </div>
+        </div>
+      </div> -->
+      <div #chatMessages class="chat-messages">
+        <p class="welcome-msg">
+          Welcome to our place! Let us know if you have any questions or need anything 🌟
+        </p>
+        <div *ngFor="let msg of messages">
+          <div [ngClass]="msg.from === 'user' ? 'user-msg' : 'bot-msg'">
+            {{ msg.text }}
+          </div>
+        </div>
+      </div>
+  
+      <div class="chat-box">
+        <input
+          type="text"
+          [(ngModel)]="userMessage"
+          placeholder="Type your message..."
+          (keydown.enter)="sendMessage()" />
+        <button (click)="sendMessage()">
+          <i class="bi bi-send-fill"></i>
+        </button>
+      </div>
+    </div>
+  </div>

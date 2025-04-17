@@ -1,0 +1,46 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-navbar {
+  display: block;
+  margin-top: 100px;
+}
+.router-container {
+  overflow-y: auto;
+  position: relative;
+}
+
+/* .router-container {
+  overflow-y: auto;
+  max-height: 500px;
+} */
+.full-screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatbot-btn {
+  position: fixed;
+  z-index: 1000;
+  background-color: transparent;
+  color: white;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100px;
+  bottom: 5%;
+  right: 5%;
+}
+.chatbot-btn img
+{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}

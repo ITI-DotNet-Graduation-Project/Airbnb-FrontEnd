@@ -147,7 +147,6 @@ button:active {
   box-shadow: none;
 }
 
-/* Image upload styles */
 .profile-image-upload {
   display: flex;
   flex-direction: column;
@@ -210,14 +209,11 @@ button:active {
     width: 100%;
   }
 }
-/* Keep all your existing CSS styles, just ensure the selectors match the updated HTML */
 
-/* Add this if you want to display first and last name together in view mode */
 .profile-form:not(.editing) .profile-field:first-child span::after {
-  content: " "; /* Adds space between first and last name when displayed */
+  content: " ";
 }
 
-/* For better file input styling */
 .file-info {
   margin-top: 0.5rem;
   font-size: 0.85rem;

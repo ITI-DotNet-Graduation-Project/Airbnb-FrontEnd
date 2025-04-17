@@ -4,7 +4,6 @@ import { CardComponent } from './card/card.component';
 import { CardImageComponent } from './card-image/card-image.component';
 import { CardDetailsComponent } from './card-details/card-details.component';
 import { CardPriceComponent } from './card-price/card-price.component';
-import { DetailsModule } from './details/details.module';
 
 @NgModule({
   declarations: [

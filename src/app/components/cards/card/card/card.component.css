@@ -65,7 +65,7 @@
 .show-more-btn:hover {
   background-color: #444;
 }
-/* Card Container */
+
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -75,7 +75,6 @@
   margin: 0 auto;
 }
 
-/* Card Styling */
 .card {
   border-radius: 12px;
   overflow: hidden;
@@ -160,7 +159,6 @@
   border-top: 1px solid #ebebeb;
 }
 
-/* Explore Section */
 .explore-section {
   text-align: center;
   margin: 40px 0;
@@ -189,7 +187,6 @@
   background: #000;
 }
 
-/* Loading State */
 .loading-spinner {
   grid-column: 1 / -1;
   display: flex;
@@ -212,7 +209,6 @@
   }
 }
 
-/* Error State */
 .error-message {
   grid-column: 1 / -1;
   text-align: center;

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardService } from '../services/card.service';
+import { CardService } from '../../services/card.service';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
-import { BookingService } from '../services/booking.service';
+import { ImageGalleryComponent } from '../../image-gallery/image-gallery.component';
+import { BookingService } from '../../services/booking.service';
 import { FormsModule } from '@angular/forms';
-import { PropertyService } from '../services/property.service';
-import { ReviewService } from '../services/review.service';
-import { AuthService } from '../AuthService/auth-service.service';
+import { PropertyService } from '../../services/property.service';
+import { ReviewService } from '../../services/review.service';
+import { AuthService } from '../../AuthService/auth-service.service';
 import { forkJoin, switchMap } from 'rxjs';
 
 @Component({

@@ -1,17 +1,14 @@
 <div class="card-container">
-  <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-spinner">
     <div class="spinner"></div>
   </div>
 
-  <!-- Error State -->
   <div *ngIf="error" class="error-message">
     <i class="error-icon">⚠️</i>
     <p>{{ error }}</p>
     <button class="retry-btn" (click)="loadCards()">Retry</button>
   </div>
 
-  <!-- Cards -->
   <div class="card" *ngFor="let card of cards">
     <app-card-image [images]="card.propertyImages"></app-card-image>
 

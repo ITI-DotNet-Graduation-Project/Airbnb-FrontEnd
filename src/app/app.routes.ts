@@ -6,17 +6,13 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { EmailConfirmationComponent } from './auth/email-confirmation/email-confirmation.component';
-import { CardDetailsPageComponent } from './components/cards/card/details/card-details-page/card-details-page.component';
-import { PaymentModule } from './payment/payment.module';
-import { PaymentComponent } from './payment/payment.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { HostDashboardComponent } from './Host/host-dashboard/host-dashboard.component';
 import { AddPropertyComponent } from './Host/add-property/add-property.component';
 import { EditPropertyComponent } from './Host/edit-property/edit-property.component';
 import { ViewPropertyComponent } from './Host/view-property/view-property.component';
-import { BookingsComponent } from './Host/bookings/bookings.component';
 import { UserProfileComponent } from './auth/user/user.component';
-import { PropertyDetailsComponent } from './property-details/property-details.component';
+import { PropertyDetailsComponent } from './Host/property-details/property-details.component';
 import { BookingConfirmationComponent } from './booking-confirmation/booking-confirmation.component';
 
 export const routes: Routes = [
@@ -48,19 +44,19 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: UserProfileComponent,
+    canActivate: [authGuard],
   },
+
   {
-    path: 'card/:id',
-    component: CardDetailsPageComponent,
+    path: 'properties/:id',
+    component: PropertyDetailsComponent,
     canActivate: [authGuard],
   },
   {
-    path: 'payment/:id',
-    component: PaymentComponent,
+    path: 'booking-confirmation/:id',
+    component: BookingConfirmationComponent,
     canActivate: [authGuard],
   },
-  { path: 'properties/:id', component: PropertyDetailsComponent },
-  { path: 'booking-confirmation/:id', component: BookingConfirmationComponent },
   {
     path: 'host',
     canActivate: [authGuard],
@@ -69,7 +65,6 @@ export const routes: Routes = [
       { path: 'properties/add', component: AddPropertyComponent },
       { path: 'properties/edit/:id', component: EditPropertyComponent },
       { path: 'properties/view/:id', component: ViewPropertyComponent },
-      { path: 'bookings', component: BookingsComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

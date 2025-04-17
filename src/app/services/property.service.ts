@@ -15,9 +15,7 @@ export class PropertyService {
   getHostProperties() {
     const token = this.authService.getToken();
     console.log('my token' + token);
-    const headers = new HttpHeaders({
-      Authorization: `${token}`,
-    });
+    const headers = this.authService.getAuthHeaders();
 
     return this.http.get(`${this.apiUrl}/Property/host-properties`, {
       headers,

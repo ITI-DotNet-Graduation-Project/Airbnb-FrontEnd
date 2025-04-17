@@ -68,6 +68,7 @@ export class EditPropertyComponent implements OnInit {
   loadProperty(): void {
     this.propertyService.getPropertyById(this.propertyId).subscribe({
       next: (property) => {
+        console.log(property);
         if (property.availabilities && property.availabilities.length > 0) {
           this.availabilities = property.availabilities.map((avail) => ({
             ...avail,

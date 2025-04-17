@@ -6,13 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { ComponentsModule } from './components/components.module';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { CommonModule } from '@angular/common';
-import { PaymentModule } from './payment/payment.module';
 import { CardsComponent } from './components/cards/cards.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CardComponent } from './components/cards/card/card/card.component';
 import { CardModule } from './components/cards/card/card.module';
-import { DetailsModule } from './components/cards/card/details/details.module';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { HostDashboardComponent } from './Host/host-dashboard/host-dashboard.component';
@@ -28,11 +26,11 @@ import { UserProfileComponent } from './auth/user/user.component';
     AuthModule,
     ComponentsModule,
     SearchBarComponent,
-    PaymentModule,
+
     FooterComponent,
     CardModule,
     CommonModule,
-    DetailsModule,
+
     ToastModule,
     UserProfileComponent,
     HostDashboardComponent,

@@ -131,7 +131,6 @@ export class EditPropertyComponent implements OnInit {
       console.log('Files selected:', event.target.files);
       console.log('Number of files:', event.target.files.length);
 
-      // Log each file's details
       Array.from(event.target.files).forEach((file: File, index: number) => {
         console.log(`File ${index + 1}:`, {
           name: file.name,
@@ -175,7 +174,6 @@ export class EditPropertyComponent implements OnInit {
       this.updating = true;
       const formData = new FormData();
 
-      // Log form values before adding to FormData
       console.group('Form Values:');
       console.log('Title:', this.propertyForm.value.title);
       console.log('Description:', this.propertyForm.value.description);
@@ -187,7 +185,6 @@ export class EditPropertyComponent implements OnInit {
       console.log('MaxGuest:', this.propertyForm.value.maxGuest);
       console.groupEnd();
 
-      // Add form values to FormData
       formData.append('Id', this.propertyId);
       formData.append('Title', this.propertyForm.value.title);
       formData.append('Description', this.propertyForm.value.description);
@@ -201,7 +198,6 @@ export class EditPropertyComponent implements OnInit {
       formData.append('PropertyType', this.propertyForm.value.propertyType);
       formData.append('MaxGuest', this.propertyForm.value.maxGuest.toString());
 
-      // Log availabilities
       console.group('Availabilities:');
       console.log(this.availabilities);
       console.groupEnd();
@@ -210,12 +206,10 @@ export class EditPropertyComponent implements OnInit {
         JSON.stringify(this.availabilities)
       );
 
-      // Add user ID
       const userId = this.authService.getUserId();
       console.log('User ID:', userId);
       formData.append('UserId', userId);
 
-      // Debug file uploads
       const newImagesControl = this.propertyForm.get('newImages');
       console.group('File Upload Debug:');
       console.log('Has newImages control:', !!newImagesControl);
@@ -242,7 +236,6 @@ export class EditPropertyComponent implements OnInit {
       }
       console.groupEnd();
 
-      // Log final FormData before submission
       console.group('FormData Contents:');
       formData.forEach((value, key) => {
         console.log(`${key}:`, value);

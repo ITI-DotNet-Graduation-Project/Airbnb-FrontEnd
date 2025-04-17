@@ -50,7 +50,7 @@ export class UserProfileComponent implements OnInit {
   }
   getProfileImageUrl(): string {
     if (!this.user?.imageUrl) {
-      return 'assets/default-profile.png';
+      return 'assets/placeholder.png';
     }
 
     if (this.user.imageUrl.startsWith('http')) {

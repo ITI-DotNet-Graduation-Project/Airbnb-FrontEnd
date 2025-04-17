@@ -49,7 +49,7 @@ export class PropertyService {
     });
 
     return this.http
-      .delete<void>(
+      .delete(
         `${this.apiUrl}/PropertyImage/deleteImageFromProperty/${propertyId}/${ImageId}`,
         { headers }
       )
@@ -65,7 +65,8 @@ export class PropertyService {
         })
       );
   }
+
   deleteProperty(id: string) {
-    return this.http.delete<void>(`${this.apiUrl}/delete-property/${id}`);
+    return this.http.delete(`${this.apiUrl}/Property/delete-property/${id}`);
   }
 }

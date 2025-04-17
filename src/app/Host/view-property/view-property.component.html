@@ -1,7 +1,6 @@
 <div class="container py-4">
   <div class="row">
     <div class="col-lg-8">
-      <!-- Property Images Carousel -->
       <div
         class="card mb-4"
         *ngIf="property.propertyImages && property.propertyImages.length > 0"
@@ -54,7 +53,6 @@
         </div>
       </div>
 
-      <!-- Property Details Card -->
       <div class="card mb-4">
         <div class="card-header bg-white">
           <h2 class="mb-0">{{ property.title || "No title provided" }}</h2>
@@ -132,7 +130,6 @@
             </div>
           </div>
 
-          <!-- Amenities Section - Hidden if no amenities -->
           <div *ngIf="property.amenities && property.amenities.length > 0">
             <h4 class="mb-3">Amenities</h4>
             <div class="row g-3">
@@ -193,7 +190,6 @@
         </div>
       </ng-template>
 
-      <!-- Availability Section -->
       <div
         class="card mb-4"
         *ngIf="
@@ -247,7 +243,6 @@
       </ng-template>
     </div>
 
-    <!-- Booking Sidebar -->
     <div class="col-lg-4">
       <div class="card sticky-top" style="top: 20px">
         <div class="card-header bg-white">

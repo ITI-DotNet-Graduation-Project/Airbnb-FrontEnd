@@ -28,12 +28,11 @@ export class ViewPropertyComponent implements OnInit {
     this.loadProperty();
   }
   getImage(image: any): string {
-    // Check if image exists and has imageUrl property
     if (image && image.imageUrl) {
       return 'https://localhost:7042/images/properties/' + image.imageUrl;
     }
-    // Return a default image or empty string if image is invalid
-    return ''; // or return a path to a default image
+
+    return '';
   }
   loadProperty(): void {
     this.propertyService.getPropertyById(this.propertyId).subscribe({

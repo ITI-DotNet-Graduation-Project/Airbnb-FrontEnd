@@ -4,16 +4,13 @@
   min-height: 100vh;
 }
 
-app-navbar {
+.app-navbar {
   display: block;
   margin-top: 100px;
 }
-.router-container {
-  overflow-y: auto;
-  position: relative;
-}
 
 /* .router-container {
+  padding-bottom: 100px;
   overflow-y: auto;
   max-height: 500px;
 } */

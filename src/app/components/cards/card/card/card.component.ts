@@ -4,6 +4,7 @@ import { CardImageComponent } from '../card-image/card-image.component';
 import { CardPriceComponent } from '../card-price/card-price.component';
 import { CardService } from '../../../../services/card.service';
 import { Router } from '@angular/router';
+import { CategoryService } from '../../../../services/category.service';
 
 @Component({
   selector: 'app-card',
@@ -15,18 +16,26 @@ export class CardComponent {
   isLoading = true;
   error: string | null = null;
   currentPage = 1;
-
-  constructor(private cardService: CardService, private router: Router) {}
+  selectedCategoryId: number | null = null;
+  constructor(
+    private cardService: CardService,
+    private router: Router,
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit(): void {
-    this.loadCards();
+    this.categoryService.selectedCategoryId$.subscribe((id) => {
+      console.log('from card section', id);
+      this.selectedCategoryId = id;
+      this.loadCards(id);
+    });
   }
 
-  loadCards(): void {
+  loadCards(id: number): void {
     this.isLoading = true;
     this.error = null;
 
-    this.cardService.getCards().subscribe({
+    this.cardService.getCards(id).subscribe({
       next: (data) => {
         this.cards = data.map((card) => ({
           ...card,

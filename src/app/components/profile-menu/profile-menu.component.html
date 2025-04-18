@@ -24,8 +24,8 @@
     </svg>
     <img
       [src]="
-        authService.isAuthenticated
-          ? authService.currentUser?.profileImage
+        user?.imageUrl
+          ? displayImage()
           : 'https://a0.muscache.com/defaults/user_pic-50x50.png?v=3'
       "
       alt="User profile"
@@ -35,21 +35,23 @@
 
   <div class="dropdown-menu" *ngIf="isMenuOpen">
     <div class="menu-container">
-      <div *ngIf="!authService.isLoggedIn">
-        <a href="/login" class="menu-item">Log in</a>
-        <a href="/signup" class="menu-item">Sign up</a>
+      <div *ngIf="!authService.isAuthenticated()">
+        <a routerLink="/login" class="menu-item">Log in</a>
+        <a routerLink="/register" class="menu-item">Sign up</a>
+        <a routerLink="/wishlist" class="menu-item">Wishlists</a>
         <div class="divider"></div>
-        <a href="/help" class="menu-item">Help</a>
+        <a routerLink="/help" class="menu-item">Help</a>
       </div>
 
-      <div *ngIf="authService.isLoggedIn">
-        <a href="/trips" class="menu-item">Trips</a>
-        <a href="/wishlists" class="menu-item">Wishlists</a>
+      <div *ngIf="authService.isAuthenticated()">
+        <a routerLink="/wishlist" class="menu-item">Wishlists</a>
         <div class="divider"></div>
-        <a href="/account-settings" class="menu-item">Account</a>
+
         <div class="divider"></div>
-        <a href="/help" class="menu-item">Help</a>
-        <a href="#" class="menu-item" (click)="logout($event)">Log out</a>
+        <a routerLink="/login" class="menu-item" (click)="logout($event)"
+          >Log out</a
+        >
+        <a routerLink="/help" class="menu-item">Help</a>
       </div>
     </div>
   </div>

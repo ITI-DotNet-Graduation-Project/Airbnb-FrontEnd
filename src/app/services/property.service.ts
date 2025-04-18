@@ -22,6 +22,11 @@ export class PropertyService {
     });
   }
 
+  getPropertyByCategories(categoryId: string) {
+    return this.http.get<Property>(
+      `${this.apiUrl}/Property/ByCategory/${categoryId}`
+    );
+  }
   getPropertyById(id: string) {
     return this.http.get<Property>(
       `${this.apiUrl}/Property/get-one-property/${id}`

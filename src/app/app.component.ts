@@ -15,6 +15,10 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { HostDashboardComponent } from './Host/host-dashboard/host-dashboard.component';
 import { UserProfileComponent } from './auth/user/user.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { ChComponent } from './shared/ch/ch.component';
+import { CardDetailsComponent } from './components/cards/card/card-details/card-details.component';
+import { PropertyDetailsComponent } from './property-details/property-details.component';
 
 @Component({
   selector: 'app-root',
@@ -26,12 +30,13 @@ import { UserProfileComponent } from './auth/user/user.component';
     AuthModule,
     ComponentsModule,
     SearchBarComponent,
-
+    ChComponent,
     FooterComponent,
     CardModule,
     CommonModule,
-
+    ChatbotComponent,
     ToastModule,
+    PropertyDetailsComponent,
     UserProfileComponent,
     HostDashboardComponent,
   ],
@@ -52,7 +57,12 @@ export class AppComponent {
     this.isMobile = window.innerWidth <= 768;
   }
   scrollY: number = 0;
+  isChatOpen = false;
 
+  toggleChat() {
+    this.isChatOpen = !this.isChatOpen;
+    console.log(' from appComponent Chat toggled, now:', this.isChatOpen);
+  }
   @HostListener('window:scroll', [])
   onScroll() {
     this.scrollY = window.scrollY;
@@ -80,6 +90,8 @@ export class AppComponent {
       'profile',
       'properties',
       'booking-confirmation',
+      'wishlist',
+      'search-results',
     ];
 
     return fullScreenRoutes.some((route) => this.currentRoute.includes(route));

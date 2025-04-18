@@ -1,0 +1,48 @@
+<div class="wishlist-container">
+  <h2 class="wishlist-title">Your Wishlist</h2>
+
+  <div *ngIf="favoriteCards.length === 0" class="empty-wishlist">
+    <div class="empty-icon">❤️</div>
+    <p class="empty-message">Your wishlist is currently empty</p>
+    <p class="empty-subtext">
+      Start adding properties you love to see them here
+    </p>
+  </div>
+
+  <div class="wishlist-grid">
+    <div
+      *ngFor="let card of favoriteCards"
+      class="wishlist-card"
+      (click)="goToDetails(card.id)"
+    >
+      <div class="card-image">
+        <img
+          [src]="
+            'https://localhost:7042/images/properties/' +
+            card.propertyImages[0]?.imageUrl
+          "
+          alt="{{ card.title }}"
+          class="property-image"
+        />
+        <svg class="heart-icon" viewBox="0 0 32 32" aria-label="Favorite">
+          <path
+            fill="currentColor"
+            d="M23.6,4.6c-2.6,0-4.9,1.6-5.6,3.9C17.3,6.2,15,4.6,12.4,4.6C8.8,4.6,6,7.5,6,11.2c0,6.3,10.4,13.1,11.3,13.7 c0.2,0.1,0.4,0.2,0.7,0.2s0.5-0.1,0.7-0.2C21.6,24.3,32,17.5,32,11.2C32,7.5,29.2,4.6,25.6,4.6z"
+          />
+        </svg>
+      </div>
+
+      <div class="card-content">
+        <h3 class="property-title">{{ card.title }}</h3>
+        <p class="property-location">📍 {{ card.location }}</p>
+        <div class="card-details">
+          <span class="detail-item">🛏️ {{ card.bedrooms }} bedroom(s)</span>
+          <span class="detail-item">🚿 {{ card.bathrooms }} bathroom(s)</span>
+        </div>
+        <p class="price">
+          ${{ card.price | number }} <span class="price-period">/ night</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

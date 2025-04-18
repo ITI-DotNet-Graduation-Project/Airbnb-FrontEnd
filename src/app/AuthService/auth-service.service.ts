@@ -100,7 +100,9 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return !!this.getToken();
+    const token = this.getToken();
+    if (!token) return false;
+    return true;
   }
   logout() {
     localStorage.removeItem('currentUser');

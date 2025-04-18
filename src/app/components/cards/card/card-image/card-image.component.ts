@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FavoriteService } from '../../../../services/favorite.service';
 
 @Component({
   selector: 'app-card-image',
@@ -10,11 +11,20 @@ export class CardImageComponent implements OnInit {
   currentIndex: number = 0;
   currentImage: string = '';
   baseImageUrl = 'https://localhost:7042/images/properties/';
+  @Input() cardId!: number;
+  isLiked = false;
 
+  constructor(private favoriteService: FavoriteService) {}
+
+  toggleLike() {
+    this.isLiked = !this.isLiked;
+    this.favoriteService.setFavorite(this.cardId, this.isLiked);
+  }
   ngOnInit(): void {
     if (this.images && this.images.length > 0) {
       this.currentImage = this.getFullImageUrl(this.images[0]);
     }
+    this.isLiked = this.favoriteService.getFavorite(this.cardId);
   }
 
   private getImageUrl(image: any): string {

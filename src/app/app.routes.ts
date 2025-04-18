@@ -14,6 +14,8 @@ import { ViewPropertyComponent } from './Host/view-property/view-property.compon
 import { UserProfileComponent } from './auth/user/user.component';
 import { PropertyDetailsComponent } from './Host/property-details/property-details.component';
 import { BookingConfirmationComponent } from './booking-confirmation/booking-confirmation.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 export const routes: Routes = [
   {
@@ -44,7 +46,6 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: UserProfileComponent,
-    canActivate: [authGuard],
   },
 
   {
@@ -55,6 +56,17 @@ export const routes: Routes = [
   {
     path: 'booking-confirmation/:id',
     component: BookingConfirmationComponent,
+    canActivate: [authGuard],
+  },
+  { path: 'wishlist', component: WishlistComponent, canActivate: [authGuard] },
+  {
+    path: 'search-results',
+    component: SearchResultsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'properties/:id',
+    component: PropertyDetailsComponent,
     canActivate: [authGuard],
   },
   {

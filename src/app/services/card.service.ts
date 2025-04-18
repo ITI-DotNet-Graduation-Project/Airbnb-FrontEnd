@@ -12,8 +12,14 @@ export class CardService {
   getPropertyById(id: number) {
     return this.http.get<any>(`${this.apiUrl}/Property/get-one-property/${id}`);
   }
-  getCards() {
-    return this.http.get<any[]>(`${this.apiUrl}/Property`);
+
+  getCards(categoryId?: number) {
+    console.log(categoryId);
+    if (categoryId !== null && categoryId !== undefined) {
+      return this.http.get<any[]>(
+        `${this.apiUrl}/Property/ByCategory/${categoryId}`
+      );
+    } else return this.http.get<any[]>(`${this.apiUrl}/Property`);
   }
   getCardsPaginated(page: number = 1, limit: number = 8) {
     return this.http.get<any[]>(`${this.apiUrl}?page=${page}&limit=${limit}`);

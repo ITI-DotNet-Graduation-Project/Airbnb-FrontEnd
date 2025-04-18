@@ -1,0 +1,132 @@
+<div class="search-results-container">
+  <!-- Filters Sidebar -->
+  <div class="filters-sidebar">
+    <div class="filter-section">
+      <h3>Price range</h3>
+      <div class="price-slider">
+        <div class="slider-track">
+          <div
+            class="slider-range"
+            [style.left]="minPricePercent + '%'"
+            [style.width]="maxPricePercent - minPricePercent + '%'"
+          ></div>
+          <input
+            type="range"
+            min="0"
+            max="1000"
+            step="50"
+            [(ngModel)]="minPrice"
+            (input)="updatePriceFilter()"
+            class="slider-thumb min-thumb"
+          />
+          <input
+            type="range"
+            min="0"
+            max="1000"
+            step="50"
+            [(ngModel)]="maxPrice"
+            (input)="updatePriceFilter()"
+            class="slider-thumb max-thumb"
+          />
+        </div>
+        <div class="price-values">
+          <span>${{ minPrice }}</span>
+          <span>${{ maxPrice }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <h3>Bedrooms</h3>
+      <div class="bedroom-options">
+        <button
+          *ngFor="let opt of bedroomOptions"
+          [class.active]="selectedBedrooms === opt"
+          (click)="selectBedrooms(opt)"
+        >
+          {{ opt === 0 ? "Any" : opt === 5 ? "5+" : opt }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Grid -->
+  <div class="results-grid">
+    <div class="results-header">
+      <h2>{{ filteredProperties.length }} stays in {{ searchLocation }}</h2>
+      <select
+        [(ngModel)]="sortOption"
+        (change)="sortProperties()"
+        class="sort-select"
+      >
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+
+    <div class="property-cards">
+      <div
+        *ngFor="let property of displayedProperties"
+        class="property-card"
+        (click)="viewPropertyDetails(property.id)"
+      >
+        <div class="card-image">
+          <img
+            [src]="getPropertyImage(property)"
+            [alt]="property.title"
+            loading="lazy"
+          />
+          <button
+            class="wishlist-button"
+            (click)="toggleWishlist($event, property.id)"
+          >
+            <span class="heart-icon">{{
+              isInWishlist(property.id) ? "❤️" : "🤍"
+            }}</span>
+          </button>
+          <div *ngIf="property.averageRating" class="image-badge">
+            ★ {{ property.averageRating | number : "1.1-1" }}
+          </div>
+        </div>
+
+        <div class="card-details">
+          <h3>{{ property.title }}</h3>
+          <p class="location">📍 {{ property.location }}</p>
+          <div class="amenities">
+            <span
+              >🛏️ {{ property.bedrooms }} bedroom{{
+                property.bedrooms !== 1 ? "s" : ""
+              }}</span
+            >
+            <span
+              >🚿 {{ property.bathrooms }} bath{{
+                property.bathrooms !== 1 ? "s" : ""
+              }}</span
+            >
+          </div>
+          <p class="price">${{ property.price }} <span>night</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button
+        *ngFor="let page of pageNumbers"
+        [class.active]="currentPage === page"
+        (click)="goToPage(page)"
+      >
+        {{ page + 1 }}
+      </button>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredProperties.length === 0" class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <h3>No properties found</h3>
+      <p>Try adjusting your filters</p>
+      <button (click)="resetFilters()" class="reset-btn">Reset Filters</button>
+    </div>
+  </div>
+</div>

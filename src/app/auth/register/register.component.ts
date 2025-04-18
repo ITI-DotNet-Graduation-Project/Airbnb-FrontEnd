@@ -77,7 +77,7 @@ export class RegisterComponent {
           console.log(this.registerForm);
           this.isLoading = false;
           console.log(response);
-          setTimeout(() => {}, 10000);
+
           this.messageService.add({
             severity: 'success',
             summary: 'Registration successful',

@@ -20,14 +20,12 @@
   <div class="heart-wrapper">
     <svg
       class="heart-icon"
-      viewBox="0 0 32 32"
-      fill="none"
-      stroke="white"
-      stroke-width="2"
+      [attr.fill]="isLiked ? 'red' : 'rgba(0,0,0,0.5)'"
+      (click)="toggleLike(); $event.stopPropagation()"
     >
       <path
         d="M23.6,4.6c-2.6,0-4.9,1.6-5.6,3.9C17.3,6.2,15,4.6,12.4,4.6C8.8,4.6,6,7.5,6,11.2c0,6.3,10.4,13.1,11.3,13.7 c0.2,0.1,0.4,0.2,0.7,0.2s0.5-0.1,0.7-0.2C21.6,24.3,32,17.5,32,11.2C32,7.5,29.2,4.6,25.6,4.6z"
-        fill="rgba(0, 0, 0, 0.5)"
+        [attr.fill]="isLiked ? 'red' : 'rgba(0, 0, 0, 0.5)'"
       />
     </svg>
   </div>

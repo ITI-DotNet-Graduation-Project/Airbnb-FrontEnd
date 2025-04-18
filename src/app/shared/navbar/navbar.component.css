@@ -2,19 +2,16 @@
   box-sizing: border-box;
 }
 .navbar-container {
+  position: sticky; /* Stays at the top when scrolling */
+  top: 0; /* Stick to the very top */
   display: flex;
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid #ddd;
-  position: relative;
-  top: 60px;
-  left: 0;
-  right: 0;
   background-color: white;
-  z-index: 1000;
   width: 100%;
   padding: 10px 0;
-  overflow: hidden;
+  z-index: 0;
 }
 @media (max-width: 768px) {
   .navbar-container {

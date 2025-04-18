@@ -1,33 +1,36 @@
 <div class="gallery-container">
-  <div class="main-image">
-    <img [src]="currentImage" alt="Property image" />
-    <button
-      class="nav-btn prev"
-      (click)="prevImage()"
-      *ngIf="images.length > 1"
-    >
-      ‹
-    </button>
-    <button
-      class="nav-btn next"
-      (click)="nextImage()"
-      *ngIf="images.length > 1"
-    >
-      ›
-    </button>
+  <div class="main-image-container">
+    <img [src]="currentImage" alt="Property image" class="main-image" />
+    <div class="image-nav-buttons" *ngIf="images.length > 1">
+      <button class="nav-btn prev" (click)="prevImage()">
+        <svg viewBox="0 0 24 24">
+          <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" />
+        </svg>
+      </button>
+      <button class="nav-btn next" (click)="nextImage()">
+        <svg viewBox="0 0 24 24">
+          <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+        </svg>
+      </button>
+    </div>
+    <div class="image-counter" *ngIf="images.length > 1">
+      {{ currentIndex + 1 }} / {{ images.length }}
+    </div>
   </div>
 
-  <div class="thumbnail-container" *ngIf="images.length > 1">
-    <div
-      class="thumbnail"
-      *ngFor="let img of images; let i = index"
-      [class.active]="i === currentIndex"
-      (click)="selectImage(i)"
-    >
-      <img
-        [src]="'https://localhost:7042/images/properties/' + img.imageUrl"
-        alt="Thumbnail"
-      />
+  <div class="thumbnail-scroll-container" *ngIf="images.length > 1">
+    <div class="thumbnail-wrapper">
+      <div
+        class="thumbnail"
+        *ngFor="let img of images; let i = index"
+        [class.active]="i === currentIndex"
+        (click)="selectImage(i)"
+      >
+        <img
+          [src]="'https://localhost:7042/images/properties/' + img.imageUrl"
+          alt="Thumbnail"
+        />
+      </div>
     </div>
   </div>
 </div>

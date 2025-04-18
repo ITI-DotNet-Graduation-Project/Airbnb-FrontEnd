@@ -10,7 +10,10 @@
   </div>
 
   <div class="card" *ngFor="let card of cards">
-    <app-card-image [images]="card.propertyImages"></app-card-image>
+    <app-card-image
+      [images]="card.propertyImages"
+      [cardId]="card.id"
+    ></app-card-image>
 
     <div class="card-content" (click)="navigateToDetails(card.id)">
       <div class="card-header">
@@ -58,8 +61,8 @@
     </div>
   </div>
 </div>
-
+<!--
 <div class="explore-section">
   <p>Continue exploring {{ cards[0]?.categoryDescription || "properties" }}</p>
   <button class="show-more-btn" (click)="loadMore()">Show more</button>
-</div>
+</div> -->

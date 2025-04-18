@@ -6,18 +6,13 @@ import { CardDetailsComponent } from './card-details/card-details.component';
 import { CardPriceComponent } from './card-price/card-price.component';
 
 @NgModule({
-  declarations: [
+  declarations: [],
+  imports: [
+    CommonModule,
     CardComponent,
     CardImageComponent,
     CardDetailsComponent,
-    CardPriceComponent,
   ],
-  imports: [CommonModule],
-  exports: [
-    CardComponent,
-    CardImageComponent,
-    CardDetailsComponent,
-    CardPriceComponent,
-  ],
+  exports: [CardComponent, CardImageComponent, CardDetailsComponent],
 })
 export class CardModule {}

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { GlobalService } from '../../global.service';
 import { NavService } from '../../services/nav.service';
 import { PropertyCategory } from '../../models/category.models';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,13 +18,18 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private globalService: GlobalService,
-    private navService: NavService
+    private navService: NavService,
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
     this.getAll();
   }
-
+  selectCategory(categoryId: number) {
+    this.selectedCategoryId = categoryId;
+    console.log('from nav section', this.selectedCategoryId);
+    this.categoryService.changeCategory(categoryId); // نبعت الـ ID
+  }
   get margin(): number {
     return this.globalService.headerScrolled ? 20 : 60;
   }
@@ -45,10 +51,6 @@ export class NavbarComponent implements OnInit {
         }
       },
     });
-  }
-
-  selectCategory(id: number) {
-    this.selectedCategoryId = id;
   }
 
   scrollLeft() {

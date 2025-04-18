@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
+  private selectedCategoryIdSource = new BehaviorSubject<number | null>(null);
 
-  constructor() { }
+  selectedCategoryId$ = this.selectedCategoryIdSource.asObservable();
+
+  changeCategory(categoryId: number) {
+    this.selectedCategoryIdSource.next(categoryId);
+  }
 }

@@ -1,11 +1,17 @@
 <p-toast></p-toast>
 
 <div *ngIf="!isFullScreenRoute()">
+  <app-ch *ngIf="isChatOpen && !isMobile" (toggleChat)="toggleChat()"></app-ch>
   <div class="container">
     <app-header></app-header>
+    <pre style="height: 100px"></pre>
     <app-navbar></app-navbar>
-    <pre style="height: 10px" *ngIf="!isMobile"></pre>
-    <pre style="height: 70px" *ngIf="isMobile"></pre>
+    <app-chatbot
+      *ngIf="isChatOpen && !isMobile"
+      class="chat-modal"
+    ></app-chatbot>
+
+    <pre style="height: 40px" *ngIf="isMobile"></pre>
     <div class="router-container">
       <router-outlet></router-outlet>
     </div>
@@ -17,5 +23,3 @@
 <div *ngIf="isFullScreenRoute()">
   <router-outlet></router-outlet>
 </div>
-<!-- <app-user></app-user> -->
-<!-- <app-host-dashboard></app-host-dashboard> -->

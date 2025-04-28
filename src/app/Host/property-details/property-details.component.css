@@ -1,6 +1,7 @@
 .property-details-container {
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 90px;
   padding: 20px;
 }
 
@@ -876,4 +877,12 @@ textarea {
 
 .add-review-btn:hover {
   background: #45a049;
+}
+.day-cell.past {
+  background-color: #f0f0f0;
+  color: #999;
+}
+
+.legend-color.past {
+  background-color: #f0f0f0;
 }

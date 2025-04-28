@@ -45,7 +45,7 @@
 
       <div *ngIf="authService.isAuthenticated()">
         <a routerLink="/wishlist" class="menu-item">Wishlists</a>
-        <div class="divider"></div>
+        <a routerLink="/profile" class="menu-item">profile</a>
 
         <div class="divider"></div>
         <a routerLink="/login" class="menu-item" (click)="logout($event)"

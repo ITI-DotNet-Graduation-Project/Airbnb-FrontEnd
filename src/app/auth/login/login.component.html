@@ -84,12 +84,6 @@
                 >
                   Password is required
                 </div>
-                <div
-                  class="invalid-feedback"
-                  *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['minlength']"
-                >
-                  Password must be at least 8 characters
-                </div>
               </div>
             </div>
             <div class="mb-3 text-end">
@@ -101,7 +95,7 @@
             <button
               type="submit"
               class="btn btn-danger w-100 py-3 mb-3"
-              [disabled]="loginForm.invalid"
+              [disabled]="loginForm.invalid || isLoading"
             >
               Continue
             </button>

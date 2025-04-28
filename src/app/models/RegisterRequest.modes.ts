@@ -7,7 +7,7 @@ export interface RegisterRequest {
 }
 
 export interface LoginResponse {
-  taken: string;
+  token: string;
   refreshToken: string;
   role: string;
 }

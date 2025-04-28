@@ -6,10 +6,12 @@
   <div *ngIf="error" class="error-message">
     <i class="error-icon">⚠️</i>
     <p>{{ error }}</p>
-    <button class="retry-btn" (click)="loadCards()">Retry</button>
+    <button class="retry-btn" (click)="loadCards(selectedCategoryId!)">
+      Retry
+    </button>
   </div>
 
-  <div class="card" *ngFor="let card of cards">
+  <div class="card" *ngFor="let card of visibleCards">
     <app-card-image
       [images]="card.propertyImages"
       [cardId]="card.id"
@@ -61,8 +63,10 @@
     </div>
   </div>
 </div>
-<!--
-<div class="explore-section">
-  <p>Continue exploring {{ cards[0]?.categoryDescription || "properties" }}</p>
+
+<div class="explore-section" *ngIf="hasMoreCards()">
+  <p>
+    Continue exploring {{ allCards[0]?.categoryDescription || "properties" }}
+  </p>
   <button class="show-more-btn" (click)="loadMore()">Show more</button>
-</div> -->
+</div>

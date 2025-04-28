@@ -76,7 +76,6 @@ export class AddPropertyComponent implements OnInit {
       bathrooms: ['', [Validators.required, Validators.min(1)]],
       maxGuest: ['', [Validators.required, Validators.min(1)]],
       propertyType: ['', Validators.required],
-      amenities: [[]],
       images: [[], Validators.required],
       availabilities: this.fb.array([], Validators.required),
     });
@@ -86,7 +85,7 @@ export class AddPropertyComponent implements OnInit {
 
   ngOnInit() {
     this.options.getAll().subscribe({
-      next: (categories: any[]) => {
+      next: (categories: any) => {
         this.optionsTypes = categories;
       },
       error: (err) => {
@@ -117,17 +116,18 @@ export class AddPropertyComponent implements OnInit {
     });
   }
 
-  removeAvailability(index: number): void {
+  removeAvailability(index: number) {
     this.availabilities.removeAt(index);
   }
 
-  onFileChange(event: any): void {
+  onFileChange(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       const files = Array.from(event.target.files);
       this.propertyForm.patchValue({ images: files });
 
       this.previewImages = [];
-      files.forEach((file: File, index: number) => {
+
+      files.forEach((file: any, index: number) => {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           this.previewImages.push({
@@ -140,7 +140,7 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
-  removeImage(index: number): void {
+  removeImage(index: number) {
     const currentImages = this.propertyForm.get('images')?.value;
     if (currentImages && currentImages.length > index) {
       const newImages = [...currentImages];
@@ -152,7 +152,7 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  onSubmit() {
     this.error = null;
 
     this.propertyForm.markAllAsTouched();

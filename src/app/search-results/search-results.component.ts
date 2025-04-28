@@ -1,13 +1,14 @@
-// search-results.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DefaultNavComponent } from '../default-nav/default-nav.component';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-search-results',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DefaultNavComponent],
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.css'],
 })
@@ -27,27 +28,44 @@ export class SearchResultsComponent implements OnInit {
   bedroomOptions = [0, 1, 2, 3, 4, 5];
   isLoading = true;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private searchService: SearchService
+  ) {}
 
   ngOnInit() {
-    this.loadSearchResults();
+    this.route.queryParams.subscribe((params) => {
+      this.searchLocation = params['location'] || '';
+      this.performSearch(params);
+    });
   }
 
-  loadSearchResults() {
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state || history.state;
+  performSearch(params: any) {
+    this.isLoading = true;
 
-    if (state && state.results) {
-      console.log('Received search results:', state.results);
-      this.allProperties = Array.isArray(state.results) ? state.results : [];
-      this.searchLocation = state.searchParams?.location || '';
-      this.filterProperties();
-    } else {
-      console.warn('No search results found in navigation state');
-      // Optionally, you could redirect back to home or show an error message
-      // this.router.navigate(['/']);
-    }
-    this.isLoading = false;
+    const searchData = {
+      location: params['location'],
+      checkInDate: params['checkInDate'],
+      checkOutDate: params['checkOutDate'],
+      guestCount: params['guestCount'] || 1,
+    };
+
+    this.searchService.searchProperties(searchData).subscribe({
+      next: (results) => {
+        this.allProperties = this.formatResults(results);
+        this.filterProperties();
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Search failed:', err);
+        this.isLoading = false;
+      },
+    });
+  }
+
+  formatResults(results: any): any[] {
+    return Array.isArray(results) ? results : [];
   }
 
   updatePriceFilter() {
@@ -136,7 +154,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   viewPropertyDetails(id: number) {
-    this.router.navigate(['/property', id]);
+    this.router.navigate(['/properties', id]);
   }
 
   resetFilters() {

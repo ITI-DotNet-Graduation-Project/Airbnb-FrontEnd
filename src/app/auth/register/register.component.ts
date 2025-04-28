@@ -40,8 +40,6 @@ export class RegisterComponent {
       }),
       password: new FormControl('', {
         validators: [
-          Validators.required,
-          Validators.minLength(8),
           Validators.pattern(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
           ),
@@ -63,20 +61,18 @@ export class RegisterComponent {
       return;
     }
     this.isLoading = true;
-
+    console.log(this.registerForm.value);
     this.authService
       .register({
         email: this.registerForm.value.email,
-        password: this.registerForm.value.password,
+        password: this.registerForm.controls.password.value,
         firstName: this.registerForm.value.firstName,
         lastName: this.registerForm.value.lastName,
         role: this.registerForm.value.role,
       })
       .subscribe({
         next: (response) => {
-          console.log(this.registerForm);
           this.isLoading = false;
-          console.log(response);
 
           this.messageService.add({
             severity: 'success',
@@ -84,21 +80,29 @@ export class RegisterComponent {
             detail:
               "'Registration successful! Please check your email to verify your account.'",
           });
-          localStorage.setItem('email', this.registerForm.value.email);
 
           this.isModalVisible = false;
           setTimeout(() => {
-            this.router.navigate(['confirm-email']);
+            this.router.navigate(['confirm-email'], {
+              queryParams: { email: this.registerForm.controls.email.value },
+            });
           }, 3000);
         },
         error: (error) => {
-          console.log(error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'error occurred',
-            detail:
-              error.error?.message || 'An error occurred during registration',
-          });
+          if (error.status == 409) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Dublicate Email!!',
+              detail: error.error?.message || 'Email Exist Already',
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'error occurred',
+              detail:
+                error.error?.message || 'An error occurred during registration',
+            });
+          }
           this.isLoading = false;
         },
       });

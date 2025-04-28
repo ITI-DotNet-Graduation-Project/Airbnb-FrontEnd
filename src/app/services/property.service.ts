@@ -12,16 +12,17 @@ export class PropertyService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getHostProperties() {
-    const token = this.authService.getToken();
-    console.log('my token' + token);
+  getHostProperties(): Observable<Property[]> {
     const headers = this.authService.getAuthHeaders();
 
-    return this.http.get(`${this.apiUrl}/Property/host-properties`, {
-      headers,
-    });
+    return this.http.get<Property[]>(
+      `${this.apiUrl}/Property/host-properties`,
+      {
+        headers,
+      }
+    );
   }
-
+  getPropertiesByIds() {}
   getPropertyByCategories(categoryId: string) {
     return this.http.get<Property>(
       `${this.apiUrl}/Property/ByCategory/${categoryId}`
@@ -48,7 +49,7 @@ export class PropertyService {
   }
   deletePropertyImage(propertyId: string, ImageId: string) {
     const headers = new HttpHeaders({
-      Authorization: `${this.authService.getToken()}`,
+      Authorization: `${this.authService.getAuthHeaders()}`,
     });
 
     return this.http
@@ -68,7 +69,11 @@ export class PropertyService {
         })
       );
   }
-
+  getPropertyAvailability(id: number) {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/Property/getAvailabilityForPropertty?id=${id}`
+    );
+  }
   deleteProperty(id: string) {
     return this.http.delete(`${this.apiUrl}/Property/delete-property/${id}`);
   }

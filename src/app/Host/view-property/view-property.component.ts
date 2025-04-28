@@ -3,11 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyService } from '../../services/property.service';
 import { Property } from '../../models/property.model';
 import { CommonModule } from '@angular/common';
+import { HeaderHostComponent } from '../HostHeader/hostHeader.component';
 
 @Component({
   selector: 'app-view-property',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderHostComponent, HeaderHostComponent],
   templateUrl: './view-property.component.html',
   styleUrls: ['./view-property.component.css'],
 })

@@ -12,11 +12,17 @@ import { CommonModule } from '@angular/common';
 import { CategoryService } from '../../services/category.service';
 import { NavService } from '../../services/nav.service';
 import { AuthService } from '../../AuthService/auth-service.service';
+import { HeaderHostComponent } from '../HostHeader/hostHeader.component';
 
 @Component({
   selector: 'app-edit-property',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HeaderHostComponent,
+  ],
   templateUrl: './edit-property.component.html',
   styleUrls: ['./edit-property.component.css'],
 })
@@ -100,7 +106,6 @@ export class EditPropertyComponent implements OnInit {
     });
   }
 
-  // Helper to format dates for input[type="date"]
   private formatDateForInput(dateString: string): string {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0];
@@ -132,7 +137,7 @@ export class EditPropertyComponent implements OnInit {
       console.log('Files selected:', event.target.files);
       console.log('Number of files:', event.target.files.length);
 
-      Array.from(event.target.files).forEach((file: File, index: number) => {
+      Array.from(event.target.files).forEach((file: any, index: any) => {
         console.log(`File ${index + 1}:`, {
           name: file.name,
           size: file.size,
@@ -140,7 +145,6 @@ export class EditPropertyComponent implements OnInit {
           lastModified: new Date(file.lastModified),
         });
       });
-
       this.propertyForm.addControl(
         'newImages',
         this.fb.control(event.target.files)

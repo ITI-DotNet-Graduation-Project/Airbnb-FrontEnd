@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../AuthService/auth-service.service';
 
 @Component({
@@ -11,20 +11,20 @@ import { AuthService } from '../../AuthService/auth-service.service';
   styleUrl: './email-confirmation.component.css',
 })
 export class EmailConfirmationComponent {
-  email: string = localStorage.getItem('email');
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+  email: string = 'example@gmail.com';
   isResending: boolean = false;
   cooldown: number = 0;
 
   notificationState: 'hidden' | 'loading' | 'success' | 'error' = 'hidden';
   notificationMessage: string = '';
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
   ngOnInit() {
+    this.email = this.route.snapshot.queryParamMap.get('email')!;
     const userId = this.route.snapshot.queryParamMap.get('userId');
     const token = this.route.snapshot.queryParamMap.get('code');
 
@@ -43,7 +43,7 @@ export class EmailConfirmationComponent {
     this.notificationState = 'loading';
     this.notificationMessage = 'Verifying your email...';
 
-    this.authService.verifyEmail(userId, token).subscribe({
+    this.authService.verifyEmail(userId!, token).subscribe({
       next: () => {
         this.notificationState = 'success';
         this.notificationMessage =

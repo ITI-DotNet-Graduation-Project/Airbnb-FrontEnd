@@ -21,7 +21,7 @@ export class BookingConfirmationComponent {
 
   ngOnInit(): void {
     const bookingId = this.route.snapshot.paramMap.get('id');
-    this.loadBooking(bookingId);
+    this.loadBooking(bookingId!);
   }
 
   loadBooking(id: string): void {

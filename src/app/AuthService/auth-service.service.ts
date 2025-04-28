@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/User.models';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LoginResponse } from '../models/RegisterRequest.modes';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +12,11 @@ export class AuthService {
   currentUser: any = null;
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string) {
-    return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
-      tap((response) => {
-        console.log(response);
-        localStorage.setItem('currentUser', JSON.stringify(response));
-      })
-    );
+  login(email: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, {
+      email,
+      password,
+    });
   }
 
   getUserId() {
@@ -49,36 +48,50 @@ export class AuthService {
   }
 
   updateProfile(userId: number, formData: FormData): Observable<User> {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     return this.http
       .put<User>(`https://localhost:7042/api/Users/profile`, formData)
       .pipe(
         tap((updatedUser) => {
-          localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-        }),
-        catchError((error) => {
-          console.error('Error updating profile', error);
-          throw error;
+          currentUser.firstName = updatedUser.firstName;
+          currentUser.lastName = updatedUser.lastName;
+          currentUser.email = updatedUser.email;
+          currentUser.imageUrl = updatedUser.imageUrl;
         })
       );
   }
-  getToken(): string {
+  isAuthenticated(): boolean {
+    const token = this.getToken();
+
+    if (!token || typeof token !== 'string' || token.trim().length === 0) {
+      return false;
+    }
+
+    return true;
+  }
+  getCurrentUserId() {
+    const user = localStorage.getItem('currentUser');
+    if (user) {
+      return JSON.parse(user).id;
+    }
+    return null;
+  }
+  getToken(): string | null {
     try {
       const currentUserStr = localStorage.getItem('currentUser');
-      if (currentUserStr) {
-        const currentUser = JSON.parse(currentUserStr);
-        if (currentUser?.taken) {
-          return currentUser.taken;
-        }
-      }
+      console.log(currentUserStr);
+      if (!currentUserStr) return null;
+      const currentUser = JSON.parse(currentUserStr);
+      return currentUser.token;
     } catch (error) {
       console.error('Error retrieving token:', error);
-      return '';
+      return null;
     }
   }
 
   getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
-    console.log(token);
+    console.log('===>', token);
     return new HttpHeaders({
       Authorization: `${token}`,
     });
@@ -99,16 +112,45 @@ export class AuthService {
     });
   }
 
-  isAuthenticated() {
-    const token = this.getToken();
-    if (!token) return false;
-    return true;
-  }
   logout() {
-    localStorage.removeItem('currentUser');
+    const yourUser = localStorage.getItem('currentUser');
+    let token = '',
+      refreshtoken = '';
+    if (yourUser) {
+      token = JSON.parse(yourUser).token;
+      refreshtoken = JSON.parse(yourUser).refreshToken;
+    }
+    console.log(token, refreshtoken);
+    localStorage.clear();
+    return this.revokeToken(token, refreshtoken);
+  }
+  revokeToken(token, refreshtoken) {
+    return this.http.post(`${this.apiUrl}/revoke-refresh-token`, {
+      token,
+      refreshtoken,
+    });
+  }
+  getRole() {
+    const current = localStorage.getItem('currentUser');
+    let role = '';
+    if (current) {
+      role = JSON.parse(current).role;
+    }
+    return role;
+  }
+  isHost() {
+    return this.getRole() == 'Host';
+  }
+  isGuest() {
+    return this.getRole() == 'Guest';
   }
   forgotPassword(email: string) {
     return this.http.post(`${this.apiUrl}/forget-password`, { email });
+  }
+  startAutoLogout(expireInSeconds: number) {
+    setTimeout(() => {
+      this.logout();
+    }, expireInSeconds * 1000);
   }
 
   resetPassword(email: string, code: string, newPassword: string) {

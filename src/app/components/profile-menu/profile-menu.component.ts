@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  OnDestroy,
+  Input,
+} from '@angular/core';
 import { AuthService } from '../../AuthService/auth-service.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
@@ -8,15 +14,23 @@ import { Subscription, take } from 'rxjs';
 @Component({
   selector: 'app-profile-menu',
   standalone: true,
-  imports: [CommonModule, RouterLink], // Only include RouterLink if you'll use it
+  imports: [CommonModule, RouterLink],
   templateUrl: './profile-menu.component.html',
   styleUrl: './profile-menu.component.css',
 })
 export class ProfileMenuComponent implements OnInit, OnDestroy {
   isMenuOpen = false;
-  user: User | null = null;
+  user: User = {
+    email: '',
+    firstName: '',
+    id: '',
+    imageUrl: '',
+    lastName: '',
+    role: '',
+  };
+
   private userSub: Subscription | null = null;
-  userLoaded = false; // Prevent redundant calls
+  userLoaded = false;
 
   constructor(public authService: AuthService, private router: Router) {}
 
@@ -28,18 +42,15 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
 
   getImage() {
     this.userLoaded = true;
-    this.userSub = this.authService
-      .getCurrentUser()
-      .pipe(take(1))
-      .subscribe({
-        next: (res) => {
-          this.user = { ...this.user, imageUrl: res.imageUrl };
-        },
-        error: (err) => {
-          console.log(err);
-          this.userLoaded = false;
-        },
-      });
+    this.userSub = this.authService.getCurrentUser().subscribe({
+      next: (res: User) => {
+        this.user = { ...this.user, imageUrl: res.imageUrl };
+      },
+      error: (err) => {
+        console.log(err);
+        this.userLoaded = false;
+      },
+    });
   }
 
   get userImageUrl(): string {
@@ -57,7 +68,7 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
     event.preventDefault();
     this.authService.logout();
     this.isMenuOpen = false;
-    this.user = null;
+
     this.router.navigate(['/login']);
   }
 

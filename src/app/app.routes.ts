@@ -16,19 +16,27 @@ import { PropertyDetailsComponent } from './Host/property-details/property-detai
 import { BookingConfirmationComponent } from './booking-confirmation/booking-confirmation.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { BookedPropertiesComponent } from './Host/booked-properties/booked-properties.component';
+import { AvailablePropertiesComponent } from './Host/available-properties/available-properties.component';
+import { noAuthGuard } from './AuthGuard/no-auth-service.guard';
+import { roleGuard } from './AuthGuard/role-based.guard';
+import { BookedPropertiesUserComponent } from './booked-properties/booked-properties.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: CardComponent,
+    canActivate: [roleGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [noAuthGuard],
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [noAuthGuard],
   },
   {
     path: 'reset-password',
@@ -46,6 +54,7 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: UserProfileComponent,
+    canActivate: [authGuard],
   },
 
   {
@@ -70,13 +79,27 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'host',
+    path: 'my-bookings',
+    component: BookedPropertiesUserComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'host',
+    canActivate: [authGuard, roleGuard],
+
     children: [
       { path: 'dashboard', component: HostDashboardComponent },
       { path: 'properties/add', component: AddPropertyComponent },
       { path: 'properties/edit/:id', component: EditPropertyComponent },
       { path: 'properties/view/:id', component: ViewPropertyComponent },
+      {
+        path: 'BookedPropeties/view',
+        component: BookedPropertiesComponent,
+      },
+      {
+        path: 'AvailablePropeties/view',
+        component: AvailablePropertiesComponent,
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

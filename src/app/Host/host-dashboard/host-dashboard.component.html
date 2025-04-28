@@ -1,14 +1,8 @@
 <div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="mb-0">Host Dashboard</h1>
-    <button class="btn btn-primary" (click)="goToProfile()">
-      <i class="bi bi-person-circle me-2"></i>View Profile
-    </button>
-  </div>
-
+  <app-host-header></app-host-header>
   <div class="row mb-4">
-    <div class="col-md-3 mb-3 mb-md-0">
-      <div class="card stat-card h-100">
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div class="card stat-card h-100 clickable">
         <div class="card-body text-center">
           <i class="bi bi-building fs-1 text-primary mb-3"></i>
           <h3 class="card-title">Total Properties</h3>
@@ -17,8 +11,11 @@
       </div>
     </div>
 
-    <div class="col-md-3 mb-3 mb-md-0">
-      <div class="card stat-card h-100">
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div
+        class="card stat-card h-100 clickable"
+        (click)="navigateToavailableProperties()"
+      >
         <div class="card-body text-center">
           <i class="bi bi-check-circle fs-1 text-success mb-3"></i>
           <h3 class="card-title">Available Today</h3>
@@ -27,32 +24,15 @@
       </div>
     </div>
 
-    <div class="col-md-3 mb-3 mb-md-0">
-      <div class="card stat-card h-100">
+    <div class="col-md-4 mb-3 mb-md-0">
+      <div
+        class="card stat-card h-100 clickable"
+        (click)="navigateToBookedProperties()"
+      >
         <div class="card-body text-center">
           <i class="bi bi-calendar-check fs-1 text-danger mb-3"></i>
           <h3 class="card-title">Booked Today</h3>
           <p class="display-5 fw-bold">{{ bookedToday }}</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="card stat-card h-100">
-        <div class="card-body text-center">
-          <i class="bi bi-star-fill fs-1 text-warning mb-3"></i>
-          <h3 class="card-title">Average Rating</h3>
-          <p class="display-5 fw-bold">
-            {{
-              averageRating !== null
-                ? (averageRating | number : "1.1-1")
-                : "N/A"
-            }}
-            <i
-              class="bi bi-star-fill text-warning"
-              *ngIf="averageRating !== null"
-            ></i>
-          </p>
         </div>
       </div>
     </div>

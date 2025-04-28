@@ -1,12 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../AuthService/auth-service.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HeaderHostComponent } from '../../Host/HostHeader/hostHeader.component';
+import { ProfileMenuComponent } from '../../components/profile-menu/profile-menu.component';
+import { DefaultNavComponent } from '../../default-nav/default-nav.component';
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HeaderHostComponent,
+    ProfileMenuComponent,
+    DefaultNavComponent,
+  ],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
@@ -23,24 +32,22 @@ export class UserProfileComponent implements OnInit {
     imageUrl: '',
   };
 
-  constructor(private userService: AuthService) {}
+  constructor(public userService: AuthService) {}
 
   ngOnInit(): void {
     this.loadUserProfile();
+    console.log(this.user.imageUrl);
   }
 
   loadUserProfile(): void {
     this.userService.getCurrentUser().subscribe({
       next: (user) => {
-        console.log(user);
         this.user = {
           id: +user.id,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
-          imageUrl:
-            user.imageUrl ||
-            'https://up.yimg.com/ib/th?id=OIP.HEWgRK0i4hPph2iGEVDVjQHaHa&pid=Api&rs=1&c=1&qlt=95&w=122&h=122',
+          imageUrl: user.imageUrl || '',
         };
       },
       error: (err) => {
@@ -50,7 +57,7 @@ export class UserProfileComponent implements OnInit {
   }
   getProfileImageUrl(): string {
     if (!this.user?.imageUrl) {
-      return 'assets/placeholder.png';
+      return 'https://up.yimg.com/ib/th?id=OIP.HEWgRK0i4hPph2iGEVDVjQHaHa&pid=Api&rs=1&c=1&qlt=95&w=122&h=122';
     }
 
     if (this.user.imageUrl.startsWith('http')) {
@@ -91,9 +98,12 @@ export class UserProfileComponent implements OnInit {
     if (this.selectedFile) {
       formData.append('ProfileImage', this.selectedFile);
     }
-
+    formData.forEach((el) => {
+      console.log(el);
+    });
     this.userService.updateProfile(this.user.id, formData).subscribe({
       next: (updatedUser) => {
+        console.log(updatedUser);
         this.user = {
           ...this.user,
           firstName: updatedUser.firstName,
@@ -105,6 +115,7 @@ export class UserProfileComponent implements OnInit {
         this.selectedFile = null;
       },
       error: (err) => {
+        console.log(err);
         console.error('Failed to update profile', err);
       },
       complete: () => {

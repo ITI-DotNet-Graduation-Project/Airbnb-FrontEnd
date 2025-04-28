@@ -1,0 +1,54 @@
+<app-default-nav></app-default-nav>
+<div class="container">
+  <h2>Properties You've Booked</h2>
+
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading your properties...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage">
+    <div *ngIf="bookedProperties.length === 0" class="no-bookings">
+      <p>You haven't booked any properties yet.</p>
+      <a routerLink="/" class="btn btn-primary"> Browse Properties </a>
+    </div>
+
+    <div class="properties-grid">
+      <div *ngFor="let property of bookedProperties" class="property-card">
+        <img
+          [src]="property.propertyImages?.[0]?.imageUrl
+         ? 'https://localhost:7042/images/properties/' + property.propertyImages[0].imageUrl
+         : 'assets/default-property.jpg'"
+          alt="{{ property.name || 'Property' }} image"
+          class="property-image"
+          (error)="handleImageError($event)"
+        />
+        <div class="property-content">
+          <h3>{{ property.name }}</h3>
+          <p class="price">{{ property.price | currency }} per night</p>
+          <p class="location">
+            <span class="icon">📍</span>
+            {{ property.location }}
+          </p>
+          <div class="features">
+            <span>🛏️ {{ property.bedrooms }} beds</span>
+            <span>🚿 {{ property.bathrooms }} baths</span>
+          </div>
+        </div>
+
+        <div class="property-actions">
+          <a
+            [routerLink]="['/properties', property.id]"
+            class="btn btn-primary"
+          >
+            View Property
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

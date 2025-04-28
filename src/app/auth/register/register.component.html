@@ -1,14 +1,14 @@
 <app-loading
   [isLoading]="isLoading"
-  message="Loading data..."
+  message="Loading..."
   [fullscreen]="true"
 ></app-loading>
 
 <div class="modal-backdrop show" *ngIf="isModalVisible"></div>
 <div class="modal d-block" *ngIf="isModalVisible" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header border-bottom">
+      <div class="modal-header">
         <button
           type="button"
           class="btn-close"
@@ -37,6 +37,7 @@
                       registerForm.get('firstName')?.invalid
                   }"
                 />
+
                 <label for="firstNameInput">First name</label>
                 <div
                   class="invalid-feedback"
@@ -102,7 +103,7 @@
           </div>
 
           <div class="mb-3">
-            <div class="form-floating position-relative">
+            <div class="form-floating">
               <input
                 [type]="isPasswordVisible ? 'text' : 'password'"
                 class="form-control"
@@ -128,24 +129,16 @@
                 ></i>
               </button>
             </div>
+
             <div
-              class="invalid-feedback"
-              *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']"
-            >
-              Password is required
-            </div>
-            <div
-              class="invalid-feedback"
-              *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['minlength']"
-            >
-              Password must be at least 8 characters
-            </div>
-            <div
-              class="invalid-feedback"
-              *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['pattern']"
+              class="text-danger"
+              *ngIf="
+                registerForm.get('password')?.touched &&
+                registerForm.get('password')?.errors
+              "
             >
               Must include: uppercase, lowercase, number, and special character
-              ($!%*?&)
+              ($!%*?&) and must be at least 8 characters
             </div>
           </div>
           <div class="mb-4">
@@ -185,7 +178,7 @@
               </div>
             </div>
             <div
-              class="invalid-feedback d-block"
+              class="d-block"
               *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.errors?.['required']"
             >
               Please select a role

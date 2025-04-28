@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../AuthService/auth-service.service';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { MessageService } from 'primeng/api';
@@ -44,12 +44,12 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    if (this.isLoading) return;
     if (this.loginForm.invalid) return;
     const { email, password } = this.loginForm.value;
-
+    this.isLoading = true;
     this.authService.login(email, password).subscribe({
       next: (response: LoginResponse) => {
-        console.log(response);
         this.isLoading = false;
         localStorage.setItem('currentUser', JSON.stringify(response));
 
@@ -60,11 +60,15 @@ export class LoginComponent {
         });
 
         this.isModalVisible = false;
-
+        console.log(response.role);
         if (response.role === 'Host') {
-          this.router.navigate(['/host']);
+          this.router.navigate(['/host']).catch((err) => {
+            console.error('Navigation error:', err);
+          });
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/']).catch((err) => {
+            console.error('Navigation error:', err);
+          });
         }
       },
       error: (err) => {

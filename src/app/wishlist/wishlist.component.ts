@@ -3,11 +3,12 @@ import { FavoriteService } from '../services/favorite.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PropertyService } from '../services/property.service';
+import { DefaultNavComponent } from '../default-nav/default-nav.component';
 
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DefaultNavComponent],
   templateUrl: './wishlist.component.html',
   styleUrl: './wishlist.component.css',
 })

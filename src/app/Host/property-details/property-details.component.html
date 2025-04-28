@@ -1,3 +1,4 @@
+<app-default-nav></app-default-nav>
 <div class="property-details-container">
   <div *ngIf="isLoading" class="loading-spinner">
     <div class="spinner"></div>
@@ -16,7 +17,6 @@
           [class.booked]="isBookedToday"
           [class.available]="!isBookedToday"
         >
-          <i class="status-icon">{{ isBookedToday ? "❌" : "✅" }}</i>
           <span>{{
             isBookedToday ? "Booked for today" : "Available today"
           }}</span>
@@ -102,14 +102,14 @@
               class="day-cell"
               [class.empty]="!day.date"
               [class.booked]="day.isBooked"
+              [class.past]="day.isPast"
               [class.today]="day.isToday"
-              [class.selected]="day.isSelected"
+              [class.available]="day.isAvailable"
             >
               <span *ngIf="day.date">{{ day.date.getDate() }}</span>
               <span *ngIf="day.isBooked" class="status-icon">✗</span>
-              <span *ngIf="day.isAvailable && !day.isBooked" class="status-icon"
-                >✓</span
-              >
+              <span *ngIf="day.isPast" class="status-icon">-</span>
+              <span *ngIf="day.isAvailable" class="status-icon">✓</span>
             </div>
           </div>
         </div>
@@ -121,6 +121,10 @@
           <div class="legend-item">
             <span class="legend-color booked"></span>
             <span>Booked</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color past"></span>
+            <span>Past</span>
           </div>
           <div class="legend-item">
             <span class="legend-color today"></span>

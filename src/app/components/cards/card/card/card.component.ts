@@ -12,11 +12,14 @@ import { CategoryService } from '../../../../services/category.service';
   styleUrls: ['./card.component.css'],
 })
 export class CardComponent {
-  cards: any[] = [];
+  allCards: any[] = [];
+  visibleCards: any[] = [];
   isLoading = true;
   error: string | null = null;
   currentPage = 1;
+  pageSize: number = 5;
   selectedCategoryId: number | null = null;
+
   constructor(
     private cardService: CardService,
     private router: Router,
@@ -27,46 +30,30 @@ export class CardComponent {
     this.categoryService.selectedCategoryId$.subscribe((id) => {
       console.log('from card section', id);
       this.selectedCategoryId = id;
-      this.loadCards(id);
+      this.loadCards(id!);
     });
   }
 
   loadCards(id: number): void {
     this.isLoading = true;
     this.error = null;
+    this.currentPage = 1;
 
     this.cardService.getCards(id).subscribe({
       next: (data) => {
-        this.cards = data.map((card) => ({
+        console.log(data);
+        this.allCards = data.map((card) => ({
           ...card,
           totalPrice: this.calculateTotalPrice(card),
           numNights: this.calculateNumNights(card),
         }));
+        this.updateVisibleCards();
         this.isLoading = false;
       },
       error: (err) => {
         this.error = 'Failed to load properties. Please try again later.';
         this.isLoading = false;
         console.error('Error loading cards:', err);
-      },
-    });
-  }
-
-  loadMore(): void {
-    this.currentPage++;
-    this.cardService.getCardsPaginated(this.currentPage).subscribe({
-      next: (newCards) => {
-        this.cards = [
-          ...this.cards,
-          ...newCards.map((card) => ({
-            ...card,
-            totalPrice: this.calculateTotalPrice(card),
-            numNights: this.calculateNumNights(card),
-          })),
-        ];
-      },
-      error: (err) => {
-        console.error('Error loading more cards:', err);
       },
     });
   }
@@ -85,5 +72,24 @@ export class CardComponent {
 
   navigateToDetails(cardId: number): void {
     this.router.navigate(['/properties', cardId]);
+  }
+
+  updateVisibleCards() {
+    const endIndex = this.currentPage * this.pageSize;
+    this.visibleCards = this.allCards.slice(0, endIndex);
+    console.log(this.visibleCards);
+  }
+
+  loadMore() {
+    if (this.currentPage * this.pageSize >= this.allCards.length) {
+      return;
+    }
+
+    this.currentPage++;
+    this.updateVisibleCards();
+  }
+
+  hasMoreCards(): boolean {
+    return this.currentPage * this.pageSize < this.allCards.length;
   }
 }

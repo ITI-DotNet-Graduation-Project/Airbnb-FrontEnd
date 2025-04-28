@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { SearchService } from '../../services/search.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DefaultNavComponent } from '../../default-nav/default-nav.component';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DefaultNavComponent],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.css',
 })
@@ -16,55 +17,41 @@ export class SearchBarComponent {
   checkInDate = '';
   checkOutDate = '';
   guestCount = 1;
+  isExpanded = false;
 
-  isExpanded: boolean = false;
   constructor(private searchService: SearchService, private router: Router) {}
+
   submitSearch() {
+    if (!this.location || !this.checkInDate || !this.checkOutDate) {
+      console.warn('Please fill in all required fields');
+      return;
+    }
+
     const searchData = {
-      location: this.location,
-      checkInDate: this.checkInDate,
-      checkOutDate: this.checkOutDate,
+      location: this.location.trim(),
+      checkInDate: this.formatDate(this.checkInDate),
+      checkOutDate: this.formatDate(this.checkOutDate),
       guestCount: this.guestCount,
     };
-    console.log(searchData);
-    this.searchService.searchProperties(searchData).subscribe({
-      next: (results) => {
-        console.log('Search results from header:', results);
+
+    console.log('Search data:', searchData);
+
+    this.router
+      .navigate(['/search-results'], {
+        queryParams: searchData,
+        queryParamsHandling: 'merge',
+      })
+      .then(() => {
         this.collapseSearch();
-
-        if (!Array.isArray(results)) {
-          console.error('Expected results to be an array but got:', results);
-          results = [];
-        }
-
-        const formattedResults = results.map((result: any) => ({
-          ...result,
-          propertyImages: result.propertyImages
-            ? Array.isArray(result.propertyImages)
-              ? result.propertyImages
-              : [{ imageUrl: result.propertyImages }]
-            : [],
-        }));
-
-        this.router
-          .navigate(['/search-results'], {
-            state: {
-              results: formattedResults,
-              searchParams: searchData,
-            },
-          })
-          .then(() => {
-            console.log('Navigation completed');
-          })
-          .catch((err) => {
-            console.error('Navigation error:', err);
-          });
-      },
-      error: (err) => {
-        console.error('Search failed:', err);
-      },
-    });
+      });
   }
+
+  private formatDate(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  }
+
   expandSearch(): void {
     this.isExpanded = true;
   }

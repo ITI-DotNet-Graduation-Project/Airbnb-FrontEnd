@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../AuthService/auth-service.service';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { CommonModule } from '@angular/common';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-reset-password',
@@ -31,7 +32,8 @@ export class ResetPasswordComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private passwordService: AuthService
+    private passwordService: AuthService,
+    private notificationService: MessageService
   ) {
     this.resetForm = new FormGroup(
       {
@@ -59,9 +61,7 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  passwordMatchValidator(
-    control: AbstractControl
-  ): { [key: string]: boolean } | null {
+  passwordMatchValidator(control: AbstractControl) {
     const password = control.get('password');
     const confirmPassword = control.get('confirmPassword');
 
@@ -71,20 +71,20 @@ export class ResetPasswordComponent implements OnInit {
     return null;
   }
 
-  isFieldInvalid(field: string): boolean {
+  isFieldInvalid(field: string) {
     const control = this.resetForm.get(field);
     return !!control && control.invalid && (control.dirty || control.touched);
   }
 
-  togglePasswordVisibility(): void {
+  togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
-  toggleConfirmPasswordVisibility(): void {
+  toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
 
-  checkPasswordStrength(): void {
+  checkPasswordStrength() {
     const password = this.resetForm.get('password')?.value;
     if (!password) {
       this.passwordStrength = 0;
@@ -123,27 +123,27 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
 
-  hasUpperCase(): boolean {
+  hasUpperCase() {
     const password = this.resetForm.get('password')?.value;
     return password && /[A-Z]/.test(password);
   }
 
-  hasLowerCase(): boolean {
+  hasLowerCase() {
     const password = this.resetForm.get('password')?.value;
     return password && /[a-z]/.test(password);
   }
 
-  hasNumber(): boolean {
+  hasNumber() {
     const password = this.resetForm.get('password')?.value;
     return password && /[0-9]/.test(password);
   }
 
-  hasSpecialChar(): boolean {
+  hasSpecialChar() {
     const password = this.resetForm.get('password')?.value;
     return password && /[!@#$%^&*]/.test(password);
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.resetForm.invalid) {
       this.resetForm.markAllAsTouched();
       return;
@@ -161,8 +161,12 @@ export class ResetPasswordComponent implements OnInit {
         });
       },
       error: (error) => {
+        this.notificationService.add({
+          severity: 'error',
+          summary: 'Error Occured',
+          detail: 'Your token has expired. Please request a new one.',
+        });
         this.isLoading = false;
-        console.error('Password reset failed:', error);
       },
     });
   }

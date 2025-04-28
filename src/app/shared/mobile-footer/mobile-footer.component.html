@@ -48,7 +48,8 @@
       <div
         class="avatar-container"
         *ngIf="
-          authService.isAuthenticated && authService.currentUser?.profileImage;
+          authService.isAuthenticated &&
+            authService.getCurrentUser()?.profileImage;
           else userIcon
         "
       >

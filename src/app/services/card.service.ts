@@ -21,7 +21,10 @@ export class CardService {
       );
     } else return this.http.get<any[]>(`${this.apiUrl}/Property`);
   }
-  getCardsPaginated(page: number = 1, limit: number = 8) {
-    return this.http.get<any[]>(`${this.apiUrl}?page=${page}&limit=${limit}`);
+  getCardsPaginated(page: number, pageSize: number) {
+    // Implement pagination logic with pageSize
+    return this.http.get<any[]>(
+      `${this.apiUrl}?page=${page}&pageSize=${pageSize}`
+    );
   }
 }

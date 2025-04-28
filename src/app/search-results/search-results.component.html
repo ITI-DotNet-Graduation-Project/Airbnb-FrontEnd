@@ -1,5 +1,6 @@
+<app-default-nav></app-default-nav>
+<div class="text-danger">HIII</div>
 <div class="search-results-container">
-  <!-- Filters Sidebar -->
   <div class="filters-sidebar">
     <div class="filter-section">
       <h3>Price range</h3>
@@ -110,18 +111,6 @@
       </div>
     </div>
 
-    <!-- Pagination -->
-    <div class="pagination">
-      <button
-        *ngFor="let page of pageNumbers"
-        [class.active]="currentPage === page"
-        (click)="goToPage(page)"
-      >
-        {{ page + 1 }}
-      </button>
-    </div>
-
-    <!-- Empty State -->
     <div *ngIf="filteredProperties.length === 0" class="empty-state">
       <div class="empty-icon">🔍</div>
       <h3>No properties found</h3>

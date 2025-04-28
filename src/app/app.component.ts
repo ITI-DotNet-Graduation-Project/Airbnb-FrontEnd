@@ -18,7 +18,6 @@ import { UserProfileComponent } from './auth/user/user.component';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
 import { ChComponent } from './shared/ch/ch.component';
 import { CardDetailsComponent } from './components/cards/card/card-details/card-details.component';
-import { PropertyDetailsComponent } from './property-details/property-details.component';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +35,7 @@ import { PropertyDetailsComponent } from './property-details/property-details.co
     CommonModule,
     ChatbotComponent,
     ToastModule,
-    PropertyDetailsComponent,
+
     UserProfileComponent,
     HostDashboardComponent,
   ],
@@ -81,16 +80,17 @@ export class AppComponent {
     const fullScreenRoutes = [
       'not-found',
       'confirm-email',
-      'login',
+
       'reset-password',
       'forget-password',
       'host',
-      'register',
+
       'forgot-password',
       'profile',
       'properties',
       'booking-confirmation',
       'wishlist',
+      'my-bookings',
       'search-results',
     ];
 

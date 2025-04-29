@@ -21,7 +21,7 @@
       <div *ngFor="let property of bookedProperties" class="property-card">
         <img
           [src]="property.propertyImages?.[0]?.imageUrl
-         ? 'https://localhost:7042/images/properties/' + property.propertyImages[0].imageUrl
+         ? 'https://airbnbclone.runasp.net/images/properties/' + property.propertyImages[0].imageUrl
          : 'assets/default-property.jpg'"
           alt="{{ property.name || 'Property' }} image"
           class="property-image"

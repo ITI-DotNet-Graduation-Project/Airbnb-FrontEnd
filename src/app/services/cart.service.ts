@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 interface CartItem {
   id: string;
   quantity: number;
-  // Add other item properties as needed
 }
 
 @Injectable({

@@ -142,7 +142,7 @@ export class SearchResultsComponent implements OnInit {
     if (imageUrl.startsWith('http')) {
       return imageUrl;
     }
-    return `https://localhost:7042/images/properties/${imageUrl}`;
+    return `https://airbnbclone.runasp.net/images/properties/${imageUrl}`;
   }
 
   isInWishlist(propertyId: number): boolean {

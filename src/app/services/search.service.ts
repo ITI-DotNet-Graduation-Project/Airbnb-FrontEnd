@@ -7,7 +7,7 @@ import { Property } from '../models/property.model';
   providedIn: 'root',
 })
 export class SearchService {
-  private apiUrl = 'https://localhost:7042/api/Property/search';
+  private apiUrl = 'https://airbnbclone.runasp.net/api/Property/search';
 
   constructor(private http: HttpClient) {}
 

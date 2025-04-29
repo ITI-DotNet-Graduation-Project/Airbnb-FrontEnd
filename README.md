@@ -1,4 +1,3 @@
-
 # Airbnb-FrontEnd
 
 # Airbnb
@@ -7,7 +6,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `https://airbnbclone.runasp.net/`. The application will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -29,6 +28,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 <<<<<<< HEAD
->>>>>>> 98e687c (add structure of airbnb)
-=======
->>>>>>> 98e687ce8ccc39bd5abb975d479de248d799c7f9
+
+> > > > > > > # 98e687c (add structure of airbnb)
+> > > > > > >
+> > > > > > > 98e687ce8ccc39bd5abb975d479de248d799c7f9

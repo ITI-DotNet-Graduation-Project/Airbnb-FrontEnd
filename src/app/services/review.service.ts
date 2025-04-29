@@ -7,7 +7,7 @@ import { CreateReview } from '../models/review.models';
   providedIn: 'root',
 })
 export class ReviewService {
-  private apiUrl = 'https://localhost:7042/api';
+  private apiUrl = 'https://airbnbclone.runasp.net/api';
 
   constructor(private http: HttpClient) {}
 

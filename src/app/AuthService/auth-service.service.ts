@@ -8,7 +8,7 @@ import { LoginResponse } from '../models/RegisterRequest.modes';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://localhost:7042/api/Auth';
+  private apiUrl = 'https://airbnbclone.runasp.net/api/Auth';
   currentUser: any = null;
   constructor(private http: HttpClient) {}
 
@@ -36,7 +36,7 @@ export class AuthService {
 
   getCurrentUser() {
     return this.http
-      .get<User>(`https://localhost:7042/api/Users/current`, {
+      .get<User>(`https://airbnbclone.runasp.net/api/Users/current`, {
         headers: this.getAuthHeaders(),
       })
       .pipe(
@@ -50,7 +50,7 @@ export class AuthService {
   updateProfile(userId: number, formData: FormData): Observable<User> {
     const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     return this.http
-      .put<User>(`https://localhost:7042/api/Users/profile`, formData)
+      .put<User>(`https://airbnbclone.runasp.net/api/Users/profile`, formData)
       .pipe(
         tap((updatedUser) => {
           currentUser.firstName = updatedUser.firstName;

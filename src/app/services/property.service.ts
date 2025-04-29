@@ -8,7 +8,7 @@ import { AuthService } from '../AuthService/auth-service.service';
   providedIn: 'root',
 })
 export class PropertyService {
-  private apiUrl = 'https://localhost:7042/api';
+  private apiUrl = 'https://airbnbclone.runasp.net/api';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

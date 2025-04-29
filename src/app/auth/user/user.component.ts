@@ -64,7 +64,7 @@ export class UserProfileComponent implements OnInit {
       return this.user.imageUrl;
     }
 
-    return `https://localhost:7042/${this.user.imageUrl}`;
+    return `https://airbnbclone.runasp.net/${this.user.imageUrl}`;
   }
   toggleEdit(): void {
     this.isEditing = !this.isEditing;

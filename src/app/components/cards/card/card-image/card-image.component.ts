@@ -10,7 +10,7 @@ export class CardImageComponent implements OnInit {
   @Input() images: any[] = [];
   currentIndex: number = 0;
   currentImage: string = '';
-  baseImageUrl = 'https://localhost:7042/images/properties/';
+  baseImageUrl = 'https://airbnbclone.runasp.net/images/properties/';
   @Input() cardId!: number;
   isLiked = false;
 

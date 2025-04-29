@@ -30,7 +30,9 @@ export class ViewPropertyComponent implements OnInit {
   }
   getImage(image: any): string {
     if (image && image.imageUrl) {
-      return 'https://localhost:7042/images/properties/' + image.imageUrl;
+      return (
+        'https://airbnbclone.runasp.net/images/properties/' + image.imageUrl
+      );
     }
 
     return '';

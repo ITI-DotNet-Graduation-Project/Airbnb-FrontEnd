@@ -55,7 +55,7 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
 
   get userImageUrl(): string {
     return this.user?.imageUrl
-      ? `https://localhost:7042/${this.user.imageUrl}`
+      ? `https://airbnbclone.runasp.net/${this.user.imageUrl}`
       : 'https://a0.muscache.com/defaults/user_pic-50x50.png';
   }
 
@@ -85,6 +85,6 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
     }
   }
   displayImage() {
-    return `https://localhost:7042/${this.user.imageUrl}`;
+    return `https://airbnbclone.runasp.net/${this.user.imageUrl}`;
   }
 }

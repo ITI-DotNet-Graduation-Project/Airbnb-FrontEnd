@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CardService {
-  private apiUrl = 'https://localhost:7042/api';
+  private apiUrl = 'https://airbnbclone.runasp.net/api';
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,6 @@ export class CardService {
     } else return this.http.get<any[]>(`${this.apiUrl}/Property`);
   }
   getCardsPaginated(page: number, pageSize: number) {
-    // Implement pagination logic with pageSize
     return this.http.get<any[]>(
       `${this.apiUrl}?page=${page}&pageSize=${pageSize}`
     );

@@ -6,7 +6,7 @@ import { Booking, BookingRequest } from '../models/booking.model';
   providedIn: 'root',
 })
 export class BookingService {
-  private apiUrl = 'https://localhost:7042/api';
+  private apiUrl = 'https://airbnbclone.runasp.net/api';
 
   constructor(private http: HttpClient) {}
 

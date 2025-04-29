@@ -14,7 +14,7 @@ export class ImageGalleryComponent {
 
   get currentImage(): string {
     return this.images.length > 0
-      ? `https://localhost:7042/images/properties/${
+      ? `https://airbnbclone.runasp.net/images/properties/${
           this.images[this.currentIndex].imageUrl
         }`
       : '';

@@ -13,10 +13,14 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, {
-      email,
-      password,
-    });
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/login`,
+      {
+        email,
+        password,
+      },
+      { withCredentials: true }
+    );
   }
 
   getUserId() {
